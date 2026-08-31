@@ -49,9 +49,7 @@ it('renders', async () => {
             </BrowserRouter>
         </IntlProvider>
     );
-    const res = await screen.findAllByText((_, element) => {
-        return element?.textContent === 'GridRT'; // index.html app title
-    });
-
-    expect(res.length).toBeGreaterThan(0);
+    // single test on sidebar for now
+    const sideBar = await screen.findByRole('complementary');
+    expect(sideBar).toBeInTheDocument();
 });
