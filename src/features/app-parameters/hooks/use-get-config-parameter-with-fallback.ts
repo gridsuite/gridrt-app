@@ -14,7 +14,7 @@ import { mapRawParamValue } from '../../../shared/api/config-api/config.mapping'
 import { useStableUserProfile } from '../../authentication/hooks/use-stable-user-profile';
 
 /**
- * This data is fetched from AppTopBar, which is displayed before user is authenticated
+ * This data is fetched from AppSideBar, which is displayed before user is authenticated
  * If user is not authenticated, or before the fetch request has responded, we use data from initialAppParametersState
  */
 export const useGetConfigParameterWithFallback = <K extends AppParametersKey>(paramName: K) => {

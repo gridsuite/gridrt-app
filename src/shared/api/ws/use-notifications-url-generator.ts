@@ -4,11 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import {
-    NotificationsUrlKeys,
-    PREFIX_CONFIG_NOTIFICATION_WS,
-    PREFIX_MONITOR_NOTIFICATION_WS,
-} from '@gridsuite/commons-ui';
+import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS } from '@gridsuite/commons-ui';
 import { APP_NAME } from 'app/config/app-config';
 import { useMemo } from 'react';
 
@@ -21,11 +17,6 @@ export const useNotificationsUrlGenerator = (): Partial<Record<NotificationsUrlK
     return useMemo(
         () => ({
             [NotificationsUrlKeys.CONFIG]: `${webSocketBaseUrl}${PREFIX_CONFIG_NOTIFICATION_WS}/notify?${new URLSearchParams(
-                {
-                    appName: APP_NAME,
-                }
-            )}`,
-            [NotificationsUrlKeys.MONITOR]: `${webSocketBaseUrl}${PREFIX_MONITOR_NOTIFICATION_WS}/notify?${new URLSearchParams(
                 {
                     appName: APP_NAME,
                 }

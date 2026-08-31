@@ -7,7 +7,6 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { monitorApi } from 'shared/api/monitor-api';
 import { studyApi } from 'shared/api/study-api';
 import { configApi } from 'shared/api/config-api';
 import { setCommonStore } from '@gridsuite/commons-ui';
@@ -25,7 +24,7 @@ export const setupStore = (preloadedState?: PreloadedState) =>
                 },
             })
                 .prepend(errorMiddleware)
-                .concat(monitorApi.middleware, studyApi.middleware, configApi.middleware),
+                .concat(studyApi.middleware, configApi.middleware),
     });
 
 export const store = setupStore();

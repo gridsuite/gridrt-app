@@ -12,11 +12,11 @@ import { useAppParameterState } from 'features/app-parameters/hooks/use-app-para
 import { useStableUserProfile } from 'features/authentication/hooks/use-stable-user-profile';
 import { AppSideBar } from '../../features/side-bar/components/AppSideBar';
 
-export type AppTopBarProps = {
+export type AppLayoutProps = {
     onLogoutClick?: () => void;
 };
 
-export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildren<AppTopBarProps>>) {
+export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildren<AppLayoutProps>>) {
     const [isDeveloperMode] = useAppParameterState(PARAM_DEVELOPER_MODE);
     const userProfile = useStableUserProfile() ?? undefined;
 

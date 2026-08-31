@@ -5,11 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {
-    NotificationsUrlKeys,
-    PREFIX_CONFIG_NOTIFICATION_WS,
-    PREFIX_MONITOR_NOTIFICATION_WS,
-} from '@gridsuite/commons-ui';
+import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS } from '@gridsuite/commons-ui';
 import { renderHook } from '@testing-library/react';
 import { APP_NAME } from 'app/config/app-config';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -29,7 +25,6 @@ describe('useNotificationsUrlGenerator', () => {
 
         expect(result.current).toEqual({
             [NotificationsUrlKeys.CONFIG]: `wss://gridapp.test/${PREFIX_CONFIG_NOTIFICATION_WS}/notify?${params}`,
-            [NotificationsUrlKeys.MONITOR]: `wss://gridapp.test/${PREFIX_MONITOR_NOTIFICATION_WS}/notify?${params}`,
         });
     });
 
@@ -43,7 +38,6 @@ describe('useNotificationsUrlGenerator', () => {
 
         expect(result.current).toEqual({
             [NotificationsUrlKeys.CONFIG]: `ws://gridapp.test/${PREFIX_CONFIG_NOTIFICATION_WS}/notify?${params}`,
-            [NotificationsUrlKeys.MONITOR]: `ws://gridapp.test/${PREFIX_MONITOR_NOTIFICATION_WS}/notify?${params}`,
         });
     });
 });

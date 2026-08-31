@@ -12,8 +12,6 @@ import { Routes, Route, Navigate } from 'react-router';
 import { Loader } from 'shared/ui/Loader';
 import { Suspense } from 'react';
 import { APP_PATHS } from './app-paths';
-import { processRoutes } from '../../features/process/router/process-routes';
-import { processConfigRoutes } from '../../features/process-config/router/process-config-routes';
 
 export function AppRouter() {
     return (
@@ -34,9 +32,6 @@ export function AppRouter() {
                     path={APP_PATHS.logoutCallback}
                     element={<h1>Error: logout failed; you are still logged in.</h1>}
                 />
-
-                {processRoutes}
-                {processConfigRoutes}
 
                 <Route
                     path={APP_PATHS.notFound}
