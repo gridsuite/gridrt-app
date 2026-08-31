@@ -50,7 +50,7 @@ it('renders', async () => {
         </IntlProvider>
     );
     const res = await screen.findAllByText((_, element) => {
-        return element?.textContent === 'GridMonitor';
+        return element?.textContent === 'GridRT'; // index.html app title
     });
 
     expect(res.length).toBeGreaterThan(0);

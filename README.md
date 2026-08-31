@@ -1,23 +1,20 @@
-# GridMonitor
+# GridRT
 
 ## Description
 
-Frontend application developed with React.
+Frontend application developed with React to manage the snapshot refiner process.
 
 This app uses the `@gridsuite/commons-ui` library released in npm packages.
 
-User interface used to:
+User interface used to (to be completed):
 
-- configure calculation processes;
-- compare calculation process configurations;
-- define configurations for automatic processes;
-- view configurations used by automatic processes;
-- launch executions;
+- configure process;
+- launch process;
 - monitor processing status in real time;
 - view results and logs;
-- get an aggregated view of analysis results.
 
-`gridmonitor-app` consumes the REST API exposed by `monitor-server`, manages UI state, handles navigation, and provides user interactions.
+
+`gridrt-app` consumes the REST API exposed by `snapshot-refiner-server`, manages UI state, handles navigation, and provides user interactions.
 
 To launch the app, run:
 
@@ -55,10 +52,10 @@ If you are a developer and you want to update or enhance components used from th
 
 ## OpenAPI Code Generation
 
-The interface with `monitor-server` is generated using OpenAPI code generation.
+The interface with `snapshot-refiner-server` is generated using OpenAPI code generation.
 This includes hooks and types from the backend.
 
-To do so, extract openapi.yaml from monitor-server and run:
+To do so, extract openapi.yaml from snapshot-refiner-server and run:
 
 ```sh
 npm run generate:api
@@ -84,7 +81,6 @@ Notes:
 - Check [license-checker-config.json](license-checker-config.json) for the license allow list and package exclusions.
   If you need to update this list, please inform the organization's owners.
 - Some packages are excluded because their licenses are not correctly described in their package metadata:
-    - `esprima@1.2.2`
-    - `jackspeak@2.3.6`
-    - `path-scurry@1.10.2`
-
+  - `esprima@1.2.2`
+  - `jackspeak@2.3.6`
+  - `path-scurry@1.10.2`

@@ -10,9 +10,9 @@ jobs:
   build:
     uses: powsybl/github-ci/.github/workflows/build-frontend-app-generic.yml@3ed0caeb3395e55868884f466d726ddaee877850
     with:
-      dockerImage: gridsuite/gridmonitor-app
+      dockerImage: gridsuite/gridrt-app
       dockerUsername: gridsuiteci
-      eventType: gridmonitor_app_updated
+      eventType: gridrt_app_updated
       licensercPath: .github/config/.licenserc.yaml
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
