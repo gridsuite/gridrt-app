@@ -8,38 +8,40 @@
 import { useEffect, useState } from 'react';
 import {
     fetchAppsMetadata,
-    LIGHT_THEME,
     logout,
     Metadata,
     PARAM_LANGUAGE,
     PARAM_THEME,
+    PARAM_DEVELOPER_MODE,
     TopBar,
     UserManagerState,
 } from '@gridsuite/commons-ui';
 import { useNavigate } from 'react-router';
 import { APP_NAME } from 'app/config/app-config';
-import PowsyblLogo from 'assets/images/powsybl_logo.svg?react';
+import GridmonitorLogo from 'assets/images/gridmonitor_logo.svg?react';
 import { useAppParameterState } from 'features/app-parameters/hooks/use-app-parameter-state';
 import { useAppDispatch } from 'app/store/store';
-import { AuthenticationState } from 'features/authentication/store/authentication.type';
 import { fetchVersion } from 'shared/config/version';
 import { getServersInfos } from '../api/get-servers-infos';
 import AppPackage from '../../../../package.json';
+import { SettingsTabs } from './AppNavBar';
+import { UserProfile } from '../../authentication/store/authentication.type';
 
 export type AppTopBarProps = {
-    user?: AuthenticationState['user'];
+    userProfile: UserProfile | null;
     userManager: UserManagerState;
 };
 
-function AppTopBar({ user, userManager }: Readonly<AppTopBarProps>) {
+function AppTopBar({ userProfile, userManager }: Readonly<AppTopBarProps>) {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [appsAndUrls, setAppsAndUrls] = useState<Metadata[]>([]);
     const [themeLocal, handleChangeTheme] = useAppParameterState(PARAM_THEME);
     const [languageLocal, handleChangeLanguage] = useAppParameterState(PARAM_LANGUAGE);
+    const [isDeveloperMode, handleChangeDeveloperMode] = useAppParameterState(PARAM_DEVELOPER_MODE);
 
     useEffect(() => {
-        if (user !== null) {
+        if (userProfile !== null) {
             fetchAppsMetadata()
                 .then((metadata) => {
                     setAppsAndUrls(metadata);
@@ -48,32 +50,30 @@ function AppTopBar({ user, userManager }: Readonly<AppTopBarProps>) {
                     console.error(error);
                 });
         }
-    }, [user]);
+    }, [userProfile]);
 
     return (
         <TopBar
             appName={APP_NAME}
             appColor="grey"
-            appLogo={
-                themeLocal === LIGHT_THEME ? (
-                    <PowsyblLogo /> // GridXXXLogoLight
-                ) : (
-                    <PowsyblLogo /> // GridXXXLogoDark
-                )
-            }
+            appLogo={<GridmonitorLogo />}
             appVersion={AppPackage.version}
             appLicense={AppPackage.license}
             onLogoutClick={() => logout(dispatch, userManager.instance)}
             onLogoClick={() => navigate('/', { replace: true })}
-            user={user ?? undefined}
+            userProfile={userProfile ?? undefined}
             appsAndUrls={appsAndUrls}
             globalVersionPromise={() => fetchVersion().then((res) => res?.deployVersion ?? 'unknown')}
             additionalModulesPromise={getServersInfos}
             onThemeClick={handleChangeTheme}
+            onDeveloperModeClick={handleChangeDeveloperMode}
+            developerMode={isDeveloperMode}
             theme={themeLocal}
             onLanguageClick={handleChangeLanguage}
             language={languageLocal}
-        />
+        >
+            {userProfile != null && <SettingsTabs />}
+        </TopBar>
     );
 }
 export default AppTopBar;

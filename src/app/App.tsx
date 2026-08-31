@@ -7,22 +7,24 @@
 
 import { useEffect, useState } from 'react';
 import { useLocation, useMatch, useNavigate } from 'react-router';
-import { AuthenticationRouter, CardErrorBoundary, initializeAuthenticationProd } from '@gridsuite/commons-ui';
-import { AppRouter } from 'app/router/AppRouter';
-import AppTopBar, { AppTopBarProps } from 'features/top-bar/components/app-top-bar';
+import { AuthenticationRouter, CardErrorBoundary, initializeAuthenticationProd, logout } from '@gridsuite/commons-ui';
 import {
     selectAuthenticationRouterError,
     selectShowAuthenticationRouterLogin,
     selectSignInCallbackError,
-    selectUser,
 } from 'features/authentication/store/authentication.selectors';
 import { getErrorMessage } from 'shared/lib/error';
 import { fetchIdpSettings } from 'shared/config/idp-settings';
+import AppTopBar, { AppTopBarProps } from 'features/top-bar/components/AppTopBar';
 import { useAppParametersInvalidationListener } from './notifications/use-app-parameters-invalidation-listener';
+import { useProcessInvalidationsListener } from './notifications/use-process-invalidation-listener';
 import { useAppDispatch, useAppSelector } from './store/store';
+import { AppRouter } from './router/AppRouter';
+import { useStableUserProfile } from '../features/authentication/hooks/use-stable-user-profile';
+import { AppLayout } from './layout/AppLayout';
 
 function App() {
-    const user = useAppSelector(selectUser);
+    const userProfile = useStableUserProfile();
     const signInCallbackError = useAppSelector(selectSignInCallbackError);
     const authenticationRouterError = useAppSelector(selectAuthenticationRouterError);
     const showAuthenticationRouterLogin = useAppSelector(selectShowAuthenticationRouterLogin);
@@ -72,12 +74,15 @@ function App() {
     }, [initialMatchSigninCallbackUrl, initialMatchSilentRenewCallbackUrl, dispatch]);
 
     useAppParametersInvalidationListener();
+    useProcessInvalidationsListener();
+
+    const onLogoutClick = () => logout(dispatch, userManager.instance)?.catch((err) => console.error(err));
 
     return (
-        <>
-            <AppTopBar user={user} userManager={userManager} />
+        <AppLayout onLogoutClick={onLogoutClick}>
+            <AppTopBar userProfile={userProfile} userManager={userManager} />
             <CardErrorBoundary>
-                {user !== null ? (
+                {userProfile !== null ? (
                     <AppRouter />
                 ) : (
                     <AuthenticationRouter
@@ -91,7 +96,7 @@ function App() {
                     />
                 )}
             </CardErrorBoundary>
-        </>
+        </AppLayout>
     );
 }
 export default App;
