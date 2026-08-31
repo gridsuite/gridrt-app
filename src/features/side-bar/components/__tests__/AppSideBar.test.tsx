@@ -40,7 +40,7 @@ vi.mock('features/authentication/hooks/use-stable-user-profile', () => ({
     useStableUserProfile: mocks.useStableUserProfile,
 }));
 
-vi.mock('assets/images/gridmonitor_logo.svg?react', () => ({
+vi.mock('assets/images/gridrt_logo.svg?react', () => ({
     default: () => null,
 }));
 

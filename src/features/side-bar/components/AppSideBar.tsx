@@ -17,7 +17,7 @@ import {
 } from '@gridsuite/commons-ui';
 import { createTheme } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import GridmonitorLogo from 'assets/images/gridmonitor_logo.svg?react';
+import GridrtLogo from 'assets/images/gridrt_logo.svg?react';
 import { useAppParameterState } from '../../app-parameters/hooks/use-app-parameter-state';
 import { APP_NAME } from '../../../app/config/app-config';
 import { getAppTheme } from '../../../app/config/app-theme';
@@ -77,8 +77,8 @@ export function AppSideBar({ onLogoutClick }: Readonly<SideBarProps>) {
             selectedLanguage={selectedLanguage}
             setSelectedLanguage={setSelectedLanguage}
             appName={APP_NAME}
-            appNameColor="#7e57c2"
-            appLogo={<GridmonitorLogo />}
+            appNameColor="#F06292"
+            appLogo={<GridrtLogo />}
             userProfile={userProfile}
             globalVersionPromise={() => fetchVersion().then((res) => res.deployVersion ?? 'unknown')}
             additionalModulesPromise={getServersInfos}
