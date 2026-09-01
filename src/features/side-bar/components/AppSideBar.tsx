@@ -17,7 +17,8 @@ import {
 } from '@gridsuite/commons-ui';
 import { createTheme } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import GridrtLogo from 'assets/images/gridrt_logo.svg?react';
+import GridrtDarkLogo from 'assets/images/gridrtDarkLogo.svg?react';
+import GridrtLightLogo from 'assets/images/gridrtLightLogo.svg?react';
 import { useAppParameterState } from '../../app-parameters/hooks/use-app-parameter-state';
 import { APP_NAME } from '../../../app/config/app-config';
 import { getAppTheme } from '../../../app/config/app-theme';
@@ -78,7 +79,7 @@ export function AppSideBar({ onLogoutClick }: Readonly<SideBarProps>) {
             setSelectedLanguage={setSelectedLanguage}
             appName={APP_NAME}
             appNameColor="#F06292"
-            appLogo={<GridrtLogo />}
+            appLogo={invertedThemeId === DARK_THEME ? <GridrtDarkLogo /> : <GridrtLightLogo />}
             userProfile={userProfile}
             globalVersionPromise={() => fetchVersion().then((res) => res.deployVersion ?? 'unknown')}
             additionalModulesPromise={getServersInfos}
