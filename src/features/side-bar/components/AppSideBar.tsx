@@ -23,7 +23,7 @@ import { APP_NAME } from '../../../app/config/app-config';
 import { getAppTheme } from '../../../app/config/app-theme';
 import { useStableUserProfile } from '../../authentication/hooks/use-stable-user-profile';
 import { fetchVersion } from '../../../shared/config/version';
-import { getServersInfos } from '../../top-bar/api/get-servers-infos';
+import { getServersInfos } from '../api/get-servers-infos';
 import AppPackage from '../../../../package.json';
 
 type SideBarProps = {
