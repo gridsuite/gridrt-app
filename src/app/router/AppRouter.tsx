@@ -9,30 +9,39 @@ import { getPreLoginPath } from '@gridsuite/commons-ui';
 import { Box, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import { Routes, Route, Navigate } from 'react-router';
+import { Loader } from 'shared/ui/Loader';
+import { Suspense } from 'react';
+import { APP_PATHS } from './app-paths';
 
 export function AppRouter() {
     return (
-        <Routes>
-            <Route
-                path="/"
-                element={
-                    <Box mt={20}>
-                        <Typography variant="h3" color="textPrimary" align="center">
-                            Connected
-                        </Typography>
-                    </Box>
-                }
-            />
-            <Route path="/sign-in-callback" element={<Navigate replace to={getPreLoginPath() || '/'} />} />
-            <Route path="/logout-callback" element={<h1>Error: logout failed; you are still logged in.</h1>} />
-            <Route
-                path="*"
-                element={
-                    <h1>
-                        <FormattedMessage id="PageNotFound" />
-                    </h1>
-                }
-            />
-        </Routes>
+        <Suspense fallback={<Loader />}>
+            <Routes>
+                <Route
+                    path={APP_PATHS.home}
+                    element={
+                        <Box mt={20}>
+                            <Typography variant="h3" color="textPrimary" align="center">
+                                Connected
+                            </Typography>
+                        </Box>
+                    }
+                />
+                <Route path={APP_PATHS.signInCallback} element={<Navigate replace to={getPreLoginPath() || '/'} />} />
+                <Route
+                    path={APP_PATHS.logoutCallback}
+                    element={<h1>Error: logout failed; you are still logged in.</h1>}
+                />
+
+                <Route
+                    path={APP_PATHS.notFound}
+                    element={
+                        <h1>
+                            <FormattedMessage id="PageNotFound" />
+                        </h1>
+                    }
+                />
+            </Routes>
+        </Suspense>
     );
 }

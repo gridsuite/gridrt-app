@@ -6,8 +6,8 @@
  */
 
 import { NotificationsUrlKeys, useNotificationsListener } from '@gridsuite/commons-ui';
+import { invalidateConfigQueries } from 'shared/api/config-api';
 import { useAppDispatch } from '../store/store';
-import { invalidateConfigQueries } from '../../shared/api/config-api/config-api';
 
 type ConfigNotificationData = {
     headers?: {

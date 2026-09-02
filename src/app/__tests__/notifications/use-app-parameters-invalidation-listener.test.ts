@@ -9,12 +9,26 @@ import { renderHook } from '@testing-library/react';
 import { NotificationsUrlKeys, useNotificationsListener } from '@gridsuite/commons-ui';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAppParametersInvalidationListener } from 'app/notifications/use-app-parameters-invalidation-listener';
-import { invalidateConfigQueries } from 'shared/api/config-api/config-api';
+import { invalidateConfigQueries } from 'shared/api/config-api';
 import { createTestContext } from 'test-utils/create-test-context';
 
-vi.mock('shared/api/config-api/config-api', () => ({
-    invalidateConfigQueries: vi.fn(),
-}));
+vi.mock('shared/api/config-api', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('shared/api/config-api')>();
+
+    return {
+        ...actual,
+        invalidateConfigQueries: vi.fn(),
+    };
+});
+
+vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@gridsuite/commons-ui')>();
+
+    return {
+        ...actual,
+        useNotificationsListener: vi.fn(),
+    };
+});
 
 describe('useAppParametersInvalidationListener', () => {
     let listenerCallbackMessage: ((event: MessageEvent) => void) | undefined;
