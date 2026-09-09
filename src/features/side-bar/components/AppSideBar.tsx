@@ -40,17 +40,16 @@ export function AppSideBar({ onLogoutClick }: Readonly<SideBarProps>) {
     const invertedThemeId = currentTheme === LIGHT_THEME ? DARK_THEME : LIGHT_THEME;
     const invertedTheme = useMemo(() => {
         const baseTheme = getAppTheme(invertedThemeId);
+        const overrideBackgroundColor = invertedThemeId === DARK_THEME ? '#263238' : '#ECEFF1';
 
-        return invertedThemeId === DARK_THEME
-            ? createTheme(baseTheme, {
-                  palette: {
-                      background: {
-                          paper: '#263238',
-                          default: '#263238',
-                      },
-                  },
-              })
-            : baseTheme;
+        return createTheme(baseTheme, {
+            palette: {
+                background: {
+                    paper: overrideBackgroundColor,
+                    default: overrideBackgroundColor,
+                },
+            },
+        });
     }, [invertedThemeId]);
 
     const SMALL_SCREEN_BREAKPOINT = 768;
