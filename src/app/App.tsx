@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020, RTE (http://www.rte-france.com)
+ * Copyright (c) 2026, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -7,27 +7,33 @@
 
 import { useEffect, useState } from 'react';
 import { useLocation, useMatch, useNavigate } from 'react-router';
-import { AuthenticationRouter, CardErrorBoundary, initializeAuthenticationProd } from '@gridsuite/commons-ui';
-import { AppRouter } from 'app/router/AppRouter';
-import AppTopBar, { AppTopBarProps } from 'features/top-bar/components/app-top-bar';
+import {
+    AuthenticationRouter,
+    CardErrorBoundary,
+    initializeAuthenticationProd,
+    logout,
+    UserManagerState,
+} from '@gridsuite/commons-ui';
 import {
     selectAuthenticationRouterError,
     selectShowAuthenticationRouterLogin,
     selectSignInCallbackError,
-    selectUser,
 } from 'features/authentication/store/authentication.selectors';
 import { getErrorMessage } from 'shared/lib/error';
 import { fetchIdpSettings } from 'shared/config/idp-settings';
 import { useAppParametersInvalidationListener } from './notifications/use-app-parameters-invalidation-listener';
 import { useAppDispatch, useAppSelector } from './store/store';
+import { AppRouter } from './router/AppRouter';
+import { useStableUserProfile } from '../features/authentication/hooks/use-stable-user-profile';
+import { AppLayout } from './layout/AppLayout';
 
 function App() {
-    const user = useAppSelector(selectUser);
+    const userProfile = useStableUserProfile();
     const signInCallbackError = useAppSelector(selectSignInCallbackError);
     const authenticationRouterError = useAppSelector(selectAuthenticationRouterError);
     const showAuthenticationRouterLogin = useAppSelector(selectShowAuthenticationRouterLogin);
 
-    const [userManager, setUserManager] = useState<AppTopBarProps['userManager']>({ instance: null, error: null });
+    const [userManager, setUserManager] = useState<UserManagerState>({ instance: null, error: null });
 
     const navigate = useNavigate();
 
@@ -73,11 +79,12 @@ function App() {
 
     useAppParametersInvalidationListener();
 
+    const onLogoutClick = () => logout(dispatch, userManager.instance)?.catch((err) => console.error(err));
+
     return (
-        <>
-            <AppTopBar user={user} userManager={userManager} />
+        <AppLayout onLogoutClick={onLogoutClick}>
             <CardErrorBoundary>
-                {user !== null ? (
+                {userProfile !== null ? (
                     <AppRouter />
                 ) : (
                     <AuthenticationRouter
@@ -91,7 +98,7 @@ function App() {
                     />
                 )}
             </CardErrorBoundary>
-        </>
+        </AppLayout>
     );
 }
 export default App;
