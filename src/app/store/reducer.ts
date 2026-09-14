@@ -9,9 +9,11 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { authenticationReducer } from 'features/authentication/store/authentication.slice';
 import { configApi } from 'shared/api/config-api';
 import { studyApi } from 'shared/api/study-api';
+import { snapshotRefinerBaseApi } from 'shared/api/snapshot-refiner-api';
 
 export const reducer = combineReducers({
     authentication: authenticationReducer,
     [configApi.reducerPath]: configApi.reducer,
     [studyApi.reducerPath]: studyApi.reducer,
+    [snapshotRefinerBaseApi.reducerPath]: snapshotRefinerBaseApi.reducer,
 });

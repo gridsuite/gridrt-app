@@ -2,5 +2,14 @@
     "close": "Close",
     "parameters": "Parameters",
     "paramsChangingError": "An error occured when changing the parameters",
-    "paramsRetrievingError": "An error occurred while retrieving the parameters"
+    "paramsRetrievingError": "An error occurred while retrieving the parameters",
+    "topBar.sandboxMode": "Sandbox mode",
+    "topBar.runProcess": "Run process",
+    "runProcess.dialogTitle": "Run process",
+    "runProcess.importCaseFile": "Import a case",
+    "runProcess.noAvailableImporter": "No available importer found for this file",
+    "runProcess.cancel": "Cancel",
+    "runProcess.launch": "Launch",
+    "runProcess.launching": "Launching...",
+    "runProcess.successTitle": "Process launched"
 }
