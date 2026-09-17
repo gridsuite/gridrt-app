@@ -2,5 +2,14 @@
     "close": "Fermer",
     "parameters": "Paramètres",
     "paramsChangingError": "Une erreur est survenue lors de la modification des paramètres",
-    "paramsRetrievingError": "Une erreur est survenue lors de la récupération des paramètres"
+    "paramsRetrievingError": "Une erreur est survenue lors de la récupération des paramètres",
+    "topBar.sandboxMode": "Bac à sable",
+    "topBar.runProcess": "Lancer le processus",
+    "runProcess.dialogTitle": "Lancer le processus",
+    "runProcess.importCaseFile": "Importer une situation",
+    "runProcess.noAvailableImporter": "Aucun importateur n'a été trouvé pour ce fichier.",
+    "runProcess.cancel": "Annuler",
+    "runProcess.launch": "Lancer",
+    "runProcess.launching": "Lancement...",
+    "runProcess.successTitle": "Processus lancé"
 }
