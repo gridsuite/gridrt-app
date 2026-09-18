@@ -73,7 +73,7 @@ export function RunProcessDialog({ open, onClose }: Readonly<RunProcessDialogPro
                         </Stack>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={onClose} variant="contained" color="secondary" sx={ACTION_BUTTON_SX}>
+                        <Button onClick={onClose} color="secondary" sx={ACTION_BUTTON_SX}>
                             {intl.formatMessage({ id: 'close' })}
                         </Button>
                     </DialogActions>
