@@ -61,7 +61,9 @@ export function RunProcessDialog({ open, onClose }: Readonly<RunProcessDialogPro
         >
             {result.isSuccess ? (
                 <>
-                    <DialogTitle sx={{ display: 'flex', justifyContent: 'flex-end', py: 1 }}>
+                    {/* pr: 16px (not the default 24px) offsets the close icon button's own internal
+                        padding, so it lines up visually with the 24px on the other side. */}
+                    <DialogTitle sx={{ display: 'flex', justifyContent: 'flex-end', pr: '16px' }}>
                         <DialogCloseIconButton onClick={onClose} />
                     </DialogTitle>
                     <DialogContent sx={{ pt: 0 }}>
@@ -82,7 +84,7 @@ export function RunProcessDialog({ open, onClose }: Readonly<RunProcessDialogPro
                 <>
                     <DialogTitle
                         variant="h5"
-                        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pr: '16px' }}
                     >
                         {intl.formatMessage({ id: 'runProcess.dialogTitle' })}
                         <DialogCloseIconButton onClick={onClose} />
