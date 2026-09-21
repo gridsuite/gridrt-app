@@ -40,7 +40,7 @@ function DialogCloseIconButton({ onClick }: Readonly<{ onClick: () => void }>) {
     const intl = useIntl();
 
     return (
-        <IconButton edge="end" onClick={onClick} size="small" aria-label={intl.formatMessage({ id: 'close' })}>
+        <IconButton onClick={onClick} size="small" aria-label={intl.formatMessage({ id: 'close' })}>
             <CloseIcon fontSize="small" sx={{ color: 'text.primary' }} />
         </IconButton>
     );
@@ -61,7 +61,9 @@ export function RunProcessDialog({ open, onClose }: Readonly<RunProcessDialogPro
         >
             {result.isSuccess ? (
                 <>
-                    <DialogTitle sx={{ display: 'flex', justifyContent: 'flex-end'}}>
+                    {/* pr: 16px (not the default 24px) offsets the close icon button's own internal
+                        padding, so it lines up visually with the 24px on the other side. */}
+                    <DialogTitle sx={{ display: 'flex', justifyContent: 'flex-end', pr: '16px' }}>
                         <DialogCloseIconButton onClick={onClose} />
                     </DialogTitle>
                     <DialogContent sx={{ pt: 0 }}>
