@@ -10,10 +10,12 @@ import { authenticationReducer } from 'features/authentication/store/authenticat
 import { configApi } from 'shared/api/config-api';
 import { studyApi } from 'shared/api/study-api';
 import { snapshotRefinerBaseApi } from 'shared/api/snapshot-refiner-api';
+import { processHistoryReducer } from 'features/processHistory/store/history-process.slice';
 
 export const reducer = combineReducers({
     authentication: authenticationReducer,
     [configApi.reducerPath]: configApi.reducer,
     [studyApi.reducerPath]: studyApi.reducer,
     [snapshotRefinerBaseApi.reducerPath]: snapshotRefinerBaseApi.reducer,
+    processHistory: processHistoryReducer,
 });

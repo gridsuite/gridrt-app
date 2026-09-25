@@ -41,7 +41,7 @@ function App() {
 
     const location = useLocation();
 
-    // Can't use lazy initializer because useMatch is a hook
+    // Can't use lazy initializer because useMatch is a hooks
     const [initialMatchSilentRenewCallbackUrl] = useState(
         useMatch({
             path: '/silent-renew-callback',

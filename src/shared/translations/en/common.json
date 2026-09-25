@@ -4,6 +4,7 @@
     "paramsChangingError": "An error occured when changing the parameters",
     "paramsRetrievingError": "An error occurred while retrieving the parameters",
     "topBar.sandboxMode": "Sandbox mode",
+    "topBar.processHistory": "Process history",
     "topBar.runProcess": "Run process",
     "runProcess.dialogTitle": "Run process",
     "runProcess.importCaseFile": "Import a case",
@@ -11,5 +12,13 @@
     "runProcess.cancel": "Cancel",
     "runProcess.launch": "Launch",
     "runProcess.launching": "Launching...",
-    "runProcess.successTitle": "Process launched"
+    "runProcess.successTitle": "Process launched",
+    "CompletedAt": "End",
+    "StartedAt": "Start",
+    "RawSnapshots": "Raw Snapshots",
+    "FAILED": "Failed",
+    "COMPLETED": "Success",
+    "RUNNING": "Running",
+    "Download": "Download",
+    "ProcessExecutionHistory": "Process history"
 }

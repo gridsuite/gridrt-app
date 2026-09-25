@@ -8,9 +8,10 @@
 import { getPreLoginPath } from '@gridsuite/commons-ui';
 import { Box, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
-import { Routes, Route, Navigate } from 'react-router';
+import { Routes, Route, Navigate, Outlet } from 'react-router';
 import { Loader } from 'shared/ui/Loader';
 import { Suspense } from 'react';
+import { processRoutes } from '../../features/processHistory/router/process-routes';
 import { APP_PATHS } from './app-paths';
 
 export function AppRouter() {
@@ -27,6 +28,7 @@ export function AppRouter() {
                         </Box>
                     }
                 />
+                <Route element={<Outlet />}>{processRoutes}</Route>
                 <Route path={APP_PATHS.signInCallback} element={<Navigate replace to={getPreLoginPath() || '/'} />} />
                 <Route
                     path={APP_PATHS.logoutCallback}
