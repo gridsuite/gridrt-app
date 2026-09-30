@@ -23,5 +23,7 @@
     "ProcessExecutionHistory": "Process history",
     "Status": "Status",
     "Actions": "Actions",
-    "DownloadCase": "Download case"
+    "DownloadCase": "Download case",
+    "ErrorLoadingProcessHistory": "Unable to load process executions.",
+    "NoProcessHistory": "Nothing to report, Yet!"
 }

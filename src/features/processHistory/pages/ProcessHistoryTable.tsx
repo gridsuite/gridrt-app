@@ -101,11 +101,6 @@ export default function ProcessHistoryTable({ executions }: Readonly<ProcessExec
                 onGridReady={({ api }) => {
                     applyTableState(api);
                 }}
-                /*
-                onRowClicked={({ data }) => {
-                    navigate(PROCESS_PATHS.stepInfos(data.id ?? ''));
-                }}
-                */
                 onModelUpdated={({ api }) => {
                     if (api.getDisplayedRowCount()) {
                         api.hideOverlay();

@@ -20,7 +20,7 @@ const createTableParams = (): TableParams => {
     return {
         sortParams: {
             table: PROCESS_HISTORY_SORT_STORE,
-            tab: PROCESS_HISTORY_SORT_STORE,
+            tab: 'startedAt',
         },
     };
 };
@@ -45,7 +45,6 @@ export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
             valueGetter: (params) => params.data.caseName ?? params.data.caseUuid,
         }),
 
-        // Process started at
         makeAgGridCustomHeaderColumn({
             headerName: intl.formatMessage({ id: 'Status' }),
             colId: 'status',
@@ -63,7 +62,6 @@ export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
             valueGetter: (params) => params.data.status,
         }),
 
-        // Process completed at
         makeAgGridCustomHeaderColumn({
             headerName: intl.formatMessage({ id: 'StartedAt' }),
             colId: 'startedAt',
@@ -81,7 +79,6 @@ export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
             valueGetter: (params) => params.data.startedAt,
         }),
 
-        // Process details
         makeAgGridCustomHeaderColumn({
             headerName: intl.formatMessage({ id: 'CompletedAt' }),
             colId: 'completedAt',

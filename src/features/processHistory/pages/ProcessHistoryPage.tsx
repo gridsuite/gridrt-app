@@ -12,7 +12,7 @@ import { HistoryProcessAlert } from '../components/HistoryProcessAlert';
 import { CustomAggridReduxProvider } from '../components/custom-aggrid-redux-provider';
 import ProcessHistoryTable from './ProcessHistoryTable';
 
-function ProcessResultsPage() {
+function ProcessHistoryPage() {
     const { executions, isEmpty, isError, isLoading } = useProcessResults();
 
     return (
@@ -39,4 +39,4 @@ function ProcessResultsPage() {
     );
 }
 
-export default ProcessResultsPage;
+export default ProcessHistoryPage;

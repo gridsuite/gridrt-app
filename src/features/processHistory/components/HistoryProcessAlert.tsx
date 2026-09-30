@@ -6,6 +6,7 @@
  */
 
 import { Alert, Paper, Typography } from '@mui/material';
+import { FormattedMessage } from 'react-intl';
 
 type ProcessResultsResultProps = {
     isEmpty: boolean;
@@ -23,18 +24,26 @@ export function HistoryProcessAlert({ isEmpty, isError, isLoading }: Readonly<Pr
                         color: 'text.secondary',
                     }}
                 >
-                    Loading process executions...
+                    <FormattedMessage id="Loading" />
                 </Typography>
             </Paper>
         );
     }
 
     if (isError) {
-        return <Alert severity="error">Unable to load process executions.</Alert>;
+        return (
+            <Alert severity="error">
+                <FormattedMessage id="ErrorChargingProcessHistory" />
+            </Alert>
+        );
     }
 
     if (isEmpty) {
-        return <Alert severity="info">No process executions found.</Alert>;
+        return (
+            <Alert severity="info">
+                <FormattedMessage id="NoProcessHistory" />
+            </Alert>
+        );
     }
 
     return null;

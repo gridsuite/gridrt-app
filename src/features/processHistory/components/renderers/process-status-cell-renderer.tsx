@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { Done, AccessTime, Autorenew, ErrorOutlineOutlined } from '@mui/icons-material';
+import { Done, Autorenew, ErrorOutlineOutlined } from '@mui/icons-material';
 import { Box, Chip, Icon, Stack, useTheme } from '@mui/material';
 import { useIntl } from 'react-intl';
 import { ReactNode } from 'react';
@@ -28,10 +28,6 @@ export function ProcessStatusCellRenderer({ value }: Readonly<ProcessStatusCellR
         case Status.Running:
             colorVal = theme.palette.mode === 'light' ? '#A0F' : '#EA80FC';
             iconVal = <Autorenew />;
-            break;
-        case Status.Completed:
-            colorVal = theme.palette.mode === 'light' ? '#00838F' : '#4DD0E1';
-            iconVal = <AccessTime />;
             break;
         default:
     }

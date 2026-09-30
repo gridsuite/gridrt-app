@@ -23,5 +23,7 @@
     "ProcessExecutionHistory": "Historique des processus",
     "Status": "Statut",
     "Actions": "Actions",
-    "DownloadCase": "Télécharger la situation"
+    "DownloadCase": "Télécharger la situation",
+    "ErrorLoadingProcessHistory": "Erreur lors du chargement de l'historiques des processus.",
+    "NoProcessHistory": "Pas de processus."
 }
