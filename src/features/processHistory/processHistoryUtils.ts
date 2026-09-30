@@ -34,8 +34,8 @@ export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
             colId: 'caseName',
             field: 'caseName',
             minWidth: 200,
-            flex: 10,
-            resizable: false,
+            initialFlex: 10,
+            pinned: true,
             cellRendererParams: (params: any) => ({
                 id: params.data.id,
             }),
@@ -114,6 +114,12 @@ export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
                 caseName: params.data.caseName ?? params.data.caseUuid,
             }),
             sortable: false,
+        }),
+        makeAgGridCustomHeaderColumn({
+            headerName: '',
+            colId: 'filler',
+            minWidth: 0,
+            flex: 1,
         }),
     ];
 };

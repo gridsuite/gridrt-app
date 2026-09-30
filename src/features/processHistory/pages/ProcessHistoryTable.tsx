@@ -46,16 +46,6 @@ export default function ProcessHistoryTable({ executions }: Readonly<ProcessExec
         });
     }, [tableSort]);
 
-    const getEnumLabel = useCallback(
-        (value: string) => {
-            return intl.formatMessage({
-                id: value,
-                defaultMessage: value,
-            });
-        },
-        [intl]
-    );
-
     const defaultColDef = useMemo(
         () => ({
             filter: false,
@@ -80,8 +70,8 @@ export default function ProcessHistoryTable({ executions }: Readonly<ProcessExec
     );
 
     const columns = useMemo(() => {
-        return processResultsColumnsDefinition(intl, getEnumLabel);
-    }, [intl, getEnumLabel]);
+        return processResultsColumnsDefinition(intl);
+    }, [intl]);
 
     return (
         <Box

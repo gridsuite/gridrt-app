@@ -5,6 +5,8 @@
         "lib": ["dom", "dom.iterable", "esnext"],
         "jsx": "react-jsx",
 
+        "types": ["@types/wicg-file-system-access"],
+
         /* Modules and Resolution */
         "baseUrl": "src",
         "module": "esnext",

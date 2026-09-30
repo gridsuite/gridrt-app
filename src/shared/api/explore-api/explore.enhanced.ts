@@ -8,8 +8,7 @@
 import { exploreGeneratedApi } from './explore.generated';
 
 function downloadRtkQueryResult(response: Response | undefined, fileName: string): Promise<string> {
-    if (Object.hasOwn(window, 'showSaveFilePicker')) {
-        // @ts-ignore
+    if (window.showSaveFilePicker) {
         window
             .showSaveFilePicker({ suggestedName: fileName })
             .then((fileHandle: { createWritable: () => Promise<WritableStream<Uint8Array<ArrayBuffer>>> }) => {
