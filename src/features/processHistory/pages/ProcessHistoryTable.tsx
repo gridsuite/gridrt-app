@@ -9,11 +9,11 @@ import { Box, useTheme } from '@mui/material';
 import { useIntl } from 'react-intl';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
+import { CustomAGGrid, DefaultCellRenderer } from '@gridsuite/commons-ui';
+import { GridApi, RowStyle } from 'ag-grid-community';
 import { ProcessExecutionInfo } from '../model/process-execution-info';
 import { useAppSelector } from '../../../app/store/store';
-import { GridApi, RowStyle } from 'ag-grid-community';
 import { PROCESS_HISTORY_SORT_STORE } from '../store/history-process.constants';
-import { CustomAGGrid, DefaultCellRenderer } from '@gridsuite/commons-ui';
 import { AGGRID_LOCALES } from '../../../shared/translations/not-intl/aggrid-locales';
 import { processResultsColumnsDefinition } from '../processHistoryUtils';
 

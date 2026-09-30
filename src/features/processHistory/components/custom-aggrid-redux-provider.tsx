@@ -18,7 +18,6 @@ function CustomAggridSortReduxProvider({ children }: Readonly<PropsWithChildren>
     const dispatch = useAppDispatch();
 
     const tableSort = useAppSelector((state) => {
-        console.info(state);
         return state.processHistory.tableSort;
     });
 

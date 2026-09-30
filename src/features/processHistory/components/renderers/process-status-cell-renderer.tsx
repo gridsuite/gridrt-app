@@ -13,7 +13,7 @@ import { Status } from '../../../../shared/api/snapshot-refiner-api';
 
 export type ProcessStatusCellRendererProps = { value: Status; id: string };
 
-export function ProcessStatusCellRenderer({ value, id }: Readonly<ProcessStatusCellRendererProps>) {
+export function ProcessStatusCellRenderer({ value }: Readonly<ProcessStatusCellRendererProps>) {
     const intl = useIntl();
     const theme = useTheme();
 

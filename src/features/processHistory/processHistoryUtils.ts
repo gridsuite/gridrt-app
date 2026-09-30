@@ -25,26 +25,24 @@ const createTableParams = (): TableParams => {
     };
 };
 
-export const processResultsColumnsDefinition = (
-    intl: IntlShape,
-    getEnumLabel: (value: string) => string // Used for translation of enum values in the filter
-): ColDef[] => {
+export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
     const { sortParams } = createTableParams();
 
     return [
         makeAgGridCustomHeaderColumn({
             headerName: intl.formatMessage({ id: 'RawSnapshots' }),
-            colId: 'caseUuid',
-            field: 'caseUuid',
-            minWidth: 220,
-            resizable: true,
+            colId: 'caseName',
+            field: 'caseName',
+            minWidth: 200,
+            flex: 10,
+            resizable: false,
             cellRendererParams: (params: any) => ({
                 id: params.data.id,
             }),
             context: {
                 sortParams,
             },
-            valueGetter: (params) => params.data.caseUuid,
+            valueGetter: (params) => params.data.caseName ?? params.data.caseUuid,
         }),
 
         // Process started at
@@ -52,8 +50,8 @@ export const processResultsColumnsDefinition = (
             headerName: intl.formatMessage({ id: 'Status' }),
             colId: 'status',
             field: 'status',
-            minWidth: 183,
-            maxWidth: 183,
+            minWidth: 174,
+            maxWidth: 174,
             resizable: false,
             cellRenderer: ProcessStatusCellRenderer,
             cellRendererParams: (params: any) => ({
@@ -105,14 +103,15 @@ export const processResultsColumnsDefinition = (
             headerName: intl.formatMessage({ id: 'Actions' }),
             colId: 'actions',
             field: 'actions',
-            minWidth: 90,
-            maxWidth: 90,
+            minWidth: 72,
+            maxWidth: 72,
             resizable: false,
             cellRenderer: ProcessActionsCellRenderer,
             cellRendererParams: (params: any) => ({
                 id: params.data.id,
                 status: params.data.status,
                 steps: params.data.executionSteps,
+                caseName: params.data.caseName ?? params.data.caseUuid,
             }),
             sortable: false,
         }),

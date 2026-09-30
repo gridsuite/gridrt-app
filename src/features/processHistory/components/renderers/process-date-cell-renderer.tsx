@@ -9,7 +9,7 @@ import { Box, Tooltip } from '@mui/material';
 
 export type ProcessDateCellRendererProps = { value: string; id: string };
 
-export function ProcessDateCellRenderer({ value, id }: Readonly<ProcessDateCellRendererProps>) {
+export function ProcessDateCellRenderer({ value }: Readonly<ProcessDateCellRendererProps>) {
     const intl = useIntl();
 
     const todayStart = new Date().setHours(0, 0, 0, 0);

@@ -5,33 +5,43 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useCallback, useMemo } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { IconButton, Tooltip } from '@mui/material';
 import { FileDownload } from '@mui/icons-material';
 import { ProcessStepExecution, ProcessStepType, Status } from '../../../../shared/api/snapshot-refiner-api';
+import { useLazyDirectDownloadQuery } from '../../../../shared/api/explore-api';
 
-export type ProcessActionsCellRendererProps = { steps: ProcessStepExecution[]; id: string; status: Status };
+export type ProcessActionsCellRendererProps = {
+    steps: ProcessStepExecution[];
+    status: Status;
+    caseName: string;
+};
 
-export function ProcessActionsCellRenderer({ steps, id, status }: Readonly<ProcessActionsCellRendererProps>) {
-    const intl = useIntl();
+export function ProcessActionsCellRenderer({ steps, status, caseName }: Readonly<ProcessActionsCellRendererProps>) {
+    const resultUuid = useMemo(
+        () => steps.find((step) => step.processStepType === ProcessStepType.CaseSaving)?.resultUuid,
+        [steps]
+    );
+    const [downloadCase] = useLazyDirectDownloadQuery();
+    const downloadAction = useCallback(() => {
+        if (resultUuid) {
+            downloadCase({ caseUuid: resultUuid, fileName: `${caseName}.xiidm` }, false);
+        }
+    }, [resultUuid, downloadCase, caseName]);
 
-    const linkStyle = {
-        color: 'inherit',
-        textDecoration: 'none',
-    };
     return (
-        <Tooltip title={<FormattedMessage id="Download" />}>
-            <IconButton
-                onClick={() => {
-                    const res = steps.find((step) => step.processStepType === ProcessStepType.CaseSaving)?.resultUuid;
-                    console.info(`Download link clicked for process ${id} with result uuid ${res}`);
-                }}
-                size="small"
-                disabled={status !== Status.Completed}
-                color="primary"
-            >
-                <FileDownload fontSize="small" />
-            </IconButton>
+        <Tooltip title={<FormattedMessage id="DownloadCase" />}>
+            <span>
+                <IconButton
+                    size="small"
+                    disabled={status !== Status.Completed}
+                    color="primary"
+                    onClick={downloadAction}
+                >
+                    <FileDownload fontSize="small" />
+                </IconButton>
+            </span>
         </Tooltip>
     );
 }

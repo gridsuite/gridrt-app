@@ -9,8 +9,9 @@ import { generateEndpoints } from '@rtk-query/codegen-openapi';
 import configConfig from './config-api/config.codegen';
 import studyConfig from './study-api/study.codegen';
 import snapshotRefinerConfig from './snapshot-refiner-api/snapshot-refiner.codegen';
+import exploreConfig from './explore-api/explore.codegen';
 
-const configFile = [studyConfig, configConfig, snapshotRefinerConfig];
+const configFile = [studyConfig, configConfig, snapshotRefinerConfig, exploreConfig];
 
 async function run() {
     for (const config of configFile) {
