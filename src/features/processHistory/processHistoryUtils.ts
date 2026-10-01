@@ -20,7 +20,7 @@ const createTableParams = (): TableParams => {
     return {
         sortParams: {
             table: PROCESS_HISTORY_SORT_STORE,
-            tab: 'startedAt',
+            tab: PROCESS_HISTORY_SORT_STORE,
         },
     };
 };

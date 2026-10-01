@@ -25,5 +25,6 @@
     "Actions": "Actions",
     "DownloadCase": "Download case",
     "ErrorLoadingProcessHistory": "Unable to load process executions.",
-    "NoProcessHistory": "Nothing to report, Yet!"
+    "NoProcessHistory": "Nothing to report, Yet!",
+    "Loading": "Chargement en ccurs"
 }

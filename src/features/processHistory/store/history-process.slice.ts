@@ -30,7 +30,7 @@ const initialState: HistoryProcessState = {
 };
 
 const processHistorySlice = createSlice({
-    name: PROCESS_HISTORY_SORT_STORE,
+    name: 'processHistory',
     initialState,
     reducers: {
         setProcessExecutionHistoryTableSort: (
