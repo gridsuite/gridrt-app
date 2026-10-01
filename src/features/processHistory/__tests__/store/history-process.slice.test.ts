@@ -14,8 +14,7 @@ import {
 import { PROCESS_HISTORY_SORT_STORE } from 'features/processHistory/store/history-process.constants';
 import type { HistoryProcessState } from 'features/processHistory/store/history-process.type';
 
-const getInitialState = (): HistoryProcessState =>
-    processHistoryReducer(undefined, { type: '@@INIT' });
+const getInitialState = (): HistoryProcessState => processHistoryReducer(undefined, { type: '@@INIT' });
 
 describe('processHistoryReducer', () => {
     it('has the expected initial state', () => {
