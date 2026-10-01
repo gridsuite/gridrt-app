@@ -11,5 +11,20 @@
     "runProcess.cancel": "Cancel",
     "runProcess.launch": "Launch",
     "runProcess.launching": "Launching...",
-    "runProcess.successTitle": "Process launched"
+    "runProcess.successTitle": "Process launched",
+    "topBar.processHistory": "Process history",
+    "CompletedAt": "End",
+    "StartedAt": "Start",
+    "RawSnapshots": "Raw Snapshots",
+    "FAILED": "Failed",
+    "COMPLETED": "Success",
+    "RUNNING": "Running",
+    "Download": "Download",
+    "ProcessExecutionHistory": "Process history",
+    "Status": "Status",
+    "Actions": "Actions",
+    "DownloadCase": "Download case",
+    "ErrorLoadingProcessHistory": "Unable to load process executions.",
+    "NoProcessHistory": "Nothing to report, Yet!",
+    "Loading": "Chargement en ccurs"
 }

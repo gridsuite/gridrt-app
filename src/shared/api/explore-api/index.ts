@@ -5,10 +5,5 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-export const APP_PATHS = {
-    home: '/',
-    processHistory: '/process-history',
-    signInCallback: '/sign-in-callback',
-    logoutCallback: '/logout-callback',
-    notFound: '*',
-};
+export * from './explore.enhanced';
+export { useDownloadCaseQuery } from './explore.generated';

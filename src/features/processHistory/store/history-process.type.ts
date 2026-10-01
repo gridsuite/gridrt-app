@@ -4,11 +4,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+import { TableSort } from '@gridsuite/commons-ui';
+import { UUID } from 'node:crypto';
 
-export const APP_PATHS = {
-    home: '/',
-    processHistory: '/process-history',
-    signInCallback: '/sign-in-callback',
-    logoutCallback: '/logout-callback',
-    notFound: '*',
-};
+interface TablesState {
+    uuid: UUID | null;
+}
+export interface HistoryProcessState {
+    tableSort: TableSort;
+    tables: TablesState;
+}

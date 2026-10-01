@@ -31,6 +31,10 @@ const lightTheme: Theme = createTheme({
     link: {
         color: 'blue',
     },
+    aggrid: {
+        theme: 'ag-theme-alpine',
+    },
+
     mapboxStyle: 'mapbox://styles/mapbox/light-v9',
 });
 
@@ -57,6 +61,10 @@ const darkTheme: Theme = createTheme({
     link: {
         color: 'green',
     },
+    aggrid: {
+        theme: 'ag-theme-alpine-dark',
+    },
+
     mapboxStyle: 'mapbox://styles/mapbox/dark-v9',
 });
 

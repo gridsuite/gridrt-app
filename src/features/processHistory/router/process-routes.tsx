@@ -5,10 +5,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-export const APP_PATHS = {
-    home: '/',
-    processHistory: '/process-history',
-    signInCallback: '/sign-in-callback',
-    logoutCallback: '/logout-callback',
-    notFound: '*',
-};
+import { lazy } from 'react';
+import { Route } from 'react-router';
+
+const ProcessHistoryPage = lazy(() => import('../pages/ProcessHistoryPage'));
+
+export const processRoutes = <Route path="process-history" element={<ProcessHistoryPage />} />;

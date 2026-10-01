@@ -4,6 +4,7 @@
     "paramsChangingError": "Une erreur est survenue lors de la modification des paramètres",
     "paramsRetrievingError": "Une erreur est survenue lors de la récupération des paramètres",
     "topBar.sandboxMode": "Bac à sable",
+    "topBar.processHistory": "Historique des processus",
     "topBar.runProcess": "Lancer le processus",
     "runProcess.dialogTitle": "Lancer le processus",
     "runProcess.importCaseFile": "Importer une situation",
@@ -11,5 +12,19 @@
     "runProcess.cancel": "Annuler",
     "runProcess.launch": "Lancer",
     "runProcess.launching": "Lancement...",
-    "runProcess.successTitle": "Processus lancé"
+    "runProcess.successTitle": "Processus lancé",
+    "CompletedAt": "Terminé",
+    "StartedAt": "Commencé",
+    "RawSnapshots": "Point Figés bruts",
+    "FAILED": "Échec",
+    "COMPLETED": "Terminé",
+    "RUNNING": "En cours",
+    "Download": "Télécharger",
+    "ProcessExecutionHistory": "Historique des processus",
+    "Status": "Statut",
+    "Actions": "Actions",
+    "DownloadCase": "Télécharger la situation",
+    "ErrorLoadingProcessHistory": "Erreur lors du chargement de l'historiques des processus.",
+    "NoProcessHistory": "Pas de processus.",
+    "Loading": "Chargement en ccurs"
 }

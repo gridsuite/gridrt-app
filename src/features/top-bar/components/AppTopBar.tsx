@@ -11,6 +11,7 @@ import { useIntl } from 'react-intl';
 import { PlayArrow as PlayArrowIcon } from '@mui/icons-material';
 import { RunProcessDialog } from '../../run-process/components/RunProcessDialog';
 import { SandboxModeToggle } from './SandboxModeToggle';
+import { AppNavBar } from './AppNavBar';
 import type { UserProfile } from '../../authentication/store/authentication.type';
 
 export type AppTopBarProps = {
@@ -43,7 +44,8 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
                         bgcolor: toolbarBackground,
                     }}
                 >
-                    <Stack direction="row" spacing={2} alignItems="center" sx={{ ml: 'auto', flexWrap: 'nowrap' }}>
+                    <AppNavBar />
+                    <Stack direction="row" sx={{ ml: 'auto', flexWrap: 'nowrap', spacing: 2, alignItems: 'center' }}>
                         {isSandboxMode && (
                             <>
                                 <Button
