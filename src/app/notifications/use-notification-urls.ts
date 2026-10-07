@@ -5,15 +5,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS } from '@gridsuite/commons-ui';
-import { APP_NAME } from 'app/config/app-config';
+import { APP_NAME } from 'shared/config/application';
 import { useMemo } from 'react';
 
-export const useNotificationsUrlGenerator = (): Partial<Record<NotificationsUrlKeys, string | undefined>> => {
+export const useNotificationUrls = (): Partial<Record<NotificationsUrlKeys, string | undefined>> => {
     // The websocket API doesn't allow relative urls
     const webSocketBaseUrl = document.baseURI.replace(/^http:\/\//, 'ws://').replace(/^https:\/\//, 'wss://');
 
-    // return a mapColumns with NOTIFICATIONS_URL_KEYS and undefined value if URL is not yet buildable (tokenId)
-    // it will be used to register listeners as soon as possible.
+    // Authentication and connection lifecycle are handled by NotificationsProvider.
     return useMemo(
         () => ({
             [NotificationsUrlKeys.CONFIG]: `${webSocketBaseUrl}${PREFIX_CONFIG_NOTIFICATION_WS}/notify?${new URLSearchParams(

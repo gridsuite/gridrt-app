@@ -6,7 +6,7 @@
  */
 
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { createBaseQuery } from '../rtk-query/base-api';
+import { createAuthenticatedBaseQuery } from 'shared/api/rtk-query/create-authenticated-base-query';
 
 export const ConfigTags = {
     Parameters: 'Parameters',
@@ -14,7 +14,7 @@ export const ConfigTags = {
 
 export const configBaseApi = createApi({
     reducerPath: 'configApi',
-    baseQuery: createBaseQuery(`${import.meta.env.VITE_API_GATEWAY}/config`),
+    baseQuery: createAuthenticatedBaseQuery(`${import.meta.env.VITE_API_GATEWAY}/config`),
     tagTypes: Object.values(ConfigTags),
     endpoints: () => ({}),
 });

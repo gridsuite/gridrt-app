@@ -21,8 +21,8 @@ import {
 } from 'features/authentication/store/authentication.selectors';
 import { getErrorMessage } from 'shared/lib/error';
 import { fetchIdpSettings } from 'shared/config/idp-settings';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { useAppParametersInvalidationListener } from './notifications/use-app-parameters-invalidation-listener';
-import { useAppDispatch, useAppSelector } from './store/store';
 import { AppRouter } from './router/AppRouter';
 import { useStableUserProfile } from '../features/authentication/hooks/use-stable-user-profile';
 import { AppLayout } from './layout/AppLayout';

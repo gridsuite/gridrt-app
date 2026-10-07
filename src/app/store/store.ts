@@ -6,13 +6,12 @@
  */
 
 import { configureStore } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
 import { studyApi } from 'shared/api/study-api';
 import { configApi } from 'shared/api/config-api';
 import { snapshotRefinerBaseApi } from 'shared/api/snapshot-refiner-api';
 import { setCommonStore } from '@gridsuite/commons-ui';
+import { errorMiddleware } from 'app/notifications/rtk-query-error-middleware';
 import { reducer } from './reducer';
-import { errorMiddleware } from './rtk-query-error-middleware';
 
 export const setupStore = (preloadedState?: PreloadedState) =>
     configureStore({
@@ -37,8 +36,6 @@ setCommonStore({
     subscribe: (listener) => store.subscribe(listener),
     getState: () => store.getState().authentication,
 });
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-export const useAppSelector = useSelector.withTypes<RootState>();
 
 if (import.meta.env.DEV && import.meta.hot) {
     import.meta.hot.accept('./reducer', () => {

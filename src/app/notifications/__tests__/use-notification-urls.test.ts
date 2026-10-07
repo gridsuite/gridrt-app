@@ -7,11 +7,11 @@
 
 import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS } from '@gridsuite/commons-ui';
 import { renderHook } from '@testing-library/react';
-import { APP_NAME } from 'app/config/app-config';
+import { APP_NAME } from 'shared/config/application';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useNotificationsUrlGenerator } from 'shared/api/ws/use-notifications-url-generator';
+import { useNotificationUrls } from 'app/notifications/use-notification-urls';
 
-describe('useNotificationsUrlGenerator', () => {
+describe('useNotificationUrls', () => {
     beforeEach(() => {
         Object.defineProperty(document, 'baseURI', {
             configurable: true,
@@ -20,7 +20,7 @@ describe('useNotificationsUrlGenerator', () => {
     });
 
     it('builds a secure websocket URL from an https base URI', () => {
-        const { result } = renderHook(() => useNotificationsUrlGenerator());
+        const { result } = renderHook(() => useNotificationUrls());
         const params = new URLSearchParams({ appName: APP_NAME });
 
         expect(result.current).toEqual({
@@ -33,7 +33,7 @@ describe('useNotificationsUrlGenerator', () => {
             configurable: true,
             value: 'http://gridapp.test/',
         });
-        const { result } = renderHook(() => useNotificationsUrlGenerator());
+        const { result } = renderHook(() => useNotificationUrls());
         const params = new URLSearchParams({ appName: APP_NAME });
 
         expect(result.current).toEqual({

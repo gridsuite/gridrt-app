@@ -22,8 +22,8 @@ import App from 'app/App';
 import { appMessages } from 'app/config/app-messages';
 import { getAppTheme } from 'app/config/app-theme';
 import { useGetConfigParameterWithFallback } from 'features/app-parameters/hooks/use-get-config-parameter-with-fallback';
-import { useNotificationsUrlGenerator } from 'shared/api/ws/use-notifications-url-generator';
-import { SnackRefRegisterer } from './SnackRefRegisterer';
+import { useNotificationUrls } from 'app/notifications/use-notification-urls';
+import { SnackbarBridge } from 'app/notifications/SnackbarBridge';
 
 const basename = new URL(document.querySelector('base')?.href ?? '').pathname;
 
@@ -32,7 +32,7 @@ function AppProvidersWithStore() {
     const computedLanguage = getComputedLanguage(language);
     const { data: theme } = useGetConfigParameterWithFallback(PARAM_THEME);
 
-    const urlMapper = useNotificationsUrlGenerator();
+    const urlMapper = useNotificationUrls();
 
     return (
         <IntlProvider locale={computedLanguage} messages={appMessages[computedLanguage]}>
@@ -40,7 +40,7 @@ function AppProvidersWithStore() {
                 <StyledEngineProvider injectFirst>
                     <ThemeProvider theme={getAppTheme(theme)}>
                         <SnackbarProvider hideIconVariant={false}>
-                            <SnackRefRegisterer />
+                            <SnackbarBridge />
                             <CssBaseline />
                             <CardErrorBoundary>
                                 <NotificationsProvider urls={urlMapper}>

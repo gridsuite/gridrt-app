@@ -6,7 +6,7 @@
  */
 
 import { getAppName } from '@gridsuite/commons-ui';
-import { APP_NAME } from 'app/config/app-config';
+import { APP_NAME } from 'shared/config/application';
 import { useGetParameterQuery } from 'shared/api/config-api';
 import { getInitialAppParametersState } from '../store/app-parameters.default';
 import { AppParametersKey } from '../store/app-parameters.type';
