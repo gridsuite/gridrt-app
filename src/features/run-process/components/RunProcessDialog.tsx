@@ -67,9 +67,9 @@ export function RunProcessDialog({ open, onClose }: Readonly<RunProcessDialogPro
                         <DialogCloseIconButton onClick={onClose} />
                     </DialogTitle>
                     <DialogContent sx={{ pt: 0 }}>
-                        <Stack sx={{ spacing: 2, alignItems: 'center', pb: 3 }}>
+                        <Stack spacing={2} sx={{ alignItems: 'center', pb: 3 }}>
                             <CheckCircleIcon color="secondary" sx={{ fontSize: 48 }} />
-                            <Typography variant="h6" color="text.primary">
+                            <Typography variant="h6" sx={{ color: 'text.primary' }}>
                                 {intl.formatMessage({ id: 'runProcess.successTitle' })}
                             </Typography>
                         </Stack>

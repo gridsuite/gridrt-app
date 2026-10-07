@@ -5,30 +5,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { IconButton, Tooltip } from '@mui/material';
 import { FileDownload } from '@mui/icons-material';
-import { ProcessStepExecution, ProcessStepType, Status } from '../../../../shared/api/snapshot-refiner-api';
-import { useLazyDirectDownloadQuery } from '../../../../shared/api/explore-api';
+import { Status, useDownloadResultCaseMutation } from '../../../../shared/api/snapshot-refiner-api';
 
 export type ProcessActionsCellRendererProps = {
-    steps: ProcessStepExecution[];
+    processUuid: string;
     status: Status;
     caseName: string;
 };
 
-export function ProcessActionsCellRenderer({ steps, status, caseName }: Readonly<ProcessActionsCellRendererProps>) {
-    const resultUuid = useMemo(
-        () => steps.find((step) => step.processStepType === ProcessStepType.CaseSaving)?.resultUuid,
-        [steps]
-    );
-    const [downloadCase] = useLazyDirectDownloadQuery();
+export function ProcessActionsCellRenderer({
+    processUuid,
+    status,
+    caseName,
+}: Readonly<ProcessActionsCellRendererProps>) {
+    const [downloadResultCase] = useDownloadResultCaseMutation();
     const downloadAction = useCallback(() => {
-        if (resultUuid) {
-            downloadCase({ caseUuid: resultUuid, fileName: `${caseName}.xiidm` }, false);
-        }
-    }, [resultUuid, downloadCase, caseName]);
+        downloadResultCase({ processUuid, caseName });
+    }, [downloadResultCase, processUuid, caseName]);
 
     return (
         <Tooltip title={<FormattedMessage id="DownloadCase" />}>

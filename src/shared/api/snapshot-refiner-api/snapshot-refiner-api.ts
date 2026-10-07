@@ -13,6 +13,12 @@ export type RunSnapshotRefinerApiArg = {
     caseFile: File;
 };
 
+export type DownloadResultCaseApiResponse = string;
+export type DownloadResultCaseApiArg = {
+    processUuid: string;
+    caseName: string;
+};
+
 const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
     endpoints: (build) => ({
         runSnapshotRefiner: build.mutation<RunSnapshotRefinerApiResponse, RunSnapshotRefinerApiArg>({
@@ -26,7 +32,32 @@ const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
                 };
             },
         }),
+        downloadResultCase: build.mutation<DownloadResultCaseApiResponse, DownloadResultCaseApiArg>({
+            query: ({ processUuid, caseName }) => ({
+                url: `/v1/process/${processUuid}/result-case`,
+                // the file is saved here so that only its name, and not the blob, ends up in the store
+                responseHandler: async (response) => {
+                    if (!response.ok) {
+                        return response.text();
+                    }
+                    // the produced case keeps its own format (e.g. biidm): take the extension from the server filename
+                    const serverFilename = /filename="?([^";]+)"?/.exec(
+                        response.headers.get('Content-Disposition') ?? ''
+                    )?.[1];
+                    const extension = serverFilename?.split('.').pop();
+                    const fileName = extension ? `${caseName.replace(/\.[^.]+$/, '')}.${extension}` : caseName;
+
+                    const url = URL.createObjectURL(await response.blob());
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = fileName;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    return fileName;
+                },
+            }),
+        }),
     }),
 });
 
-export const { useRunSnapshotRefinerMutation } = injectedRtkApi;
+export const { useRunSnapshotRefinerMutation, useDownloadResultCaseMutation } = injectedRtkApi;

@@ -17,7 +17,7 @@ import { saveLocalStorageTheme } from 'features/app-parameters/store/app-paramet
 beforeEach(() => localStorage.clear());
 
 describe('useGetConfigParameterWithFallback', () => {
-    it('hooks returns value from backend', async () => {
+    it('hook returns value from backend', async () => {
         server.use(
             http.get('*/config/v1/applications/common/parameters/theme', () =>
                 HttpResponse.json({
@@ -38,7 +38,7 @@ describe('useGetConfigParameterWithFallback', () => {
         expect(result.current.data).toBe(LIGHT_THEME);
     });
 
-    it('hooks returns localstorage if no user in store', async () => {
+    it('hook returns localstorage if no user in store', async () => {
         const { wrapper } = createTestContext({ authentication: { user: null } });
         saveLocalStorageTheme(LIGHT_THEME);
 
@@ -49,7 +49,7 @@ describe('useGetConfigParameterWithFallback', () => {
         expect(result.current.data).toBe(LIGHT_THEME);
     });
 
-    it('hooks returns fallback if no user in store and nothing in local storage', async () => {
+    it('hook returns fallback if no user in store and nothing in local storage', async () => {
         const { wrapper } = createTestContext({ authentication: { user: null } });
 
         const { result } = renderHook(() => useGetConfigParameterWithFallback(PARAM_THEME), {
@@ -61,7 +61,7 @@ describe('useGetConfigParameterWithFallback', () => {
 });
 
 describe('useGetConfigParameterWithFallbackForDeveloperMode', () => {
-    it('hooks returns value from backend', async () => {
+    it('hook returns value from backend', async () => {
         server.use(
             http.get('*/config/v1/applications/common/parameters/isDeveloperMode', () =>
                 HttpResponse.json({
@@ -82,7 +82,7 @@ describe('useGetConfigParameterWithFallbackForDeveloperMode', () => {
         expect(result.current.data).toBe(true);
     });
 
-    it('hooks returns defaults if no user in store', async () => {
+    it('hook returns defaults if no user in store', async () => {
         const { wrapper } = createTestContext({ authentication: { user: null } });
 
         const { result } = renderHook(() => useGetConfigParameterWithFallback(PARAM_DEVELOPER_MODE), {

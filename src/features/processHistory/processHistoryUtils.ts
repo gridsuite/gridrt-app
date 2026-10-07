@@ -105,9 +105,8 @@ export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
             resizable: false,
             cellRenderer: ProcessActionsCellRenderer,
             cellRendererParams: (params: any) => ({
-                id: params.data.id,
+                processUuid: params.data.processUuid,
                 status: params.data.status,
-                steps: params.data.executionSteps,
                 caseName: params.data.caseName ?? params.data.caseUuid,
             }),
             sortable: false,

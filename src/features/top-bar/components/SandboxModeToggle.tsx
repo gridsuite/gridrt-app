@@ -25,7 +25,7 @@ export function SandboxModeToggle({ isSandboxMode, onChange }: Readonly<SandboxM
         <FormControlLabel
             control={<Switch color="secondary" checked={isSandboxMode} onChange={handleToggle} />}
             label={
-                <Typography variant="body1" color="secondary">
+                <Typography variant="body1" sx={{ color: 'secondary.main' }}>
                     {intl.formatMessage({ id: 'topBar.sandboxMode' })}
                 </Typography>
             }

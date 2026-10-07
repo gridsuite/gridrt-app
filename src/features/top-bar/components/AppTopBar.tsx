@@ -44,8 +44,8 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
                         bgcolor: toolbarBackground,
                     }}
                 >
-                    <AppNavBar />
-                    <Stack direction="row" sx={{ ml: 'auto', flexWrap: 'nowrap', spacing: 2, alignItems: 'center' }}>
+                    {isSandboxMode && <AppNavBar />}
+                    <Stack direction="row" spacing={2} sx={{ alignItems: 'center', ml: 'auto', flexWrap: 'nowrap' }}>
                         {isSandboxMode && (
                             <>
                                 <Button

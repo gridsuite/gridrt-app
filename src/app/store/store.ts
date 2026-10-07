@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { studyApi } from 'shared/api/study-api';
 import { configApi } from 'shared/api/config-api';
 import { snapshotRefinerBaseApi } from 'shared/api/snapshot-refiner-api';
-import { exploreApi } from 'shared/api/explore-api';
 import { setCommonStore } from '@gridsuite/commons-ui';
 import { reducer } from './reducer';
 import { errorMiddleware } from './rtk-query-error-middleware';
@@ -26,12 +25,7 @@ export const setupStore = (preloadedState?: PreloadedState) =>
                 },
             })
                 .prepend(errorMiddleware)
-                .concat(
-                    studyApi.middleware,
-                    configApi.middleware,
-                    snapshotRefinerBaseApi.middleware,
-                    exploreApi.middleware
-                ),
+                .concat(studyApi.middleware, configApi.middleware, snapshotRefinerBaseApi.middleware),
     });
 
 export const store = setupStore();
