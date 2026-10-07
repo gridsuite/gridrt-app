@@ -9,7 +9,7 @@ import { render, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DARK_THEME, LIGHT_THEME, PARAM_DEVELOPER_MODE, PARAM_LANGUAGE, PARAM_THEME } from '@gridsuite/commons-ui';
 import { createTestContext } from 'test-utils/create-test-context';
-import { AppSideBar } from 'app/layout/AppSideBar';
+import { AppSideBar } from './AppSideBar';
 
 const mocks = vi.hoisted(() => ({
     commonAppSideBar: vi.fn(),
@@ -42,15 +42,11 @@ vi.mock('features/authentication', () => ({
     useUserProfile: mocks.useUserIdentity,
 }));
 
-vi.mock('assets/images/gridrt_logo.svg?react', () => ({
-    default: () => null,
-}));
-
-vi.mock('app/layout/about/fetch-deployment-version', () => ({
+vi.mock('./about/fetch-deployment-version', () => ({
     fetchDeploymentVersion: mocks.fetchDeploymentVersion,
 }));
 
-vi.mock('app/layout/about/fetch-backend-modules', () => ({
+vi.mock('./about/fetch-backend-modules', () => ({
     fetchBackendModules: mocks.fetchBackendModules,
 }));
 

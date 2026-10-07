@@ -9,14 +9,14 @@ import 'typeface-roboto';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './app/styles/index.css';
-import AppWrapper from './app/providers/AppProviders';
+import { AppProviders } from './app/providers/AppProviders';
 
 const container = document.getElementById('root');
 if (container) {
     const root = createRoot(container);
     root.render(
         <React.StrictMode>
-            <AppWrapper />
+            <AppProviders />
         </React.StrictMode>
     );
 } else {

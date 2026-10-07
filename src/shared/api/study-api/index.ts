@@ -5,7 +5,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-export * from './study.enhanced';
-export { useGetSuiteAboutInformationQuery, Type } from './study.generated';
-
+export {
+    studyGeneratedApi as studyApi,
+    useGetSuiteAboutInformationQuery,
+    Type as BackendModuleType,
+} from './study.generated';
 export type { AboutInfo } from './study.generated';

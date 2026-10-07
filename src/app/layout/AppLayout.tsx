@@ -10,8 +10,9 @@ import { PropsWithChildren } from 'react';
 import { DevModeBanner, PARAM_DEVELOPER_MODE } from '@gridsuite/commons-ui';
 import { usePreference } from 'features/preferences/use-preference';
 import { useIsAuthenticated } from 'features/authentication';
-import AppTopBar from 'app/layout/AppTopBar';
-import { AppSideBar } from 'app/layout/AppSideBar';
+import { ProcessActions } from 'features/run-process/ProcessActions';
+import { AppTopBar } from './AppTopBar';
+import { AppSideBar } from './AppSideBar';
 
 export type AppLayoutProps = {
     onLogoutClick?: () => void;
@@ -27,7 +28,9 @@ export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildre
             <Stack direction="row" flex={1} overflow="hidden">
                 <AppSideBar onLogoutClick={onLogoutClick} />
                 <Stack flex={1} overflow="hidden">
-                    <AppTopBar isAuthenticated={isAuthenticated} />
+                    <AppTopBar>
+                        <ProcessActions isAuthenticated={isAuthenticated} />
+                    </AppTopBar>
                     <Box
                         sx={{
                             flex: 1,

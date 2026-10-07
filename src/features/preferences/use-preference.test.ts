@@ -10,8 +10,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { server } from 'test-utils/msw/server';
 import { createTestContext } from 'test-utils/create-test-context';
-import { usePreference } from 'features/preferences/use-preference';
 import { DARK_THEME, LIGHT_THEME } from '@gridsuite/commons-ui';
+import { usePreference } from './use-preference';
 
 describe('usePreference', () => {
     beforeEach(() => {

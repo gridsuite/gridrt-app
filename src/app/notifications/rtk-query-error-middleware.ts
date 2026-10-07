@@ -6,8 +6,8 @@
  */
 
 import { Middleware, isRejectedWithValue } from '@reduxjs/toolkit';
-import { getErrorMessage } from 'shared/lib/error';
-import { notificationBridge } from 'app/notifications/notification-bridge';
+import { getErrorMessage } from 'shared/lib/get-error-message';
+import { notificationBridge } from './notification-bridge';
 
 type RtkQueryRejectedMetadataArgs = {
     endpointName?: string;

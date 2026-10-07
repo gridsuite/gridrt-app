@@ -7,7 +7,7 @@
 
 import { useState } from 'react';
 import { useRunSnapshotRefinerMutation } from 'shared/api/snapshot-refiner-api';
-import { isNetworkFile } from '../utils/network-file';
+import { isSupportedCaseFile } from './case-file.validation';
 
 export function useRunProcess() {
     const [caseFile, setCaseFile] = useState<File | null>(null);
@@ -16,12 +16,12 @@ export function useRunProcess() {
 
     const selectFile = (file: File | null) => {
         setCaseFile(file);
-        setFileError(file && !isNetworkFile(file) ? 'runProcess.noAvailableImporter' : null);
+        setFileError(file && !isSupportedCaseFile(file) ? 'runProcess.noAvailableImporter' : null);
     };
 
     const canRun = Boolean(caseFile) && !fileError;
 
-    const run = async () => {
+    const launch = async () => {
         if (!caseFile || fileError) {
             return;
         }
@@ -35,5 +35,14 @@ export function useRunProcess() {
         result.reset();
     };
 
-    return { caseFile, fileError, canRun, run, reset, result, selectFile };
+    return {
+        caseFile,
+        fileError,
+        canRun,
+        launch,
+        reset,
+        selectFile,
+        isLaunching: result.isLoading,
+        isSuccess: result.isSuccess,
+    };
 }

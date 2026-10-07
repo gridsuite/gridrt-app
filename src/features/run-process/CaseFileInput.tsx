@@ -10,14 +10,14 @@ import { DriveFolderUpload as DriveFolderUploadIcon } from '@mui/icons-material'
 import { useRef, type ChangeEvent } from 'react';
 import { useIntl } from 'react-intl';
 
-export type CaseFileFieldProps = {
+export type CaseFileInputProps = {
     file: File | null;
     error: string | null;
     disabled?: boolean;
     onChange: (file: File | null) => void;
 };
 
-export function CaseFileField({ file, error, disabled, onChange }: Readonly<CaseFileFieldProps>) {
+export function CaseFileInput({ file, error, disabled, onChange }: Readonly<CaseFileInputProps>) {
     const intl = useIntl();
     const fileInputRef = useRef<HTMLInputElement>(null);
 

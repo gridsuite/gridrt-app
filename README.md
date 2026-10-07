@@ -13,7 +13,6 @@ User interface used to (to be completed):
 - monitor processing status in real time;
 - view results and logs;
 
-
 `gridrt-app` consumes the REST API exposed by `snapshot-refiner-server`, manages UI state, handles navigation, and provides user interactions.
 
 To launch the app, run:
@@ -63,10 +62,61 @@ npm run generate:api
 
 Do not manually modify generated files, as they are automatically generated and will be overwritten.
 
+## Code Organization
+
+`src` is organized by ownership:
+
+- `app`: application startup, provider composition, routing, layout, store assembly,
+  notifications, themes, and translation aggregation.
+- `features`: authentication, preferences, and process-launch interactions. A feature
+  owns its state, hooks, components, and application-specific API behavior.
+- `shared`: backend transport contracts, reusable UI, utilities, and configuration
+  needed across features. Shared code must not import from `app` or `features`.
+- `assets`: application branding and other static assets.
+- `test-utils`: isolated test stores and MSW setup.
+
+Application code composes features. Features use shared code and may depend on
+another feature's explicit public interface. For example, preferences reads session
+availability from the authentication entry point. Avoid importing another feature's
+internal selectors, storage, or components.
+
+The application layout determines where controls appear. `ProcessActions` owns
+sandbox state and the launch dialog, while `AppTopBar` provides its application
+container. `AuthenticationGate` decides whether to show application content or
+login UI; `useAuthentication` owns session initialization and logout integration.
+
+Backend API definitions live in `shared/api`, including generated endpoints.
+Application-specific interpretation, persistence and cache enhancements belong to
+the consuming feature: `preferences/preferences-api.ts` enhances the shared
+configuration API. The application store registers that enhanced API. Consumers
+must use public API entry points rather than importing generated files directly.
+
+### Redux boundary
+
+Features may import typed React Redux hooks from `app/store/hooks.ts` and use
+`import type` for `RootState` or `AppDispatch` from `app/store/store.ts`. These are
+explicit integration exceptions. Features must not import the runtime store or
+application initialization. Application adapters receive dispatch explicitly when
+needed. ESLint checks these boundaries for both absolute and relative paths.
+
+### Names, imports and tests
+
+Use component names for `.tsx` files and descriptive kebab-case names for hooks
+and functions. Keep small features flat; add subfolders when a feature grows.
+Use relative imports within a feature or application module, and imports rooted
+at `src` across boundaries. TypeScript's `baseUrl` and Vite's tsconfig-paths plugin
+provide the same resolution; there is no separate `@` alias.
+
+Colocate tests as `Component.test.tsx` or `use-hook.test.ts`. Reuse the isolated
+store and MSW helpers rather than importing the production store, except for tests
+specifically checking production-store integration. Test user-visible behavior and
+integration boundaries rather than incidental component implementation.
+
 ## TypeScript Config
 
-The `tsconfig.json` file defines the application TypeScript configuration used by Vite, Vitest, ESLint, and Prettier.
-Some property values have been changed to meet the project needs, such as `target`, `baseUrl`, and module resolution.
+`tsconfig.json` checks application code, API generation scripts and the TypeScript
+configuration files. Vite and Vitest use the same import resolution. Run
+`npm run type-check` to check these files without emitting JavaScript.
 
 ## License Headers and Dependencies Checking
 
@@ -81,6 +131,6 @@ Notes:
 - Check [license-checker-config.json](license-checker-config.json) for the license allow list and package exclusions.
   If you need to update this list, please inform the organization's owners.
 - Some packages are excluded because their licenses are not correctly described in their package metadata:
-  - `esprima@1.2.2`
-  - `jackspeak@2.3.6`
-  - `path-scurry@1.10.2`
+    - `esprima@1.2.2`
+    - `jackspeak@2.3.6`
+    - `path-scurry@1.10.2`

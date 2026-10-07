@@ -10,7 +10,7 @@ type RtkQueryPromise<T> = {
     unsubscribe: () => void;
 };
 
-export function rtkQueryToPromise<T>(
+export function unwrapAndUnsubscribe<T>(
     promise: RtkQueryPromise<T>,
     options?: {
         onError?: (error: unknown) => void;

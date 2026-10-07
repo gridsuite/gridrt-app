@@ -8,12 +8,12 @@
 import { renderHook } from '@testing-library/react';
 import { NotificationsUrlKeys, useNotificationsListener } from '@gridsuite/commons-ui';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { usePreferenceNotifications } from 'features/preferences/use-preference-notifications';
-import { invalidatePreferenceQueries } from 'features/preferences/preferences-api';
 import { createTestContext } from 'test-utils/create-test-context';
+import { usePreferenceNotifications } from './use-preference-notifications';
+import { invalidatePreferenceQueries } from './preferences-api';
 
-vi.mock('features/preferences/preferences-api', async (importOriginal) => {
-    const actual = await importOriginal<typeof import('features/preferences/preferences-api')>();
+vi.mock('./preferences-api', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('./preferences-api')>();
 
     return {
         ...actual,

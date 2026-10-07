@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { useMatch } from 'react-router';
 import { initializeAuthenticationProd, logout, UserManagerState } from '@gridsuite/commons-ui';
 import { useAppDispatch } from 'app/store/hooks';
-import { getErrorMessage } from 'shared/lib/error';
+import { getErrorMessage } from 'shared/lib/get-error-message';
 import { fetchIdpSettings } from './fetch-idp-settings';
 
 export function useAuthentication() {

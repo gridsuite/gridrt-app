@@ -11,9 +11,6 @@
         "moduleResolution": "bundler",
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "paths": {
-            "assets/*": ["assets/*"]
-        },
 
         /* Type Checking */
         "strict": true,
@@ -26,6 +23,7 @@
     },
     "include": [
         "src",
+        "codegen",
         // We must list config files in typescript because needed by prettier when called by eslint as plugin
         "vitest.config.ts",
         "vitest.setup.ts",

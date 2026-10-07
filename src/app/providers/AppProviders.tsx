@@ -19,15 +19,15 @@ import { BrowserRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { store } from 'app/store/store';
 import App from 'app/App';
-import { appMessages } from 'app/config/app-messages';
-import { getAppTheme } from 'app/config/app-theme';
+import { appMessages } from 'app/i18n/app-messages';
+import { getAppTheme } from 'app/theme/app-theme';
 import { usePreference } from 'features/preferences/use-preference';
 import { useNotificationUrls } from 'app/notifications/use-notification-urls';
 import { SnackbarBridge } from 'app/notifications/SnackbarBridge';
 
 const basename = new URL(document.querySelector('base')?.href ?? '').pathname;
 
-function AppProvidersWithStore() {
+function AppEnvironmentProviders() {
     const { value: language } = usePreference(PARAM_LANGUAGE);
     const computedLanguage = getComputedLanguage(language);
     const { value: theme } = usePreference(PARAM_THEME);
@@ -55,12 +55,10 @@ function AppProvidersWithStore() {
     );
 }
 
-function AppWrapper() {
+export function AppProviders() {
     return (
         <Provider store={store}>
-            <AppProvidersWithStore />
+            <AppEnvironmentProviders />
         </Provider>
     );
 }
-
-export default AppWrapper;

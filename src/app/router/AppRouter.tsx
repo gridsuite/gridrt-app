@@ -9,13 +9,13 @@ import { getPreLoginPath } from '@gridsuite/commons-ui';
 import { Box, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import { Routes, Route, Navigate } from 'react-router';
-import { Loader } from 'shared/ui/Loader';
+import { LoadingIndicator } from 'shared/ui/LoadingIndicator';
 import { Suspense } from 'react';
 import { APP_PATHS } from './app-paths';
 
 export function AppRouter() {
     return (
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<LoadingIndicator />}>
             <Routes>
                 <Route
                     path={APP_PATHS.home}

@@ -17,8 +17,8 @@ import {
 } from '@mui/material';
 import { CheckCircle as CheckCircleIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useIntl } from 'react-intl';
-import { CaseFileField } from './CaseFileField';
-import { useRunProcess } from '../hooks/use-run-process';
+import { CaseFileInput } from './CaseFileInput';
+import { useRunProcess } from './use-run-process';
 
 export type RunProcessDialogProps = {
     open: boolean;
@@ -48,18 +48,18 @@ function DialogCloseIconButton({ onClick }: Readonly<{ onClick: () => void }>) {
 
 export function RunProcessDialog({ open, onClose }: Readonly<RunProcessDialogProps>) {
     const intl = useIntl();
-    const { caseFile, fileError, canRun, run, reset, result, selectFile } = useRunProcess();
+    const { caseFile, fileError, canRun, launch, reset, isLaunching, isSuccess, selectFile } = useRunProcess();
 
     return (
         <Dialog
             open={open}
             onClose={onClose}
-            maxWidth={result.isSuccess ? 'xs' : false}
-            fullWidth={result.isSuccess}
-            sx={result.isSuccess ? undefined : FORM_POPUP_WIDTH_SX}
+            maxWidth={isSuccess ? 'xs' : false}
+            fullWidth={isSuccess}
+            sx={isSuccess ? undefined : FORM_POPUP_WIDTH_SX}
             slotProps={{ transition: { onExited: reset } }}
         >
-            {result.isSuccess ? (
+            {isSuccess ? (
                 <>
                     {/* pr: 16px (not the default 24px) offsets the close icon button's own internal
                         padding, so it lines up visually with the 24px on the other side. */}
@@ -92,26 +92,21 @@ export function RunProcessDialog({ open, onClose }: Readonly<RunProcessDialogPro
                     {/* overflow: visible avoids clipping the field's floating label; the doubled selector
                         overrides MUI's own `.MuiDialogTitle-root + &` padding-top: 0 rule. */}
                     <DialogContent sx={{ overflow: 'visible', '&.MuiDialogContent-root': { pt: '20px' } }}>
-                        <CaseFileField
-                            file={caseFile}
-                            error={fileError}
-                            disabled={result.isLoading}
-                            onChange={selectFile}
-                        />
+                        <CaseFileInput file={caseFile} error={fileError} disabled={isLaunching} onChange={selectFile} />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={onClose} disabled={result.isLoading} color="secondary" sx={ACTION_BUTTON_SX}>
+                        <Button onClick={onClose} disabled={isLaunching} color="secondary" sx={ACTION_BUTTON_SX}>
                             {intl.formatMessage({ id: 'runProcess.cancel' })}
                         </Button>
                         <Button
-                            onClick={run}
+                            onClick={launch}
                             variant="contained"
                             color="secondary"
-                            disabled={!canRun || result.isLoading}
+                            disabled={!canRun || isLaunching}
                             sx={ACTION_BUTTON_SX}
                         >
                             {intl.formatMessage({
-                                id: result.isLoading ? 'runProcess.launching' : 'runProcess.launch',
+                                id: isLaunching ? 'runProcess.launching' : 'runProcess.launch',
                             })}
                         </Button>
                     </DialogActions>

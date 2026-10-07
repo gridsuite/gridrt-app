@@ -14,8 +14,8 @@ import { it, expect, vi } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { SnackbarProvider } from '@gridsuite/commons-ui';
 import { server } from 'test-utils/msw/server';
-import App from '../App';
-import { store } from '../store/store';
+import App from './App';
+import { store } from './store/store';
 
 vi.mock('uuid', () => ({ v4: () => '00000000-0000-0000-0000-000000000000' }));
 

@@ -7,7 +7,7 @@
 
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { AppLayout } from '../AppLayout';
+import { AppLayout } from './AppLayout';
 
 const mocks = vi.hoisted(() => ({
     usePreference: vi.fn(),
@@ -15,8 +15,8 @@ const mocks = vi.hoisted(() => ({
     appSideBar: vi.fn(),
 }));
 
-vi.mock('app/layout/AppTopBar', () => ({
-    default: () => <div>topbar</div>,
+vi.mock('./AppTopBar', () => ({
+    AppTopBar: () => <div>topbar</div>,
 }));
 
 vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
@@ -36,7 +36,7 @@ vi.mock('features/authentication', () => ({
     useIsAuthenticated: mocks.useIsAuthenticated,
 }));
 
-vi.mock('app/layout/AppSideBar', () => ({
+vi.mock('./AppSideBar', () => ({
     AppSideBar: (props: { onLogoutClick?: () => void }) => {
         mocks.appSideBar(props);
         return null;

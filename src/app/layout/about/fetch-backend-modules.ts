@@ -7,22 +7,22 @@
 
 import { GridSuiteModule } from '@gridsuite/commons-ui';
 import type { AppDispatch } from 'app/store/store';
-import { rtkQueryToPromise } from 'shared/api/rtk-query/rtk-query-to-promise';
-import { getErrorMessage } from 'shared/lib/error';
-import { AboutInfo, studyApi, Type } from 'shared/api/study-api';
+import { unwrapAndUnsubscribe } from 'shared/api/rtk-query/unwrap-and-unsubscribe';
+import { getErrorMessage } from 'shared/lib/get-error-message';
+import { AboutInfo, studyApi, BackendModuleType } from 'shared/api/study-api';
 
 // TODO: remove this function once the backend is fixed with actual types
 const toGridSuiteModule = (aboutInfos: AboutInfo[]): GridSuiteModule[] => {
     return aboutInfos.map((aboutInfo) => ({
         name: aboutInfo.name ?? '',
-        type: aboutInfo.type ?? Type.Other,
+        type: aboutInfo.type ?? BackendModuleType.Other,
         version: aboutInfo.version ?? '',
         gitTag: aboutInfo.gitTag ?? '',
     }));
 };
 
 export const fetchBackendModules = async (dispatch: AppDispatch) => {
-    const serverInfos = rtkQueryToPromise(
+    const serverInfos = unwrapAndUnsubscribe(
         dispatch(
             studyApi.endpoints.getSuiteAboutInformation.initiate(
                 {},

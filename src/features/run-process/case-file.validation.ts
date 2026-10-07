@@ -6,9 +6,20 @@
  */
 
 // No "check importer" endpoint exists yet, so this is a client-side extension whitelist.
-export const NETWORK_FILE_EXTENSIONS = ['xiidm', 'iidm', 'biidm', 'jiidm', 'xml', 'uct', 'ucte', 'arc', 'cgmes', 'zip'];
+export const SUPPORTED_CASE_FILE_EXTENSIONS = [
+    'xiidm',
+    'iidm',
+    'biidm',
+    'jiidm',
+    'xml',
+    'uct',
+    'ucte',
+    'arc',
+    'cgmes',
+    'zip',
+];
 
-export function isNetworkFile(file: File): boolean {
+export function isSupportedCaseFile(file: File): boolean {
     const extension = file.name.split('.').pop()?.toLowerCase();
-    return Boolean(extension) && NETWORK_FILE_EXTENSIONS.includes(extension as string);
+    return Boolean(extension) && SUPPORTED_CASE_FILE_EXTENSIONS.includes(extension as string);
 }

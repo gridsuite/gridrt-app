@@ -7,7 +7,7 @@
 
 import { USER, getUserToken } from '@gridsuite/commons-ui';
 import { describe, expect, it } from 'vitest';
-import { store } from '../store';
+import { store } from './store';
 
 describe('store', () => {
     it('exposes the authentication token through the common store', () => {

@@ -5,11 +5,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { Preferences, PreferenceKey } from 'features/preferences/preferences.types';
 import { getAppName } from '@gridsuite/commons-ui';
-import { useUpdateParameterMutation } from 'features/preferences/preferences-api';
 import { APP_NAME } from 'shared/config/application';
-import { usePreferenceValue } from 'features/preferences/use-preference-value';
+import { Preferences, PreferenceKey } from './preferences.types';
+import { useUpdateParameterMutation } from './preferences-api';
+import { usePreferenceValue } from './use-preference-value';
 
 export function usePreference<K extends PreferenceKey>(paramName: K) {
     const { data: paramValue } = usePreferenceValue(paramName);

@@ -9,10 +9,10 @@ import { DARK_THEME, LIGHT_THEME, PARAM_THEME, PARAM_DEVELOPER_MODE } from '@gri
 import { renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { http, HttpResponse } from 'msw';
-import { usePreferenceValue } from 'features/preferences/use-preference-value';
 import { server } from 'test-utils/msw/server';
 import { createTestContext } from 'test-utils/create-test-context';
-import { saveLocalStorageTheme } from 'features/preferences/preferences.storage';
+import { usePreferenceValue } from './use-preference-value';
+import { saveLocalStorageTheme } from './preferences.storage';
 
 beforeEach(() => localStorage.clear());
 

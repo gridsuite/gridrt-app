@@ -5,8 +5,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { getLocalStorageLanguage, getLocalStorageTheme } from 'features/preferences/preferences.storage';
-import { Preferences } from 'features/preferences/preferences.types';
+import { getLocalStorageLanguage, getLocalStorageTheme } from './preferences.storage';
+import { Preferences } from './preferences.types';
 import { DEFAULT_PREFERENCES } from './preferences.defaults';
 
 export function readPreferenceFallbacks(): Preferences {

@@ -6,7 +6,7 @@
  */
 
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from 'app/store/store';
+import type { RootState } from 'app/store/store';
 import type { UserIdentity } from './authentication.type';
 
 export const selectAuthentication = (state: RootState) => state.authentication;

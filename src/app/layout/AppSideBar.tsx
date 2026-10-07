@@ -18,7 +18,7 @@ import GridrtDarkLogo from 'assets/images/gridrtDarkLogo.svg?react';
 import GridrtLightLogo from 'assets/images/gridrtLightLogo.svg?react';
 import { APP_NAME } from 'shared/config/application';
 import { usePreference } from 'features/preferences/use-preference';
-import { getSidebarTheme } from 'app/config/sidebar-theme';
+import { getSidebarTheme } from 'app/theme/sidebar-theme';
 import { useUserIdentity, useUserProfile } from 'features/authentication';
 import { useAboutInformation } from './about/use-about-information';
 import AppPackage from '../../../package.json';

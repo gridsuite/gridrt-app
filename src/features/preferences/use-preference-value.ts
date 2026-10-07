@@ -7,11 +7,11 @@
 
 import { getAppName } from '@gridsuite/commons-ui';
 import { APP_NAME } from 'shared/config/application';
-import { useGetParameterQuery } from 'features/preferences/preferences-api';
-import { readPreferenceFallbacks } from 'features/preferences/preferences.fallbacks';
-import { PreferenceKey } from 'features/preferences/preferences.types';
-import { parsePreferenceValue } from 'features/preferences/preferences.mapping';
 import { useIsAuthenticated } from 'features/authentication';
+import { useGetParameterQuery } from './preferences-api';
+import { readPreferenceFallbacks } from './preferences.fallbacks';
+import { PreferenceKey } from './preferences.types';
+import { parsePreferenceValue } from './preferences.mapping';
 
 /**
  * This data is fetched from AppSideBar, which is displayed before user is authenticated
