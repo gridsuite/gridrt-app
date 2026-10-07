@@ -67,8 +67,8 @@ Do not manually modify generated files, as they are automatically generated and 
 `src` is organized by ownership:
 
 - `app`: application startup, provider composition, routing, layout, store assembly,
-  notifications, themes, and translation aggregation.
-- `features`: authentication, preferences, About information, and process-launch interactions. A feature
+  themes, and translation aggregation.
+- `features`: authentication, preferences, notifications, About information, and process-launch interactions. A feature
   owns its state, hooks, components, and application-specific API behavior.
 - `shared`: backend transport contracts, reusable UI, utilities, and configuration
   needed across features. Shared code must not import from `app` or `features`.
@@ -87,6 +87,10 @@ The application layout determines where controls appear. `ProcessActions` owns
 sandbox state and the launch dialog, while `AppTopBar` provides its application
 container. `AuthenticationGate` decides whether to show application content or
 login UI; `useAuthentication` owns session initialization and logout integration.
+
+The notifications feature owns WebSocket URL configuration, the snackbar bridge,
+and RTK Query error reporting. `App.tsx` composes the library providers, while
+preferences owns the interpretation of preference-change notifications.
 
 The About feature owns application version/license information and backend-module
 loading. Application links remain navigation integration in the layout. The About
@@ -115,7 +119,9 @@ Use relative imports within a feature or application module, and imports rooted
 at `src` across boundaries. TypeScript's `baseUrl` and Vite's tsconfig-paths plugin
 provide the same resolution; there is no separate `@` alias.
 
-Colocate tests as `Component.test.tsx` or `use-hook.test.ts`. Reuse the isolated
+Group tests in a `__test__` folder beside the code they cover (for example,
+`hooks/__test__/use-hook.test.ts` or `components/__test__/Component.test.tsx`).
+Create these folders only when tests are present. Reuse the isolated
 store and MSW helpers rather than importing the production store, except for tests
 specifically checking production-store integration. Test user-visible behavior and
 integration boundaries rather than incidental component implementation.

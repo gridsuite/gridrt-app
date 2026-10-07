@@ -126,6 +126,7 @@ const projectConfig = [
                         'tests/**',
                         '**/test-utils/**',
                         'spec/**',
+                        '**/__test__/**',
                         '**/__tests__/**',
                         '**/__mocks__/**',
                         'test.{js,jsx,ts,tsx}',

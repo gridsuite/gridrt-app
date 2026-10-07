@@ -11,7 +11,7 @@ import { http, HttpResponse } from 'msw';
 import { server } from 'test-utils/msw/server';
 import { createTestContext } from 'test-utils/create-test-context';
 import { DARK_THEME, LIGHT_THEME } from '@gridsuite/commons-ui';
-import { usePreference } from './use-preference';
+import { usePreference } from '../use-preference';
 
 describe('usePreference', () => {
     beforeEach(() => {

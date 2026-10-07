@@ -9,7 +9,7 @@ import { render, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DARK_THEME, LIGHT_THEME, PARAM_DEVELOPER_MODE, PARAM_LANGUAGE, PARAM_THEME } from '@gridsuite/commons-ui';
 import { createTestContext } from 'test-utils/create-test-context';
-import { AppSideBar } from './AppSideBar';
+import { AppSideBar } from '../AppSideBar';
 
 const mocks = vi.hoisted(() => ({
     commonAppSideBar: vi.fn(),

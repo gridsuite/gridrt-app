@@ -10,7 +10,7 @@ import { http, HttpResponse } from 'msw';
 import { expect, it } from 'vitest';
 import { createTestContext } from 'test-utils/create-test-context';
 import { server } from 'test-utils/msw/server';
-import { useAboutInformation } from './use-about-information';
+import { useAboutInformation } from '../use-about-information';
 
 it('loads About information through the current Redux context and deployment metadata', async () => {
     let authorization: string | null = null;

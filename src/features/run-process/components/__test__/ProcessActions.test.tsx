@@ -12,7 +12,7 @@ import { http, HttpResponse } from 'msw';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createUiTestContext } from 'test-utils/create-ui-test-context';
 import { server } from 'test-utils/msw/server';
-import { ProcessActions } from './ProcessActions';
+import { ProcessActions } from '../ProcessActions';
 
 function renderActions(isAuthenticated = true) {
     const user = userEvent.setup();

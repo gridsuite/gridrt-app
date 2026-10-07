@@ -10,7 +10,7 @@ import { studyApi } from 'shared/api/study-api';
 import { preferencesApi } from 'features/preferences';
 import { snapshotRefinerBaseApi } from 'shared/api/snapshot-refiner-api';
 import { setCommonStore } from '@gridsuite/commons-ui';
-import { errorMiddleware } from 'app/notifications/rtk-query-error-middleware';
+import { errorMiddleware } from 'features/notifications';
 import { reducer } from './reducer';
 
 export const setupStore = (preloadedState?: PreloadedState) =>

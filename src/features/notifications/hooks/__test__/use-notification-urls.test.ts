@@ -9,7 +9,7 @@ import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS } from '@gridsuite/
 import { renderHook } from '@testing-library/react';
 import { APP_NAME } from 'shared/config/application';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useNotificationUrls } from './use-notification-urls';
+import { useNotificationUrls } from '../use-notification-urls';
 
 describe('useNotificationUrls', () => {
     beforeEach(() => {

@@ -11,8 +11,8 @@ import { MemoryRouter } from 'react-router';
 import { initializeAuthenticationProd, logout, UserManagerState } from '@gridsuite/commons-ui';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createTestContext } from 'test-utils/create-test-context';
-import { fetchIdpSettings } from '../api/fetch-idp-settings';
-import { useAuthentication } from './use-authentication';
+import { fetchIdpSettings } from '../../api/fetch-idp-settings';
+import { useAuthentication } from '../use-authentication';
 
 vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
     const actual = await importOriginal<typeof import('@gridsuite/commons-ui')>();

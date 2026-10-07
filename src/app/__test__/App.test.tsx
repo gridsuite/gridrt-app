@@ -9,7 +9,7 @@ import { render, screen } from '@testing-library/react';
 import { it, expect, vi } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { server } from 'test-utils/msw/server';
-import App from './App';
+import App from '../App';
 
 vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
     const actual = await importOriginal<typeof import('@gridsuite/commons-ui')>();

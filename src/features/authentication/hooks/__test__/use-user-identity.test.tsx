@@ -8,7 +8,7 @@ import { act, render } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { USER } from '@gridsuite/commons-ui';
 import { createTestContext } from 'test-utils/create-test-context';
-import { useUserIdentity } from './use-user-identity';
+import { useUserIdentity } from '../use-user-identity';
 
 // test function used only to count the number of render from TestComponent
 const renderSpy = vi.fn();

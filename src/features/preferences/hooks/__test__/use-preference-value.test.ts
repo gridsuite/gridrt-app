@@ -11,8 +11,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { server } from 'test-utils/msw/server';
 import { createTestContext } from 'test-utils/create-test-context';
-import { usePreferenceValue } from './use-preference-value';
-import { saveLocalStorageTheme } from '../storage/preferences.storage';
+import { usePreferenceValue } from '../use-preference-value';
+import { saveLocalStorageTheme } from '../../storage/preferences.storage';
 
 beforeEach(() => localStorage.clear());
 
