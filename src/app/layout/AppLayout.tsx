@@ -8,9 +8,9 @@
 import { Box, Stack } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import { DevModeBanner, PARAM_DEVELOPER_MODE } from '@gridsuite/commons-ui';
-import { usePreference } from 'features/preferences/use-preference';
+import { usePreference } from 'features/preferences';
 import { useIsAuthenticated } from 'features/authentication';
-import { ProcessActions } from 'features/run-process/ProcessActions';
+import { ProcessActions } from 'features/run-process';
 import { AppTopBar } from './AppTopBar';
 import { AppSideBar } from './AppSideBar';
 

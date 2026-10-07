@@ -6,8 +6,8 @@
  */
 
 import { getLocalStorageLanguage, getLocalStorageTheme } from './preferences.storage';
-import { Preferences } from './preferences.types';
-import { DEFAULT_PREFERENCES } from './preferences.defaults';
+import { Preferences } from '../types/preferences.types';
+import { DEFAULT_PREFERENCES } from '../constants/preferences.defaults';
 
 export function readPreferenceFallbacks(): Preferences {
     return {

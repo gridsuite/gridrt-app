@@ -6,7 +6,7 @@
  */
 
 import { PARAM_DEVELOPER_MODE } from '@gridsuite/commons-ui';
-import { Preferences, PreferenceKey } from './preferences.types';
+import { Preferences, PreferenceKey } from '../types/preferences.types';
 
 export function parsePreferenceValue<K extends PreferenceKey>(paramName: K, rawValue: string): Preferences[K] {
     if (paramName === PARAM_DEVELOPER_MODE) {

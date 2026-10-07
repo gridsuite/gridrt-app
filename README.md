@@ -68,12 +68,15 @@ Do not manually modify generated files, as they are automatically generated and 
 
 - `app`: application startup, provider composition, routing, layout, store assembly,
   notifications, themes, and translation aggregation.
-- `features`: authentication, preferences, and process-launch interactions. A feature
+- `features`: authentication, preferences, About information, and process-launch interactions. A feature
   owns its state, hooks, components, and application-specific API behavior.
 - `shared`: backend transport contracts, reusable UI, utilities, and configuration
   needed across features. Shared code must not import from `app` or `features`.
 - `assets`: application branding and other static assets.
 - `test-utils`: isolated test stores and MSW setup.
+
+`App.tsx` owns provider composition and the application shell. Its private components
+place hooks inside the Redux, router and notification contexts they require.
 
 Application code composes features. Features use shared code and may depend on
 another feature's explicit public interface. For example, preferences reads session
@@ -85,9 +88,13 @@ sandbox state and the launch dialog, while `AppTopBar` provides its application
 container. `AuthenticationGate` decides whether to show application content or
 login UI; `useAuthentication` owns session initialization and logout integration.
 
+The About feature owns application version/license information and backend-module
+loading. Application links remain navigation integration in the layout. The About
+dialog UI is supplied by `commons-ui`.
+
 Backend API definitions live in `shared/api`, including generated endpoints.
 Application-specific interpretation, persistence and cache enhancements belong to
-the consuming feature: `preferences/preferences-api.ts` enhances the shared
+the consuming feature: `preferences/api/preferences-api.ts` enhances the shared
 configuration API. The application store registers that enhanced API. Consumers
 must use public API entry points rather than importing generated files directly.
 
@@ -102,7 +109,8 @@ needed. ESLint checks these boundaries for both absolute and relative paths.
 ### Names, imports and tests
 
 Use component names for `.tsx` files and descriptive kebab-case names for hooks
-and functions. Keep small features flat; add subfolders when a feature grows.
+and functions. Organize features by responsibility: `components`, `hooks`, `api`, `store`,
+`constants`, `types`, `storage`, and `utils`, creating only the folders a feature needs.
 Use relative imports within a feature or application module, and imports rooted
 at `src` across boundaries. TypeScript's `baseUrl` and Vite's tsconfig-paths plugin
 provide the same resolution; there is no separate `@` alias.

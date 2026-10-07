@@ -6,50 +6,28 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router';
-import { createTheme, CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { it, expect, vi } from 'vitest';
 import { http, HttpResponse } from 'msw';
-import { SnackbarProvider } from '@gridsuite/commons-ui';
 import { server } from 'test-utils/msw/server';
 import App from './App';
-import { store } from './store/store';
 
-vi.mock('uuid', () => ({ v4: () => '00000000-0000-0000-0000-000000000000' }));
-
-it('renders', async () => {
-    server.use(
-        http.get('*/env.json', () =>
-            HttpResponse.json({
-                appsMetadataServerUrl: 'http://localhost:8070',
-            })
+vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@gridsuite/commons-ui')>();
+    return {
+        ...actual,
+        initializeAuthenticationProd: vi.fn().mockRejectedValue(new Error('IDP unavailable')),
+        AuthenticationRouter: ({ userManager }: { userManager: { error: string | null } }) => (
+            <div>{userManager.error ?? 'Signing in'}</div>
         ),
-        http.get('http://localhost:8070/version.json', () =>
-            HttpResponse.json({
-                deployVersion: 'test-version',
-            })
-        )
-    );
+    };
+});
 
-    render(
-        <IntlProvider locale="en">
-            <BrowserRouter>
-                <Provider store={store}>
-                    <StyledEngineProvider injectFirst>
-                        <ThemeProvider theme={createTheme()}>
-                            <SnackbarProvider hideIconVariant={false}>
-                                <CssBaseline />
-                                <App />
-                            </SnackbarProvider>
-                        </ThemeProvider>
-                    </StyledEngineProvider>
-                </Provider>
-            </BrowserRouter>
-        </IntlProvider>
+it('composes providers, layout and authentication at the application entry point', async () => {
+    server.use(
+        http.get('*/env.json', () => HttpResponse.json({ appsMetadataServerUrl: 'http://localhost:8070' })),
+        http.get('http://localhost:8070/version.json', () => HttpResponse.json({ deployVersion: 'test-version' }))
     );
-    // single test on sidebar for now
-    const sideBar = await screen.findByRole('complementary');
-    expect(sideBar).toBeInTheDocument();
+    render(<App />);
+    expect(await screen.findByRole('complementary')).toBeInTheDocument();
+    expect(await screen.findByText('IDP unavailable')).toBeInTheDocument();
 });

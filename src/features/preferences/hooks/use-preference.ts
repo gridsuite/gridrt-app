@@ -7,8 +7,8 @@
 
 import { getAppName } from '@gridsuite/commons-ui';
 import { APP_NAME } from 'shared/config/application';
-import { Preferences, PreferenceKey } from './preferences.types';
-import { useUpdateParameterMutation } from './preferences-api';
+import { Preferences, PreferenceKey } from '../types/preferences.types';
+import { useUpdateParameterMutation } from '../api/preferences-api';
 import { usePreferenceValue } from './use-preference-value';
 
 export function usePreference<K extends PreferenceKey>(paramName: K) {

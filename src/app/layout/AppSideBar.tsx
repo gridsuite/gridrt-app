@@ -17,11 +17,11 @@ import { useMemo } from 'react';
 import GridrtDarkLogo from 'assets/images/gridrtDarkLogo.svg?react';
 import GridrtLightLogo from 'assets/images/gridrtLightLogo.svg?react';
 import { APP_NAME } from 'shared/config/application';
-import { usePreference } from 'features/preferences/use-preference';
+import { usePreference } from 'features/preferences';
 import { getSidebarTheme } from 'app/theme/sidebar-theme';
-import { useUserIdentity, useUserProfile } from 'features/authentication';
-import { useAboutInformation } from './about/use-about-information';
-import AppPackage from '../../../package.json';
+import { useUserProfile } from 'features/authentication';
+import { useAboutInformation } from 'features/about';
+import { useApplicationLinks } from './use-application-links';
 
 type SideBarProps = {
     onLogoutClick?: () => void;
@@ -31,9 +31,9 @@ export function AppSideBar({ onLogoutClick }: Readonly<SideBarProps>) {
     const { value: currentTheme, update: setTheme } = usePreference(PARAM_THEME);
     const { value: selectedLanguage, update: setSelectedLanguage } = usePreference(PARAM_LANGUAGE);
     const { value: isDeveloperMode, update: handleChangeDeveloperMode } = usePreference(PARAM_DEVELOPER_MODE);
-    const userIdentity = useUserIdentity();
     const userProfile = useUserProfile();
-    const { appsAndUrls, globalVersionPromise, additionalModulesPromise } = useAboutInformation(userIdentity);
+    const appsAndUrls = useApplicationLinks();
+    const { appVersion, appLicense, globalVersionPromise, additionalModulesPromise } = useAboutInformation();
     const invertedThemeId = currentTheme === LIGHT_THEME ? DARK_THEME : LIGHT_THEME;
     const invertedTheme = useMemo(() => getSidebarTheme(currentTheme), [currentTheme]);
 
@@ -57,8 +57,8 @@ export function AppSideBar({ onLogoutClick }: Readonly<SideBarProps>) {
             additionalModulesPromise={additionalModulesPromise}
             onLogoutClick={onLogoutClick}
             appsAndUrls={appsAndUrls}
-            appVersion={AppPackage.version}
-            appLicense={AppPackage.license}
+            appVersion={appVersion}
+            appLicense={appLicense}
         />
     );
 }

@@ -7,7 +7,7 @@
 
 import { NotificationsUrlKeys, useNotificationsListener } from '@gridsuite/commons-ui';
 import { useAppDispatch } from 'app/store/hooks';
-import { invalidatePreferenceQueries } from './preferences-api';
+import { invalidatePreferenceQueries } from '../api/preferences-api';
 
 type ConfigNotificationData = {
     headers?: {

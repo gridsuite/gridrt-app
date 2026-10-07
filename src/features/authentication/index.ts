@@ -5,9 +5,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-export { AuthenticationGate } from './AuthenticationGate';
-export { useAuthentication } from './use-authentication';
-export { useIsAuthenticated } from './use-is-authenticated';
-export { useUserIdentity } from './use-user-identity';
+export { AuthenticationGate } from './components/AuthenticationGate';
+export { useAuthentication } from './hooks/use-authentication';
+export { useIsAuthenticated } from './hooks/use-is-authenticated';
+export { useUserIdentity } from './hooks/use-user-identity';
 export type { UserIdentity } from './store/authentication.type';
-export { useUserProfile } from './use-user-profile';
+export { useUserProfile } from './hooks/use-user-profile';

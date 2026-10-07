@@ -7,7 +7,7 @@
 
 import { combineReducers } from '@reduxjs/toolkit';
 import { authenticationReducer } from 'features/authentication/store/authentication.slice';
-import { preferencesApi } from 'features/preferences/preferences-api';
+import { preferencesApi } from 'features/preferences';
 import { studyApi } from 'shared/api/study-api';
 import { snapshotRefinerBaseApi } from 'shared/api/snapshot-refiner-api';
 

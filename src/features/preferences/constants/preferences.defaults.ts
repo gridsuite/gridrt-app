@@ -5,8 +5,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { shallowEqual } from 'react-redux';
-import { useAppSelector } from 'app/store/hooks';
-import { selectUserIdentity } from './store/authentication.selectors';
+import { DARK_THEME, LANG_SYSTEM } from '@gridsuite/commons-ui';
+import type { Preferences } from '../types/preferences.types';
 
-export const useUserIdentity = () => useAppSelector(selectUserIdentity, shallowEqual);
+export const DEFAULT_PREFERENCES: Preferences = {
+    language: LANG_SYSTEM,
+    theme: DARK_THEME,
+    isDeveloperMode: false,
+};

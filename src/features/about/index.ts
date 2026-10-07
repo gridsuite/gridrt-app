@@ -5,11 +5,4 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { DARK_THEME, LANG_SYSTEM } from '@gridsuite/commons-ui';
-import type { Preferences } from './preferences.types';
-
-export const DEFAULT_PREFERENCES: Preferences = {
-    language: LANG_SYSTEM,
-    theme: DARK_THEME,
-    isDeveloperMode: false,
-};
+export { useAboutInformation } from './hooks/use-about-information';

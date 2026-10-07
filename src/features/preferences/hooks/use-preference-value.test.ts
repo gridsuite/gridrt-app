@@ -12,7 +12,7 @@ import { http, HttpResponse } from 'msw';
 import { server } from 'test-utils/msw/server';
 import { createTestContext } from 'test-utils/create-test-context';
 import { usePreferenceValue } from './use-preference-value';
-import { saveLocalStorageTheme } from './preferences.storage';
+import { saveLocalStorageTheme } from '../storage/preferences.storage';
 
 beforeEach(() => localStorage.clear());
 

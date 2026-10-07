@@ -7,7 +7,7 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import { studyApi } from 'shared/api/study-api';
-import { preferencesApi } from 'features/preferences/preferences-api';
+import { preferencesApi } from 'features/preferences';
 import { snapshotRefinerBaseApi } from 'shared/api/snapshot-refiner-api';
 import { setCommonStore } from '@gridsuite/commons-ui';
 import { errorMiddleware } from 'app/notifications/rtk-query-error-middleware';

@@ -28,7 +28,7 @@ vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
     };
 });
 
-vi.mock('features/preferences/use-preference', () => ({
+vi.mock('features/preferences/hooks/use-preference', () => ({
     usePreference: mocks.usePreference,
 }));
 

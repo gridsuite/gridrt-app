@@ -7,15 +7,11 @@
 
 import { useEffect, useState } from 'react';
 import { fetchAppsMetadata, Metadata } from '@gridsuite/commons-ui';
-import type { UserIdentity } from 'features/authentication';
-import { useAppDispatch } from 'app/store/hooks';
-import { fetchBackendModules } from './fetch-backend-modules';
-import { fetchDeploymentVersion } from './fetch-deployment-version';
+import { useUserIdentity } from 'features/authentication';
 
-export function useAboutInformation(userIdentity: UserIdentity | null) {
-    const dispatch = useAppDispatch();
+export function useApplicationLinks() {
+    const userIdentity = useUserIdentity();
     const [appsAndUrls, setAppsAndUrls] = useState<Metadata[]>([]);
-
     useEffect(() => {
         if (userIdentity) {
             fetchAppsMetadata()
@@ -23,10 +19,5 @@ export function useAboutInformation(userIdentity: UserIdentity | null) {
                 .catch((error) => console.error(error));
         }
     }, [userIdentity]);
-
-    return {
-        appsAndUrls,
-        globalVersionPromise: () => fetchDeploymentVersion().then((res) => res.deployVersion ?? 'unknown'),
-        additionalModulesPromise: () => fetchBackendModules(dispatch),
-    };
+    return appsAndUrls;
 }

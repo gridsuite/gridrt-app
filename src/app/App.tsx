@@ -5,13 +5,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { CardErrorBoundary } from '@gridsuite/commons-ui';
+import { StyledEngineProvider, ThemeProvider, CssBaseline } from '@mui/material';
+import {
+    CardErrorBoundary,
+    getComputedLanguage,
+    NotificationsProvider,
+    PARAM_LANGUAGE,
+    PARAM_THEME,
+    SnackbarProvider,
+} from '@gridsuite/commons-ui';
+import { IntlProvider } from 'react-intl';
+import { BrowserRouter } from 'react-router';
+import { Provider } from 'react-redux';
+import { usePreference, usePreferenceNotifications } from 'features/preferences';
 import { AuthenticationGate, useAuthentication } from 'features/authentication';
-import { usePreferenceNotifications } from 'features/preferences/use-preference-notifications';
+import { store } from './store/store';
+import { appMessages } from './i18n/app-messages';
+import { getAppTheme } from './theme/app-theme';
+import { useNotificationUrls } from './notifications/use-notification-urls';
+import { SnackbarBridge } from './notifications/SnackbarBridge';
 import { AppRouter } from './router/AppRouter';
 import { AppLayout } from './layout/AppLayout';
 
-function App() {
+function AppContent() {
     const { userManager, onLogoutClick } = useAuthentication();
     usePreferenceNotifications();
 
@@ -25,4 +41,43 @@ function App() {
         </AppLayout>
     );
 }
+
+const basename = new URL(document.baseURI).pathname;
+
+function AppEnvironment() {
+    const { value: language } = usePreference(PARAM_LANGUAGE);
+    const computedLanguage = getComputedLanguage(language);
+    const { value: theme } = usePreference(PARAM_THEME);
+
+    const urlMapper = useNotificationUrls();
+
+    return (
+        <IntlProvider locale={computedLanguage} messages={appMessages[computedLanguage]}>
+            <BrowserRouter basename={basename}>
+                <StyledEngineProvider injectFirst>
+                    <ThemeProvider theme={getAppTheme(theme)}>
+                        <SnackbarProvider hideIconVariant={false}>
+                            <SnackbarBridge />
+                            <CssBaseline />
+                            <CardErrorBoundary>
+                                <NotificationsProvider urls={urlMapper}>
+                                    <AppContent />
+                                </NotificationsProvider>
+                            </CardErrorBoundary>
+                        </SnackbarProvider>
+                    </ThemeProvider>
+                </StyledEngineProvider>
+            </BrowserRouter>
+        </IntlProvider>
+    );
+}
+
+function App() {
+    return (
+        <Provider store={store}>
+            <AppEnvironment />
+        </Provider>
+    );
+}
+
 export default App;

@@ -5,7 +5,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useAppSelector } from 'app/store/hooks';
-import { selectIsAuthenticated } from './store/authentication.selectors';
-
-export const useIsAuthenticated = () => useAppSelector(selectIsAuthenticated);
+export { usePreference } from './hooks/use-preference';
+export { usePreferenceNotifications } from './hooks/use-preference-notifications';
+export { preferencesApi } from './api/preferences-api';

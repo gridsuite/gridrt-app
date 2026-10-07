@@ -33,7 +33,7 @@ vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
     };
 });
 
-vi.mock('features/preferences/use-preference', () => ({
+vi.mock('features/preferences/hooks/use-preference', () => ({
     usePreference: mocks.usePreference,
 }));
 
@@ -42,11 +42,11 @@ vi.mock('features/authentication', () => ({
     useUserProfile: mocks.useUserIdentity,
 }));
 
-vi.mock('./about/fetch-deployment-version', () => ({
+vi.mock('features/about/api/fetch-deployment-version', () => ({
     fetchDeploymentVersion: mocks.fetchDeploymentVersion,
 }));
 
-vi.mock('./about/fetch-backend-modules', () => ({
+vi.mock('features/about/api/fetch-backend-modules', () => ({
     fetchBackendModules: mocks.fetchBackendModules,
 }));
 

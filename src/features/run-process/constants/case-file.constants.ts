@@ -18,8 +18,3 @@ export const SUPPORTED_CASE_FILE_EXTENSIONS = [
     'cgmes',
     'zip',
 ];
-
-export function isSupportedCaseFile(file: File): boolean {
-    const extension = file.name.split('.').pop()?.toLowerCase();
-    return Boolean(extension) && SUPPORTED_CASE_FILE_EXTENSIONS.includes(extension as string);
-}

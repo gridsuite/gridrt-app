@@ -18,7 +18,7 @@ import {
 import { CheckCircle as CheckCircleIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useIntl } from 'react-intl';
 import { CaseFileInput } from './CaseFileInput';
-import { useRunProcess } from './use-run-process';
+import { useRunProcess } from '../hooks/use-run-process';
 
 export type RunProcessDialogProps = {
     open: boolean;

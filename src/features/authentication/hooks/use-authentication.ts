@@ -10,7 +10,7 @@ import { useMatch } from 'react-router';
 import { initializeAuthenticationProd, logout, UserManagerState } from '@gridsuite/commons-ui';
 import { useAppDispatch } from 'app/store/hooks';
 import { getErrorMessage } from 'shared/lib/get-error-message';
-import { fetchIdpSettings } from './fetch-idp-settings';
+import { fetchIdpSettings } from '../api/fetch-idp-settings';
 
 export function useAuthentication() {
     const [userManager, setUserManager] = useState<UserManagerState>({ instance: null, error: null });

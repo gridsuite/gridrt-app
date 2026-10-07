@@ -10,10 +10,10 @@ import { NotificationsUrlKeys, useNotificationsListener } from '@gridsuite/commo
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createTestContext } from 'test-utils/create-test-context';
 import { usePreferenceNotifications } from './use-preference-notifications';
-import { invalidatePreferenceQueries } from './preferences-api';
+import { invalidatePreferenceQueries } from '../api/preferences-api';
 
-vi.mock('./preferences-api', async (importOriginal) => {
-    const actual = await importOriginal<typeof import('./preferences-api')>();
+vi.mock('../api/preferences-api', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('../api/preferences-api')>();
 
     return {
         ...actual,

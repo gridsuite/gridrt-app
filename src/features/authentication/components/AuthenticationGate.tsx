@@ -13,8 +13,8 @@ import {
     selectAuthenticationRouterError,
     selectShowAuthenticationRouterLogin,
     selectSignInCallbackError,
-} from './store/authentication.selectors';
-import { useIsAuthenticated } from './use-is-authenticated';
+} from '../store/authentication.selectors';
+import { useIsAuthenticated } from '../hooks/use-is-authenticated';
 
 type AuthenticationGateProps = PropsWithChildren<{ userManager: UserManagerState }>;
 

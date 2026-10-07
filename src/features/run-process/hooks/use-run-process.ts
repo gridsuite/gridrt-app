@@ -7,7 +7,7 @@
 
 import { useState } from 'react';
 import { useRunSnapshotRefinerMutation } from 'shared/api/snapshot-refiner-api';
-import { isSupportedCaseFile } from './case-file.validation';
+import { isSupportedCaseFile } from '../utils/case-file.validation';
 
 export function useRunProcess() {
     const [caseFile, setCaseFile] = useState<File | null>(null);
