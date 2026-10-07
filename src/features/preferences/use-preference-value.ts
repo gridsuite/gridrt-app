@@ -11,19 +11,19 @@ import { useGetParameterQuery } from 'features/preferences/preferences-api';
 import { readPreferenceFallbacks } from 'features/preferences/preferences.fallbacks';
 import { PreferenceKey } from 'features/preferences/preferences.types';
 import { parsePreferenceValue } from 'features/preferences/preferences.mapping';
-import { useStableUserProfile } from 'features/authentication/hooks/use-stable-user-profile';
+import { useIsAuthenticated } from 'features/authentication';
 
 /**
  * This data is fetched from AppSideBar, which is displayed before user is authenticated
  * If user is not authenticated, or before the fetch request has responded, we read stored preferences with defaults
  */
 export const usePreferenceValue = <K extends PreferenceKey>(paramName: K) => {
-    const userProfile = useStableUserProfile();
+    const isAuthenticated = useIsAuthenticated();
 
     return useGetParameterQuery(
         { name: paramName, appName: getAppName(APP_NAME, paramName) },
         {
-            skip: !userProfile,
+            skip: !isAuthenticated,
             selectFromResult: (result) => {
                 const rawData = result.data?.value;
                 const data = rawData ? parsePreferenceValue(paramName, rawData) : readPreferenceFallbacks()[paramName];

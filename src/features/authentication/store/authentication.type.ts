@@ -8,6 +8,7 @@
 import { AuthenticationRouterErrorState, CommonStoreState } from '@gridsuite/commons-ui';
 
 export type UserProfile = NonNullable<AuthenticationState['user']>['profile'];
+export type UserIdentity = Pick<UserProfile, 'sub' | 'name' | 'email' | 'profile'>;
 
 export type AuthenticationState = CommonStoreState & {
     signInCallbackError: Error | null;

@@ -12,7 +12,7 @@ export type VersionJson = {
     deployVersion?: string;
 };
 
-export function fetchVersion(): Promise<VersionJson> {
+export function fetchDeploymentVersion(): Promise<VersionJson> {
     console.info(`Fetching global metadata...`);
     return fetchEnv()
         .then((env) => fetch(`${env.appsMetadataServerUrl}/version.json`))

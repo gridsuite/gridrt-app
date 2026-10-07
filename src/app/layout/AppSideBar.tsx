@@ -8,24 +8,20 @@
 import {
     AppSideBar as CommonAppSideBar,
     DARK_THEME,
-    fetchAppsMetadata,
     LIGHT_THEME,
-    Metadata,
     PARAM_DEVELOPER_MODE,
     PARAM_LANGUAGE,
     PARAM_THEME,
 } from '@gridsuite/commons-ui';
-import { createTheme } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import GridrtDarkLogo from 'assets/images/gridrtDarkLogo.svg?react';
 import GridrtLightLogo from 'assets/images/gridrtLightLogo.svg?react';
 import { APP_NAME } from 'shared/config/application';
 import { usePreference } from 'features/preferences/use-preference';
-import { getAppTheme } from '../../../app/config/app-theme';
-import { useStableUserProfile } from '../../authentication/hooks/use-stable-user-profile';
-import { fetchVersion } from '../../../shared/config/version';
-import { getServersInfos } from '../api/get-servers-infos';
-import AppPackage from '../../../../package.json';
+import { getSidebarTheme } from 'app/config/sidebar-theme';
+import { useUserIdentity, useUserProfile } from 'features/authentication';
+import { useAboutInformation } from './about/use-about-information';
+import AppPackage from '../../../package.json';
 
 type SideBarProps = {
     onLogoutClick?: () => void;
@@ -35,36 +31,13 @@ export function AppSideBar({ onLogoutClick }: Readonly<SideBarProps>) {
     const { value: currentTheme, update: setTheme } = usePreference(PARAM_THEME);
     const { value: selectedLanguage, update: setSelectedLanguage } = usePreference(PARAM_LANGUAGE);
     const { value: isDeveloperMode, update: handleChangeDeveloperMode } = usePreference(PARAM_DEVELOPER_MODE);
-    const userProfile = useStableUserProfile() ?? undefined;
-    const [appsAndUrls, setAppsAndUrls] = useState<Metadata[]>([]);
+    const userIdentity = useUserIdentity();
+    const userProfile = useUserProfile();
+    const { appsAndUrls, globalVersionPromise, additionalModulesPromise } = useAboutInformation(userIdentity);
     const invertedThemeId = currentTheme === LIGHT_THEME ? DARK_THEME : LIGHT_THEME;
-    const invertedTheme = useMemo(() => {
-        const baseTheme = getAppTheme(invertedThemeId);
-        const overrideBackgroundColor = invertedThemeId === DARK_THEME ? '#263238' : '#ECEFF1';
-
-        return createTheme(baseTheme, {
-            palette: {
-                background: {
-                    paper: overrideBackgroundColor,
-                    default: overrideBackgroundColor,
-                },
-            },
-        });
-    }, [invertedThemeId]);
+    const invertedTheme = useMemo(() => getSidebarTheme(currentTheme), [currentTheme]);
 
     const SMALL_SCREEN_BREAKPOINT = 768;
-
-    useEffect(() => {
-        if (userProfile) {
-            fetchAppsMetadata()
-                .then((metadata) => {
-                    setAppsAndUrls(metadata);
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        }
-    }, [userProfile]);
 
     return (
         <CommonAppSideBar
@@ -79,9 +52,9 @@ export function AppSideBar({ onLogoutClick }: Readonly<SideBarProps>) {
             appName={APP_NAME}
             appNameColor="#F06292"
             appLogo={invertedThemeId === DARK_THEME ? <GridrtDarkLogo /> : <GridrtLightLogo />}
-            userProfile={userProfile}
-            globalVersionPromise={() => fetchVersion().then((res) => res.deployVersion ?? 'unknown')}
-            additionalModulesPromise={getServersInfos}
+            userProfile={userProfile ?? undefined}
+            globalVersionPromise={globalVersionPromise}
+            additionalModulesPromise={additionalModulesPromise}
             onLogoutClick={onLogoutClick}
             appsAndUrls={appsAndUrls}
             appVersion={AppPackage.version}

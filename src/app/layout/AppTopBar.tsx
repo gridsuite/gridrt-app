@@ -9,17 +9,16 @@ import { AppBar, Button, Divider, Stack, Toolbar, useTheme } from '@mui/material
 import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { PlayArrow as PlayArrowIcon } from '@mui/icons-material';
-import { RunProcessDialog } from '../../run-process/components/RunProcessDialog';
-import { SandboxModeToggle } from './SandboxModeToggle';
-import type { UserProfile } from '../../authentication/store/authentication.type';
+import { RunProcessDialog } from 'features/run-process/components/RunProcessDialog';
+import { SandboxModeToggle } from 'features/top-bar/components/SandboxModeToggle';
 
 export type AppTopBarProps = {
-    userProfile: UserProfile | null;
+    isAuthenticated: boolean;
 };
 
 const SANDBOX_ACTIVE_BACKGROUND = 'rgba(156, 39, 176, 0.08)';
 
-function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
+function AppTopBar({ isAuthenticated }: Readonly<AppTopBarProps>) {
     const intl = useIntl();
     const theme = useTheme();
     const [isSandboxMode, setSandboxMode] = useState(false);
@@ -31,7 +30,7 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
 
     return (
         <AppBar position="sticky" color="default" elevation={0}>
-            {userProfile !== null && (
+            {isAuthenticated && (
                 <Toolbar
                     disableGutters
                     sx={{

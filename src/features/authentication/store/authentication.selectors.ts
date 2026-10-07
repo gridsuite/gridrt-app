@@ -5,7 +5,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from 'app/store/store';
+import type { UserIdentity } from './authentication.type';
 
 export const selectAuthentication = (state: RootState) => state.authentication;
 export const selectSignInCallbackError = (state: RootState) => selectAuthentication(state).signInCallbackError;
@@ -15,3 +17,18 @@ export const selectAuthenticationRouterError = (state: RootState) =>
 
 export const selectShowAuthenticationRouterLogin = (state: RootState) =>
     selectAuthentication(state).showAuthenticationRouterLogin;
+
+export const selectIsAuthenticated = (state: RootState) => selectAuthentication(state).user?.profile != null;
+
+export const selectUserIdentity = createSelector(
+    [(state: RootState) => selectAuthentication(state).user?.profile],
+    (profile): UserIdentity | null => {
+        if (!profile) {
+            return null;
+        }
+        const { sub, name, email, profile: profileUrl } = profile;
+        return { sub, name, email, profile: profileUrl };
+    }
+);
+
+export const selectUserProfile = (state: RootState) => selectAuthentication(state).user?.profile ?? null;

@@ -11,11 +11,11 @@ import { AppLayout } from '../AppLayout';
 
 const mocks = vi.hoisted(() => ({
     usePreference: vi.fn(),
-    useStableUserProfile: vi.fn(),
+    useIsAuthenticated: vi.fn(),
     appSideBar: vi.fn(),
 }));
 
-vi.mock('features/top-bar/components/AppTopBar', () => ({
+vi.mock('app/layout/AppTopBar', () => ({
     default: () => <div>topbar</div>,
 }));
 
@@ -32,11 +32,11 @@ vi.mock('features/preferences/use-preference', () => ({
     usePreference: mocks.usePreference,
 }));
 
-vi.mock('features/authentication/hooks/use-stable-user-profile', () => ({
-    useStableUserProfile: mocks.useStableUserProfile,
+vi.mock('features/authentication', () => ({
+    useIsAuthenticated: mocks.useIsAuthenticated,
 }));
 
-vi.mock('features/side-bar/components/AppSideBar', () => ({
+vi.mock('app/layout/AppSideBar', () => ({
     AppSideBar: (props: { onLogoutClick?: () => void }) => {
         mocks.appSideBar(props);
         return null;
@@ -53,7 +53,7 @@ describe('AppLayout', () => {
 
             return { value: undefined };
         });
-        mocks.useStableUserProfile.mockReturnValue({ sub: 'test-user' });
+        mocks.useIsAuthenticated.mockReturnValue(true);
     });
 
     it('renders its children and forwards the logout handler to the side bar', () => {
@@ -101,7 +101,7 @@ describe('AppLayout', () => {
 
             return { value: undefined };
         });
-        mocks.useStableUserProfile.mockReturnValue(null);
+        mocks.useIsAuthenticated.mockReturnValue(false);
 
         render(<AppLayout>Application content</AppLayout>);
 

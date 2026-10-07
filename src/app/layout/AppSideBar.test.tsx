@@ -8,15 +8,16 @@
 import { render, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DARK_THEME, LIGHT_THEME, PARAM_DEVELOPER_MODE, PARAM_LANGUAGE, PARAM_THEME } from '@gridsuite/commons-ui';
-import { AppSideBar } from '../AppSideBar';
+import { createTestContext } from 'test-utils/create-test-context';
+import { AppSideBar } from 'app/layout/AppSideBar';
 
 const mocks = vi.hoisted(() => ({
     commonAppSideBar: vi.fn(),
     fetchAppsMetadata: vi.fn(),
-    fetchVersion: vi.fn(),
-    getServersInfos: vi.fn(),
+    fetchDeploymentVersion: vi.fn(),
+    fetchBackendModules: vi.fn(),
     usePreference: vi.fn(),
-    useStableUserProfile: vi.fn(),
+    useUserIdentity: vi.fn(),
 }));
 
 vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
@@ -36,20 +37,21 @@ vi.mock('features/preferences/use-preference', () => ({
     usePreference: mocks.usePreference,
 }));
 
-vi.mock('features/authentication/hooks/use-stable-user-profile', () => ({
-    useStableUserProfile: mocks.useStableUserProfile,
+vi.mock('features/authentication', () => ({
+    useUserIdentity: mocks.useUserIdentity,
+    useUserProfile: mocks.useUserIdentity,
 }));
 
 vi.mock('assets/images/gridrt_logo.svg?react', () => ({
     default: () => null,
 }));
 
-vi.mock('shared/config/version', () => ({
-    fetchVersion: mocks.fetchVersion,
+vi.mock('app/layout/about/fetch-deployment-version', () => ({
+    fetchDeploymentVersion: mocks.fetchDeploymentVersion,
 }));
 
-vi.mock('features/top-bar/api/get-servers-infos', () => ({
-    getServersInfos: mocks.getServersInfos,
+vi.mock('app/layout/about/fetch-backend-modules', () => ({
+    fetchBackendModules: mocks.fetchBackendModules,
 }));
 
 describe('AppSideBar', () => {
@@ -57,11 +59,11 @@ describe('AppSideBar', () => {
         vi.clearAllMocks();
 
         mocks.fetchAppsMetadata.mockResolvedValue([{ name: 'Study', url: 'http://study.local' }]);
-        mocks.fetchVersion.mockResolvedValue({
+        mocks.fetchDeploymentVersion.mockResolvedValue({
             deployVersion: 'test-version',
         });
-        mocks.getServersInfos.mockResolvedValue([]);
-        mocks.useStableUserProfile.mockReturnValue(null);
+        mocks.fetchBackendModules.mockResolvedValue([]);
+        mocks.useUserIdentity.mockReturnValue(null);
 
         mocks.usePreference.mockImplementation((paramName: string) => {
             switch (paramName) {
@@ -78,7 +80,7 @@ describe('AppSideBar', () => {
     });
 
     it('passes the inverted dark theme when the application theme is light', async () => {
-        render(<AppSideBar />);
+        render(<AppSideBar />, { wrapper: createTestContext().wrapper });
 
         await waitFor(() => {
             expect(mocks.commonAppSideBar).toHaveBeenCalledWith(
@@ -108,7 +110,7 @@ describe('AppSideBar', () => {
             }
         });
 
-        render(<AppSideBar />);
+        render(<AppSideBar />, { wrapper: createTestContext().wrapper });
 
         expect(mocks.commonAppSideBar).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -125,11 +127,11 @@ describe('AppSideBar', () => {
     });
 
     it('loads application metadata when a user is authenticated', async () => {
-        mocks.useStableUserProfile.mockReturnValue({
+        mocks.useUserIdentity.mockReturnValue({
             sub: 'test-user',
         });
 
-        render(<AppSideBar />);
+        render(<AppSideBar />, { wrapper: createTestContext().wrapper });
 
         await waitFor(() => {
             expect(mocks.fetchAppsMetadata).toHaveBeenCalledTimes(1);
@@ -137,9 +139,9 @@ describe('AppSideBar', () => {
     });
 
     it('does not load application metadata when no authenticated user is available', () => {
-        mocks.useStableUserProfile.mockReturnValue(null);
+        mocks.useUserIdentity.mockReturnValue(null);
 
-        render(<AppSideBar />);
+        render(<AppSideBar />, { wrapper: createTestContext().wrapper });
 
         expect(mocks.fetchAppsMetadata).not.toHaveBeenCalled();
     });

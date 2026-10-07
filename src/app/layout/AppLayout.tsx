@@ -9,9 +9,9 @@ import { Box, Stack } from '@mui/material';
 import { PropsWithChildren } from 'react';
 import { DevModeBanner, PARAM_DEVELOPER_MODE } from '@gridsuite/commons-ui';
 import { usePreference } from 'features/preferences/use-preference';
-import { useStableUserProfile } from 'features/authentication/hooks/use-stable-user-profile';
-import AppTopBar from 'features/top-bar/components/AppTopBar';
-import { AppSideBar } from '../../features/side-bar/components/AppSideBar';
+import { useIsAuthenticated } from 'features/authentication';
+import AppTopBar from 'app/layout/AppTopBar';
+import { AppSideBar } from 'app/layout/AppSideBar';
 
 export type AppLayoutProps = {
     onLogoutClick?: () => void;
@@ -19,15 +19,15 @@ export type AppLayoutProps = {
 
 export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildren<AppLayoutProps>>) {
     const { value: isDeveloperMode } = usePreference(PARAM_DEVELOPER_MODE);
-    const userProfile = useStableUserProfile();
+    const isAuthenticated = useIsAuthenticated();
 
     return (
         <Stack height="100vh" overflow="hidden">
-            {userProfile && isDeveloperMode && <DevModeBanner />}
+            {isAuthenticated && isDeveloperMode && <DevModeBanner />}
             <Stack direction="row" flex={1} overflow="hidden">
                 <AppSideBar onLogoutClick={onLogoutClick} />
                 <Stack flex={1} overflow="hidden">
-                    <AppTopBar userProfile={userProfile} />
+                    <AppTopBar isAuthenticated={isAuthenticated} />
                     <Box
                         sx={{
                             flex: 1,
