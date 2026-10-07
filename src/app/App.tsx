@@ -19,7 +19,7 @@ import { BrowserRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { usePreference, usePreferenceNotifications } from 'features/preferences';
 import { AuthenticationGate, useAuthentication } from 'features/authentication';
-import { SnackbarBridge, useNotificationUrls } from 'features/notifications';
+import { useSnackbarBridge, useNotificationUrls } from 'features/notifications';
 import { store } from './store/store';
 import { appMessages } from './i18n/app-messages';
 import { getAppTheme } from './theme/app-theme';
@@ -27,6 +27,7 @@ import { AppRouter } from './router/AppRouter';
 import { AppLayout } from './layout/AppLayout';
 
 function AppContent() {
+    useSnackbarBridge();
     const { userManager, onLogoutClick } = useAuthentication();
     usePreferenceNotifications();
 
@@ -56,7 +57,6 @@ function AppEnvironment() {
                 <StyledEngineProvider injectFirst>
                     <ThemeProvider theme={getAppTheme(theme)}>
                         <SnackbarProvider hideIconVariant={false}>
-                            <SnackbarBridge />
                             <CssBaseline />
                             <CardErrorBoundary>
                                 <NotificationsProvider urls={urlMapper}>

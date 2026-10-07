@@ -9,7 +9,7 @@ import { SnackInputs, UseSnackMessageReturn } from '@gridsuite/commons-ui';
 
 // Allows imperative snack calls (e.g. from RTK middleware) while using the
 // standard useSnackMessage appearance (i18n, persist, variant styling).
-// Connected by SnackbarBridge inside SnackbarProvider.
+// Connected by useSnackbarBridge inside SnackbarProvider.
 let snackFns: UseSnackMessageReturn | null = null;
 
 export const notificationBridge = {

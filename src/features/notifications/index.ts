@@ -4,6 +4,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-export { SnackbarBridge } from './components/SnackbarBridge';
+export { useSnackbarBridge } from './hooks/use-snackbar-bridge';
 export { useNotificationUrls } from './hooks/use-notification-urls';
 export { errorMiddleware } from './middleware/rtk-query-error-middleware';
