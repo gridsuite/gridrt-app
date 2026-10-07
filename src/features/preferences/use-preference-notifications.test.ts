@@ -8,16 +8,16 @@
 import { renderHook } from '@testing-library/react';
 import { NotificationsUrlKeys, useNotificationsListener } from '@gridsuite/commons-ui';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAppParametersInvalidationListener } from 'app/notifications/use-app-parameters-invalidation-listener';
-import { invalidateConfigQueries } from 'shared/api/config-api';
+import { usePreferenceNotifications } from 'features/preferences/use-preference-notifications';
+import { invalidatePreferenceQueries } from 'features/preferences/preferences-api';
 import { createTestContext } from 'test-utils/create-test-context';
 
-vi.mock('shared/api/config-api', async (importOriginal) => {
-    const actual = await importOriginal<typeof import('shared/api/config-api')>();
+vi.mock('features/preferences/preferences-api', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('features/preferences/preferences-api')>();
 
     return {
         ...actual,
-        invalidateConfigQueries: vi.fn(),
+        invalidatePreferenceQueries: vi.fn(),
     };
 });
 
@@ -30,7 +30,7 @@ vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
     };
 });
 
-describe('useAppParametersInvalidationListener', () => {
+describe('usePreferenceNotifications', () => {
     let listenerCallbackMessage: ((event: MessageEvent) => void) | undefined;
 
     beforeEach(() => {
@@ -46,7 +46,7 @@ describe('useAppParametersInvalidationListener', () => {
         const { wrapper } = createTestContext();
 
         expect(listenerCallbackMessage).not.toBeDefined();
-        renderHook(() => useAppParametersInvalidationListener(), { wrapper });
+        renderHook(() => usePreferenceNotifications(), { wrapper });
 
         expect(useNotificationsListener).toHaveBeenCalledWith(NotificationsUrlKeys.CONFIG, {
             listenerCallbackMessage: expect.any(Function),
@@ -57,7 +57,7 @@ describe('useAppParametersInvalidationListener', () => {
     it('invalidates config queries when receiving a parameter name', () => {
         const { wrapper } = createTestContext();
 
-        renderHook(() => useAppParametersInvalidationListener(), { wrapper });
+        renderHook(() => usePreferenceNotifications(), { wrapper });
 
         listenerCallbackMessage?.({
             data: JSON.stringify({
@@ -65,14 +65,14 @@ describe('useAppParametersInvalidationListener', () => {
             }),
         } as MessageEvent);
 
-        expect(invalidateConfigQueries).toHaveBeenCalledTimes(1);
-        expect(invalidateConfigQueries).toHaveBeenCalledWith(expect.anything(), 'theme');
+        expect(invalidatePreferenceQueries).toHaveBeenCalledTimes(1);
+        expect(invalidatePreferenceQueries).toHaveBeenCalledWith(expect.anything(), 'theme');
     });
 
     it('does nothing when parameterName is missing', () => {
         const { wrapper } = createTestContext();
 
-        renderHook(() => useAppParametersInvalidationListener(), { wrapper });
+        renderHook(() => usePreferenceNotifications(), { wrapper });
 
         listenerCallbackMessage?.({
             data: JSON.stringify({
@@ -80,19 +80,19 @@ describe('useAppParametersInvalidationListener', () => {
             }),
         } as MessageEvent);
 
-        expect(invalidateConfigQueries).not.toHaveBeenCalled();
+        expect(invalidatePreferenceQueries).not.toHaveBeenCalled();
     });
 
     it('throws on invalid JSON payloads', () => {
         const { wrapper } = createTestContext();
 
-        renderHook(() => useAppParametersInvalidationListener(), { wrapper });
+        renderHook(() => usePreferenceNotifications(), { wrapper });
 
         expect(() => {
             listenerCallbackMessage?.({
                 data: 'not-json',
             } as MessageEvent);
         }).toThrow(SyntaxError);
-        expect(invalidateConfigQueries).not.toHaveBeenCalled();
+        expect(invalidatePreferenceQueries).not.toHaveBeenCalled();
     });
 });

@@ -10,10 +10,10 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { server } from 'test-utils/msw/server';
 import { createTestContext } from 'test-utils/create-test-context';
-import { useAppParameterState } from 'features/app-parameters/hooks/use-app-parameter-state';
+import { usePreference } from 'features/preferences/use-preference';
 import { DARK_THEME, LIGHT_THEME } from '@gridsuite/commons-ui';
 
-describe('useAppParameterState', () => {
+describe('usePreference', () => {
     beforeEach(() => {
         server.use(
             http.get('*/config/v1/applications/*/parameters/theme', () =>
@@ -35,23 +35,23 @@ describe('useAppParameterState', () => {
             })
         );
         const { wrapper } = createTestContext();
-        const { result } = renderHook(() => useAppParameterState('theme'), { wrapper });
+        const { result } = renderHook(() => usePreference('theme'), { wrapper });
 
         // check state before updating
         await waitFor(() => {
-            const [value] = result.current;
+            const { value } = result.current;
             expect(value).toBe(DARK_THEME);
         });
 
         // update value to new one
         let promise: Promise<void>;
         act(() => {
-            const [, setValue] = result.current;
+            const { update: setValue } = result.current;
             promise = setValue(LIGHT_THEME);
         });
 
         // check optimistic update
-        const [optimisticUpdateValue] = result.current;
+        const { value: optimisticUpdateValue } = result.current;
         expect(optimisticUpdateValue).toBe(LIGHT_THEME);
 
         // wait for server success
@@ -60,7 +60,7 @@ describe('useAppParameterState', () => {
         });
 
         // check value has not changed
-        const [valueAfterSuccess] = result.current;
+        const { value: valueAfterSuccess } = result.current;
         expect(valueAfterSuccess).toBe(LIGHT_THEME);
     });
 
@@ -75,23 +75,23 @@ describe('useAppParameterState', () => {
         );
 
         const { wrapper } = createTestContext();
-        const { result } = renderHook(() => useAppParameterState('theme'), { wrapper });
+        const { result } = renderHook(() => usePreference('theme'), { wrapper });
 
         // check state before updating
         await waitFor(() => {
-            const [value] = result.current;
+            const { value } = result.current;
             expect(value).toBe(DARK_THEME);
         });
 
         // update value to new one
         let promise: Promise<void>;
         act(() => {
-            const [, setValue] = result.current;
+            const { update: setValue } = result.current;
             promise = setValue(LIGHT_THEME);
         });
 
         // check optimistic update
-        const [optimisticUpdateValue] = result.current;
+        const { value: optimisticUpdateValue } = result.current;
         expect(optimisticUpdateValue).toBe(LIGHT_THEME);
 
         // wait for server failure
@@ -105,7 +105,7 @@ describe('useAppParameterState', () => {
 
         // check value has been changed to old one
         await waitFor(() => {
-            const [valueAfterRollback] = result.current;
+            const { value: valueAfterRollback } = result.current;
             expect(valueAfterRollback).toBe(DARK_THEME);
         });
     });

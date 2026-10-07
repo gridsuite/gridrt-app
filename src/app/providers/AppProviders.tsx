@@ -21,16 +21,16 @@ import { store } from 'app/store/store';
 import App from 'app/App';
 import { appMessages } from 'app/config/app-messages';
 import { getAppTheme } from 'app/config/app-theme';
-import { useGetConfigParameterWithFallback } from 'features/app-parameters/hooks/use-get-config-parameter-with-fallback';
+import { usePreference } from 'features/preferences/use-preference';
 import { useNotificationUrls } from 'app/notifications/use-notification-urls';
 import { SnackbarBridge } from 'app/notifications/SnackbarBridge';
 
 const basename = new URL(document.querySelector('base')?.href ?? '').pathname;
 
 function AppProvidersWithStore() {
-    const { data: language } = useGetConfigParameterWithFallback(PARAM_LANGUAGE);
+    const { value: language } = usePreference(PARAM_LANGUAGE);
     const computedLanguage = getComputedLanguage(language);
-    const { data: theme } = useGetConfigParameterWithFallback(PARAM_THEME);
+    const { value: theme } = usePreference(PARAM_THEME);
 
     const urlMapper = useNotificationUrls();
 

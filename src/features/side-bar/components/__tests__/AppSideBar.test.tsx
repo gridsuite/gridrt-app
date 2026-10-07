@@ -15,7 +15,7 @@ const mocks = vi.hoisted(() => ({
     fetchAppsMetadata: vi.fn(),
     fetchVersion: vi.fn(),
     getServersInfos: vi.fn(),
-    useAppParameterState: vi.fn(),
+    usePreference: vi.fn(),
     useStableUserProfile: vi.fn(),
 }));
 
@@ -32,8 +32,8 @@ vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
     };
 });
 
-vi.mock('features/app-parameters/hooks/use-app-parameter-state', () => ({
-    useAppParameterState: mocks.useAppParameterState,
+vi.mock('features/preferences/use-preference', () => ({
+    usePreference: mocks.usePreference,
 }));
 
 vi.mock('features/authentication/hooks/use-stable-user-profile', () => ({
@@ -63,16 +63,16 @@ describe('AppSideBar', () => {
         mocks.getServersInfos.mockResolvedValue([]);
         mocks.useStableUserProfile.mockReturnValue(null);
 
-        mocks.useAppParameterState.mockImplementation((paramName: string) => {
+        mocks.usePreference.mockImplementation((paramName: string) => {
             switch (paramName) {
                 case PARAM_THEME:
-                    return [LIGHT_THEME, vi.fn()];
+                    return { value: LIGHT_THEME, update: vi.fn(), isUpdating: false };
                 case PARAM_LANGUAGE:
-                    return ['en', vi.fn()];
+                    return { value: 'en', update: vi.fn(), isUpdating: false };
                 case PARAM_DEVELOPER_MODE:
-                    return [false, vi.fn()];
+                    return { value: false, update: vi.fn(), isUpdating: false };
                 default:
-                    return [undefined, vi.fn()];
+                    return { value: undefined, update: vi.fn(), isUpdating: false };
             }
         });
     });
@@ -95,16 +95,16 @@ describe('AppSideBar', () => {
     });
 
     it('passes the inverted light theme when the application theme is dark', () => {
-        mocks.useAppParameterState.mockImplementation((paramName: string) => {
+        mocks.usePreference.mockImplementation((paramName: string) => {
             switch (paramName) {
                 case PARAM_THEME:
-                    return ['Dark', vi.fn()];
+                    return { value: 'Dark', update: vi.fn(), isUpdating: false };
                 case PARAM_LANGUAGE:
-                    return ['fr', vi.fn()];
+                    return { value: 'fr', update: vi.fn(), isUpdating: false };
                 case PARAM_DEVELOPER_MODE:
-                    return [true, vi.fn()];
+                    return { value: true, update: vi.fn(), isUpdating: false };
                 default:
-                    return [undefined, vi.fn()];
+                    return { value: undefined, update: vi.fn(), isUpdating: false };
             }
         });
 

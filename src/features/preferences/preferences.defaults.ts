@@ -5,5 +5,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-export { configGeneratedApi } from './config.generated';
-export { ConfigTags } from './config-base-api';
+import { DARK_THEME, LANG_SYSTEM } from '@gridsuite/commons-ui';
+import type { Preferences } from './preferences.types';
+
+export const DEFAULT_PREFERENCES: Preferences = {
+    language: LANG_SYSTEM,
+    theme: DARK_THEME,
+    isDeveloperMode: false,
+};

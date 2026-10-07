@@ -7,14 +7,10 @@
 
 import { GsLang, GsTheme, PARAM_LANGUAGE, PARAM_THEME } from '@gridsuite/commons-ui';
 import type { AppDispatch } from 'app/store/store';
-import {
-    saveLocalStorageLanguage,
-    saveLocalStorageTheme,
-} from 'features/app-parameters/store/app-parameters.local-storage';
-import { ConfigTags } from './config-base-api';
-import { configGeneratedApi } from './config.generated';
+import { saveLocalStorageLanguage, saveLocalStorageTheme } from 'features/preferences/preferences.storage';
+import { ConfigTags, configGeneratedApi } from 'shared/api/config-api';
 
-export const configApi = configGeneratedApi.enhanceEndpoints({
+export const preferencesApi = configGeneratedApi.enhanceEndpoints({
     endpoints: {
         getParameter: {
             providesTags: (result, error, params) => [{ type: ConfigTags.Parameters, id: params.name }],
@@ -41,7 +37,7 @@ export const configApi = configGeneratedApi.enhanceEndpoints({
         updateParameter: {
             async onQueryStarted(params, { dispatch, queryFulfilled }) {
                 const patch = dispatch(
-                    configApi.util.updateQueryData(
+                    preferencesApi.util.updateQueryData(
                         'getParameter',
                         { name: params.name, appName: params.appName },
                         (draft) => {
@@ -62,8 +58,8 @@ export const configApi = configGeneratedApi.enhanceEndpoints({
     },
 });
 
-export const invalidateConfigQueries = (dispatch: AppDispatch, paramName: string) => {
-    dispatch(configApi.util.invalidateTags([{ type: ConfigTags.Parameters, id: paramName }]));
+export const invalidatePreferenceQueries = (dispatch: AppDispatch, paramName: string) => {
+    dispatch(preferencesApi.util.invalidateTags([{ type: ConfigTags.Parameters, id: paramName }]));
 };
 
-export const { useGetParameterQuery, useUpdateParameterMutation } = configApi;
+export const { useGetParameterQuery, useUpdateParameterMutation } = preferencesApi;

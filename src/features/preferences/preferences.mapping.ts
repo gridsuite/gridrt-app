@@ -6,11 +6,11 @@
  */
 
 import { PARAM_DEVELOPER_MODE } from '@gridsuite/commons-ui';
-import { AppParameters, AppParametersKey } from 'features/app-parameters/store/app-parameters.type';
+import { Preferences, PreferenceKey } from 'features/preferences/preferences.types';
 
-export function mapRawParamValue<K extends AppParametersKey>(paramName: K, rawValue: string): AppParameters[K] {
+export function parsePreferenceValue<K extends PreferenceKey>(paramName: K, rawValue: string): Preferences[K] {
     if (paramName === PARAM_DEVELOPER_MODE) {
-        return (rawValue === 'true') as AppParameters[K];
+        return (rawValue === 'true') as Preferences[K];
     }
-    return rawValue as AppParameters[K];
+    return rawValue as Preferences[K];
 }

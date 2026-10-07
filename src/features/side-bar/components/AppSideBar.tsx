@@ -20,7 +20,7 @@ import { useEffect, useMemo, useState } from 'react';
 import GridrtDarkLogo from 'assets/images/gridrtDarkLogo.svg?react';
 import GridrtLightLogo from 'assets/images/gridrtLightLogo.svg?react';
 import { APP_NAME } from 'shared/config/application';
-import { useAppParameterState } from '../../app-parameters/hooks/use-app-parameter-state';
+import { usePreference } from 'features/preferences/use-preference';
 import { getAppTheme } from '../../../app/config/app-theme';
 import { useStableUserProfile } from '../../authentication/hooks/use-stable-user-profile';
 import { fetchVersion } from '../../../shared/config/version';
@@ -32,9 +32,9 @@ type SideBarProps = {
 };
 
 export function AppSideBar({ onLogoutClick }: Readonly<SideBarProps>) {
-    const [currentTheme, setTheme] = useAppParameterState(PARAM_THEME);
-    const [selectedLanguage, setSelectedLanguage] = useAppParameterState(PARAM_LANGUAGE);
-    const [isDeveloperMode, handleChangeDeveloperMode] = useAppParameterState(PARAM_DEVELOPER_MODE);
+    const { value: currentTheme, update: setTheme } = usePreference(PARAM_THEME);
+    const { value: selectedLanguage, update: setSelectedLanguage } = usePreference(PARAM_LANGUAGE);
+    const { value: isDeveloperMode, update: handleChangeDeveloperMode } = usePreference(PARAM_DEVELOPER_MODE);
     const userProfile = useStableUserProfile() ?? undefined;
     const [appsAndUrls, setAppsAndUrls] = useState<Metadata[]>([]);
     const invertedThemeId = currentTheme === LIGHT_THEME ? DARK_THEME : LIGHT_THEME;

@@ -6,7 +6,7 @@
  */
 
 import { NotificationsUrlKeys, useNotificationsListener } from '@gridsuite/commons-ui';
-import { invalidateConfigQueries } from 'shared/api/config-api';
+import { invalidatePreferenceQueries } from 'features/preferences/preferences-api';
 import { useAppDispatch } from 'app/store/hooks';
 
 type ConfigNotificationData = {
@@ -15,13 +15,13 @@ type ConfigNotificationData = {
     };
 };
 
-export const useAppParametersInvalidationListener = () => {
+export const usePreferenceNotifications = () => {
     const dispatch = useAppDispatch();
 
     const invalidateAppParameter = (event: MessageEvent) => {
         const eventData = JSON.parse(event.data) as ConfigNotificationData;
         if (eventData.headers?.parameterName) {
-            invalidateConfigQueries(dispatch, eventData.headers.parameterName);
+            invalidatePreferenceQueries(dispatch, eventData.headers.parameterName);
         }
     };
 

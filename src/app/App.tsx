@@ -22,7 +22,7 @@ import {
 import { getErrorMessage } from 'shared/lib/error';
 import { fetchIdpSettings } from 'shared/config/idp-settings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { useAppParametersInvalidationListener } from './notifications/use-app-parameters-invalidation-listener';
+import { usePreferenceNotifications } from 'features/preferences/use-preference-notifications';
 import { AppRouter } from './router/AppRouter';
 import { useStableUserProfile } from '../features/authentication/hooks/use-stable-user-profile';
 import { AppLayout } from './layout/AppLayout';
@@ -77,7 +77,7 @@ function App() {
         // Note: dispatch and initialMatchSilentRenewCallbackUrl won't change
     }, [initialMatchSigninCallbackUrl, initialMatchSilentRenewCallbackUrl, dispatch]);
 
-    useAppParametersInvalidationListener();
+    usePreferenceNotifications();
 
     const onLogoutClick = () => logout(dispatch, userManager.instance)?.catch((err) => console.error(err));
 

@@ -7,7 +7,7 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import { studyApi } from 'shared/api/study-api';
-import { configApi } from 'shared/api/config-api';
+import { preferencesApi } from 'features/preferences/preferences-api';
 import { snapshotRefinerBaseApi } from 'shared/api/snapshot-refiner-api';
 import { setCommonStore } from '@gridsuite/commons-ui';
 import { errorMiddleware } from 'app/notifications/rtk-query-error-middleware';
@@ -24,7 +24,7 @@ export const setupStore = (preloadedState?: PreloadedState) =>
                 },
             })
                 .prepend(errorMiddleware)
-                .concat(studyApi.middleware, configApi.middleware, snapshotRefinerBaseApi.middleware),
+                .concat(studyApi.middleware, preferencesApi.middleware, snapshotRefinerBaseApi.middleware),
     });
 
 export const store = setupStore();

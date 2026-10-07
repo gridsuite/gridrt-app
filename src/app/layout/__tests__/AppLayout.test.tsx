@@ -10,7 +10,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppLayout } from '../AppLayout';
 
 const mocks = vi.hoisted(() => ({
-    useAppParameterState: vi.fn(),
+    usePreference: vi.fn(),
     useStableUserProfile: vi.fn(),
     appSideBar: vi.fn(),
 }));
@@ -28,8 +28,8 @@ vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
     };
 });
 
-vi.mock('features/app-parameters/hooks/use-app-parameter-state', () => ({
-    useAppParameterState: mocks.useAppParameterState,
+vi.mock('features/preferences/use-preference', () => ({
+    usePreference: mocks.usePreference,
 }));
 
 vi.mock('features/authentication/hooks/use-stable-user-profile', () => ({
@@ -46,12 +46,12 @@ vi.mock('features/side-bar/components/AppSideBar', () => ({
 describe('AppLayout', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        mocks.useAppParameterState.mockImplementation((paramName: string) => {
+        mocks.usePreference.mockImplementation((paramName: string) => {
             if (paramName === 'isDeveloperMode') {
-                return [false];
+                return { value: false };
             }
 
-            return [undefined];
+            return { value: undefined };
         });
         mocks.useStableUserProfile.mockReturnValue({ sub: 'test-user' });
     });
@@ -74,12 +74,12 @@ describe('AppLayout', () => {
     });
 
     it('displays the developer mode banner for an authenticated user when developer mode is enabled', () => {
-        mocks.useAppParameterState.mockImplementation((paramName: string) => {
+        mocks.usePreference.mockImplementation((paramName: string) => {
             if (paramName === 'isDeveloperMode') {
-                return [true];
+                return { value: true };
             }
 
-            return [undefined];
+            return { value: undefined };
         });
 
         render(<AppLayout>Application content</AppLayout>);
@@ -94,12 +94,12 @@ describe('AppLayout', () => {
     });
 
     it('does not display the developer mode banner without an authenticated user', () => {
-        mocks.useAppParameterState.mockImplementation((paramName: string) => {
+        mocks.usePreference.mockImplementation((paramName: string) => {
             if (paramName === 'isDeveloperMode') {
-                return [true];
+                return { value: true };
             }
 
-            return [undefined];
+            return { value: undefined };
         });
         mocks.useStableUserProfile.mockReturnValue(null);
 

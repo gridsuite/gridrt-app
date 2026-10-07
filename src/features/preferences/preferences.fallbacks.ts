@@ -5,13 +5,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { getLocalStorageLanguage, getLocalStorageTheme } from './app-parameters.local-storage';
-import { AppParameters } from './app-parameters.type';
+import { getLocalStorageLanguage, getLocalStorageTheme } from 'features/preferences/preferences.storage';
+import { Preferences } from 'features/preferences/preferences.types';
+import { DEFAULT_PREFERENCES } from './preferences.defaults';
 
-export function getInitialAppParametersState(): AppParameters {
+export function readPreferenceFallbacks(): Preferences {
     return {
         language: getLocalStorageLanguage(),
         theme: getLocalStorageTheme(),
-        isDeveloperMode: false,
+        isDeveloperMode: DEFAULT_PREFERENCES.isDeveloperMode,
     };
 }
