@@ -21,7 +21,7 @@ export function AppRouter() {
                     path={APP_PATHS.home}
                     element={
                         <Box sx={{ mt: 20 }}>
-                            <Typography variant="h3" color="textPrimary" align="center">
+                            <Typography variant="h3" sx={{ color: 'text.primary', textAlign: 'center' }}>
                                 Connected
                             </Typography>
                         </Box>
