@@ -5,4 +5,4 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-export { useAboutInformation } from './hooks/use-about-information';
+export { useAboutInformation } from './use-about-information';

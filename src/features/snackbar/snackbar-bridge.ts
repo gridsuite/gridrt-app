@@ -12,7 +12,7 @@ import { SnackInputs, UseSnackMessageReturn } from '@gridsuite/commons-ui';
 // Connected by useSnackbarBridge inside SnackbarProvider.
 let snackFns: UseSnackMessageReturn | null = null;
 
-export const notificationBridge = {
+export const snackbarBridge = {
     register: (fns: UseSnackMessageReturn) => {
         snackFns = fns;
     },

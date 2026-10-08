@@ -7,7 +7,7 @@
 
 import { GsLang, GsTheme } from '@gridsuite/commons-ui';
 import { APP_NAME } from 'shared/config/application';
-import { DEFAULT_PREFERENCES } from '../constants/preferences.defaults';
+import { DEFAULT_PREFERENCES } from './preferences.defaults';
 
 export const LOCAL_STORAGE_THEME_KEY = `${APP_NAME}_THEME`.toUpperCase();
 const LOCAL_STORAGE_LANGUAGE_KEY = `${APP_NAME}_LANGUAGE`.toUpperCase();

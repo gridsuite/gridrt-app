@@ -4,6 +4,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-export { useSnackbarBridge } from './hooks/use-snackbar-bridge';
-export { useNotificationUrls } from './hooks/use-notification-urls';
-export { errorMiddleware } from './middleware/rtk-query-error-middleware';
+
+import { DARK_THEME, LANG_SYSTEM } from '@gridsuite/commons-ui';
+import type { Preferences } from './preferences.types';
+
+export const DEFAULT_PREFERENCES: Preferences = {
+    language: LANG_SYSTEM,
+    theme: DARK_THEME,
+    isDeveloperMode: false,
+};

@@ -7,7 +7,7 @@
 
 import { Middleware, isRejectedWithValue } from '@reduxjs/toolkit';
 import { getErrorMessage } from 'shared/lib/get-error-message';
-import { notificationBridge } from '../services/notification-bridge';
+import { snackbarBridge } from 'features/snackbar';
 
 type RtkQueryRejectedMetadataArgs = {
     endpointName?: string;
@@ -18,7 +18,7 @@ type RtkQueryRejectedMetadataArgs = {
 export const errorMiddleware: Middleware = () => (next) => (action) => {
     if (isRejectedWithValue(action)) {
         const endpointName = (action.meta?.arg as RtkQueryRejectedMetadataArgs)?.endpointName;
-        notificationBridge.error({
+        snackbarBridge.error({
             headerId: endpointName,
             messageTxt: getErrorMessage(action.payload) ?? undefined,
         });

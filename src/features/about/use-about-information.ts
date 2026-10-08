@@ -6,9 +6,9 @@
  */
 
 import { useAppDispatch } from 'app/store/hooks';
-import AppPackage from '../../../../package.json';
-import { fetchBackendModules } from '../api/fetch-backend-modules';
-import { fetchDeploymentVersion } from '../api/fetch-deployment-version';
+import AppPackage from '../../../package.json';
+import { fetchBackendModules } from './fetch-backend-modules';
+import { fetchDeploymentVersion } from './fetch-deployment-version';
 
 export function useAboutInformation() {
     const dispatch = useAppDispatch();

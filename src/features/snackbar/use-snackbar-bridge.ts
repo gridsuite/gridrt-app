@@ -7,11 +7,11 @@
 
 import { useSnackMessage } from '@gridsuite/commons-ui';
 import { useEffect } from 'react';
-import { notificationBridge } from '../services/notification-bridge';
+import { snackbarBridge } from './snackbar-bridge';
 
 export function useSnackbarBridge() {
     const snackFns = useSnackMessage();
     useEffect(() => {
-        notificationBridge.register(snackFns);
+        snackbarBridge.register(snackFns);
     }, [snackFns]);
 }

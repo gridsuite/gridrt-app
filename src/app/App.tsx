@@ -19,12 +19,13 @@ import { BrowserRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { usePreference, usePreferenceNotifications } from 'features/preferences';
 import { AuthenticationGate, useAuthentication } from 'features/authentication';
-import { useSnackbarBridge, useNotificationUrls } from 'features/notifications';
+import { useSnackbarBridge } from 'features/snackbar';
 import { store } from './store/store';
 import { appMessages } from './i18n/app-messages';
 import { getAppTheme } from './theme/app-theme';
 import { AppRouter } from './router/AppRouter';
 import { AppLayout } from './layout/AppLayout';
+import { useNotificationUrls } from './use-notification-urls';
 
 function AppContent() {
     useSnackbarBridge();

@@ -5,6 +5,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import { preferencesApi } from './preferences-api';
+
+const preferencesMiddleware = preferencesApi.middleware;
+const preferencesReducerPath = preferencesApi.reducerPath;
+const preferencesReducer = preferencesApi.reducer;
+
+export { preferencesMiddleware, preferencesReducerPath, preferencesReducer };
 export { usePreference } from './hooks/use-preference';
 export { usePreferenceNotifications } from './hooks/use-preference-notifications';
-export { preferencesApi } from './api/preferences-api';

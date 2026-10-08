@@ -7,13 +7,13 @@
 
 import { combineReducers } from '@reduxjs/toolkit';
 import { authenticationReducer } from 'features/authentication/store/authentication.slice';
-import { preferencesApi } from 'features/preferences';
+import { preferencesReducerPath, preferencesReducer } from 'features/preferences';
 import { studyApi } from 'shared/api/study-api';
 import { snapshotRefinerBaseApi } from 'shared/api/snapshot-refiner-api';
 
 export const reducer = combineReducers({
     authentication: authenticationReducer,
-    [preferencesApi.reducerPath]: preferencesApi.reducer,
+    preferencesReducerPath: preferencesReducer,
     [studyApi.reducerPath]: studyApi.reducer,
     [snapshotRefinerBaseApi.reducerPath]: snapshotRefinerBaseApi.reducer,
 });

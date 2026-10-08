@@ -8,7 +8,7 @@
 import { GsLang, GsTheme, PARAM_LANGUAGE, PARAM_THEME } from '@gridsuite/commons-ui';
 import type { AppDispatch } from 'app/store/store';
 import { ConfigTags, configGeneratedApi } from 'shared/api/config-api';
-import { saveLocalStorageLanguage, saveLocalStorageTheme } from '../storage/preferences.storage';
+import { saveLocalStorageLanguage, saveLocalStorageTheme } from './preferences.storage';
 
 export const preferencesApi = configGeneratedApi.enhanceEndpoints({
     endpoints: {
@@ -17,6 +17,9 @@ export const preferencesApi = configGeneratedApi.enhanceEndpoints({
             async onQueryStarted(arg, { queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
+                    if (typeof data.value !== 'string') {
+                        return;
+                    }
 
                     switch (data.name) {
                         case PARAM_LANGUAGE:
