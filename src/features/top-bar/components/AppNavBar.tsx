@@ -43,7 +43,7 @@ export function AppNavBar() {
     const currentTab = leftTabs.find((t) => location.pathname.startsWith(t.path))?.path ?? false;
 
     return (
-        <Tabs value={currentTab}>
+        <Tabs value={currentTab} textColor="secondary" indicatorColor="secondary">
             {leftTabs.map((tab) => (
                 <Tab
                     key={tab.path}
