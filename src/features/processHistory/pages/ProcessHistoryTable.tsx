@@ -9,13 +9,11 @@ import { Box, useTheme } from '@mui/material';
 import { useIntl } from 'react-intl';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { CustomAGGrid, DefaultCellRenderer } from '@gridsuite/commons-ui';
+import { CustomAGGrid, DefaultCellRenderer, useCustomAggridSortContext } from '@gridsuite/commons-ui';
 import { GridApi, RowStyle } from 'ag-grid-community';
 import { ProcessExecutionInfo } from '../model/process-execution-info';
-import { useAppSelector } from '../../../app/store/store';
-import { PROCESS_HISTORY_SORT_STORE } from '../store/history-process.constants';
 import { AGGRID_LOCALES } from '../../../shared/translations/not-intl/aggrid-locales';
-import { processResultsColumnsDefinition } from '../processHistoryUtils';
+import { PROCESS_HISTORY_SORT_PARAMS, processResultsColumnsDefinition } from '../processHistoryUtils';
 
 type ProcessExecutionListProps = {
     executions: ProcessExecutionInfo[];
@@ -25,26 +23,24 @@ export default function ProcessHistoryTable({ executions }: Readonly<ProcessExec
     const theme = useTheme();
     const gridRef = useRef<AgGridReact>(null);
     const intl = useIntl();
-    const tableSort = useAppSelector((state) => state.processHistory.tableSort);
+    const sortState = useCustomAggridSortContext().getSortConfig(PROCESS_HISTORY_SORT_PARAMS);
 
     const applyTableState = useCallback(
         (api: GridApi) => {
-            const sortState = tableSort[PROCESS_HISTORY_SORT_STORE]?.[PROCESS_HISTORY_SORT_STORE];
             api.applyColumnState({
                 state: sortState ?? [],
                 defaultState: { sort: null },
             });
         },
-        [tableSort]
+        [sortState]
     );
 
     useEffect(() => {
-        const sortState = tableSort[PROCESS_HISTORY_SORT_STORE]?.[PROCESS_HISTORY_SORT_STORE];
         gridRef.current?.api?.applyColumnState({
             state: sortState ?? [],
             defaultState: { sort: null },
         });
-    }, [tableSort]);
+    }, [sortState]);
 
     const defaultColDef = useMemo(
         () => ({

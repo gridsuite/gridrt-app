@@ -6,13 +6,15 @@
  */
 
 import { AppBar, Button, Divider, Stack, Toolbar, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useLocation, useNavigate } from 'react-router';
 import { PlayArrow as PlayArrowIcon } from '@mui/icons-material';
 import { RunProcessDialog } from '../../run-process/components/RunProcessDialog';
 import { SandboxModeToggle } from './SandboxModeToggle';
 import { AppNavBar } from './AppNavBar';
 import type { UserProfile } from '../../authentication/store/authentication.type';
+import { APP_PATHS } from '../../../app/router/app-paths';
 
 export type AppTopBarProps = {
     userProfile: UserProfile | null;
@@ -25,6 +27,15 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
     const theme = useTheme();
     const [isSandboxMode, setSandboxMode] = useState(false);
     const [isRunDialogOpen, setRunDialogOpen] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    // the process history is only available in sandbox mode
+    useEffect(() => {
+        if (!isSandboxMode && location.pathname.startsWith(APP_PATHS.processHistory)) {
+            navigate(APP_PATHS.home, { replace: true });
+        }
+    }, [isSandboxMode, location.pathname, navigate]);
 
     const toolbarBackground = isSandboxMode
         ? SANDBOX_ACTIVE_BACKGROUND

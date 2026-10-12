@@ -9,14 +9,14 @@ import { FormattedMessage } from 'react-intl';
 import { Box, Typography } from '@mui/material';
 import { useProcessResults } from '../hooks/use-process-list';
 import { HistoryProcessAlert } from '../components/HistoryProcessAlert';
-import { CustomAggridReduxProvider } from '../components/custom-aggrid-redux-provider';
+import { ProcessHistorySortProvider } from '../components/process-history-sort-provider';
 import ProcessHistoryTable from './ProcessHistoryTable';
 
 function ProcessHistoryPage() {
     const { executions, isEmpty, isError, isLoading } = useProcessResults();
 
     return (
-        <CustomAggridReduxProvider>
+        <ProcessHistorySortProvider>
             <HistoryProcessAlert isEmpty={isEmpty} isError={isError} isLoading={isLoading} />
             {!isError && (
                 <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden', px: '24px' }}>
@@ -35,7 +35,7 @@ function ProcessHistoryPage() {
                     <ProcessHistoryTable executions={executions} />
                 </Box>
             )}
-        </CustomAggridReduxProvider>
+        </ProcessHistorySortProvider>
     );
 }
 

@@ -8,25 +8,18 @@ import { makeAgGridCustomHeaderColumn, SortParams } from '@gridsuite/commons-ui'
 import { ColDef } from 'ag-grid-community';
 import { IntlShape } from 'react-intl';
 import { ProcessDateCellRenderer } from './components/renderers/process-date-cell-renderer';
-import { PROCESS_HISTORY_SORT_STORE } from './store/history-process.constants';
 import { ProcessStatusCellRenderer } from './components/renderers/process-status-cell-renderer';
 import { ProcessActionsCellRenderer } from './components/renderers/process-actions-cell-renderer';
 
-interface TableParams {
-    sortParams: SortParams;
-}
+const PROCESS_HISTORY_TABLE = 'processHistory';
 
-const createTableParams = (): TableParams => {
-    return {
-        sortParams: {
-            table: PROCESS_HISTORY_SORT_STORE,
-            tab: PROCESS_HISTORY_SORT_STORE,
-        },
-    };
+export const PROCESS_HISTORY_SORT_PARAMS: SortParams = {
+    table: PROCESS_HISTORY_TABLE,
+    tab: PROCESS_HISTORY_TABLE,
 };
 
 export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
-    const { sortParams } = createTableParams();
+    const sortParams = PROCESS_HISTORY_SORT_PARAMS;
 
     return [
         makeAgGridCustomHeaderColumn({
