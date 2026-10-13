@@ -10,7 +10,7 @@ import { Box, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import { Routes, Route, Navigate } from 'react-router';
 import { Suspense } from 'react';
-import { Loader } from '../shared/ui/Loader';
+import { Loader } from 'shared/ui/Loader';
 import { APP_PATHS } from './app-paths';
 
 export function AppRouter() {

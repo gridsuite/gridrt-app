@@ -18,12 +18,12 @@ import { IntlProvider } from 'react-intl';
 import { BrowserRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { PropsWithChildren } from 'react';
+import { useGetConfigParameterWithFallback } from 'features/app-parameters/hooks/use-get-config-parameter-with-fallback';
+import { useNotificationsUrlGenerator } from 'shared/api/ws/use-notifications-url-generator';
+import { SnackRefRegisterer } from 'features/snacking/SnackRefRegisterer';
 import { store } from './store/store';
-import { appMessages } from './config/app-messages';
-import { getAppTheme } from './config/theme/app-theme';
-import { useGetConfigParameterWithFallback } from '../features/app-parameters/hooks/use-get-config-parameter-with-fallback';
-import { useNotificationsUrlGenerator } from '../shared/api/ws/use-notifications-url-generator';
-import { SnackRefRegisterer } from '../features/snacking/SnackRefRegisterer';
+import { appMessages } from './app-messages';
+import { getAppTheme } from '../shared/theme/app-theme';
 
 const basename = new URL(document.querySelector('base')?.href ?? '').pathname;
 

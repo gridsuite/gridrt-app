@@ -7,7 +7,7 @@
 
 import { Middleware, isRejectedWithValue } from '@reduxjs/toolkit';
 import { getErrorMessage } from 'shared/lib/error';
-import { snackRef } from '../../features/snacking/snack-ref';
+import { snackRef } from 'features/snacking/snack-ref';
 
 type RtkQueryRejectedMetadataArgs = {
     endpointName?: string;
