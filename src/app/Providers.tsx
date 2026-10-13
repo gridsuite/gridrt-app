@@ -17,13 +17,13 @@ import {
 import { IntlProvider } from 'react-intl';
 import { BrowserRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import { store } from 'app/store/store';
-import { appMessages } from 'app/config/app-messages';
-import { getAppTheme } from 'app/config/app-theme';
-import { useGetConfigParameterWithFallback } from 'features/app-parameters/hooks/use-get-config-parameter-with-fallback';
-import { useNotificationsUrlGenerator } from 'shared/api/ws/use-notifications-url-generator';
 import { PropsWithChildren } from 'react';
-import { SnackRefRegisterer } from '../../features/snacking/SnackRefRegisterer';
+import { store } from './store/store';
+import { appMessages } from './config/app-messages';
+import { getAppTheme } from './config/app-theme';
+import { useGetConfigParameterWithFallback } from '../features/app-parameters/hooks/use-get-config-parameter-with-fallback';
+import { useNotificationsUrlGenerator } from '../shared/api/ws/use-notifications-url-generator';
+import { SnackRefRegisterer } from '../features/snacking/SnackRefRegisterer';
 
 const basename = new URL(document.querySelector('base')?.href ?? '').pathname;
 

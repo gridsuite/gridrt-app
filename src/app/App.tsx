@@ -25,8 +25,8 @@ import { useAppParametersInvalidationListener } from '../features/app-parameters
 import { useAppDispatch, useAppSelector } from './store/store';
 import { AppRouter } from './router/AppRouter';
 import { useStableUserProfile } from '../features/authentication/hooks/use-stable-user-profile';
-import MainLayout from './main-layout/MainLayout';
-import Providers from './providers/Providers';
+import MainLayout from './MainLayout';
+import Providers from './Providers';
 
 function App() {
     const userProfile = useStableUserProfile();
