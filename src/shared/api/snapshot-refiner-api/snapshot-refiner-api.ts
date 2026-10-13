@@ -7,7 +7,6 @@
 
 import { snapshotRefinerBaseApi } from './snapshot-refiner-base-api';
 
-// Handwritten: no OpenAPI codegen available yet for this backend.
 export type RunSnapshotRefinerApiResponse = string;
 export type RunSnapshotRefinerApiArg = {
     caseFile: File;
