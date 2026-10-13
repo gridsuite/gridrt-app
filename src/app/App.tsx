@@ -21,11 +21,12 @@ import {
 } from 'features/authentication/store/authentication.selectors';
 import { getErrorMessage } from 'shared/lib/error';
 import { fetchIdpSettings } from 'shared/config/idp-settings';
-import { useAppParametersInvalidationListener } from './notifications/use-app-parameters-invalidation-listener';
+import { useAppParametersInvalidationListener } from 'features/app-parameters/hooks/use-app-parameters-invalidation-listener';
+import { useStableUserProfile } from 'features/authentication/hooks/use-stable-user-profile';
 import { useAppDispatch, useAppSelector } from './store/store';
-import { AppRouter } from './router/AppRouter';
-import { useStableUserProfile } from '../features/authentication/hooks/use-stable-user-profile';
-import { AppLayout } from './layout/AppLayout';
+import { AppRouter } from './AppRouter';
+import AppLayout from './AppLayout';
+import AppProviders from './AppProviders';
 
 function App() {
     const userProfile = useStableUserProfile();
@@ -82,23 +83,25 @@ function App() {
     const onLogoutClick = () => logout(dispatch, userManager.instance)?.catch((err) => console.error(err));
 
     return (
-        <AppLayout onLogoutClick={onLogoutClick}>
-            <CardErrorBoundary>
-                {userProfile !== null ? (
-                    <AppRouter />
-                ) : (
-                    <AuthenticationRouter
-                        userManager={userManager}
-                        signInCallbackError={signInCallbackError}
-                        authenticationRouterError={authenticationRouterError}
-                        showAuthenticationRouterLogin={showAuthenticationRouterLogin}
-                        dispatch={dispatch}
-                        navigate={navigate}
-                        location={location}
-                    />
-                )}
-            </CardErrorBoundary>
-        </AppLayout>
+        <AppProviders>
+            <AppLayout onLogoutClick={onLogoutClick}>
+                <CardErrorBoundary>
+                    {userProfile !== null ? (
+                        <AppRouter />
+                    ) : (
+                        <AuthenticationRouter
+                            userManager={userManager}
+                            signInCallbackError={signInCallbackError}
+                            authenticationRouterError={authenticationRouterError}
+                            showAuthenticationRouterLogin={showAuthenticationRouterLogin}
+                            dispatch={dispatch}
+                            navigate={navigate}
+                            location={location}
+                        />
+                    )}
+                </CardErrorBoundary>
+            </AppLayout>
+        </AppProviders>
     );
 }
 export default App;

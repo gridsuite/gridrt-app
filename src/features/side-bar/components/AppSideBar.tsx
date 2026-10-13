@@ -19,11 +19,11 @@ import { createTheme } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import GridrtDarkLogo from 'assets/images/gridrtDarkLogo.svg?react';
 import GridrtLightLogo from 'assets/images/gridrtLightLogo.svg?react';
-import { useAppParameterState } from '../../app-parameters/hooks/use-app-parameter-state';
-import { APP_NAME } from '../../../app/config/app-config';
-import { getAppTheme } from '../../../app/config/app-theme';
-import { useStableUserProfile } from '../../authentication/hooks/use-stable-user-profile';
-import { fetchVersion } from '../../../shared/config/version';
+import { useAppParameterState } from 'features/app-parameters/hooks/use-app-parameter-state';
+import { APP_NAME } from 'shared/app.constants';
+import { getAppTheme } from 'shared/theme/app-theme';
+import { useStableUserProfile } from 'features/authentication/hooks/use-stable-user-profile';
+import { fetchVersion } from 'shared/config/version';
 import { getServersInfos } from '../api/get-servers-infos';
 import AppPackage from '../../../../package.json';
 

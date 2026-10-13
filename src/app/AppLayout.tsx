@@ -11,13 +11,13 @@ import { DevModeBanner, PARAM_DEVELOPER_MODE } from '@gridsuite/commons-ui';
 import { useAppParameterState } from 'features/app-parameters/hooks/use-app-parameter-state';
 import { useStableUserProfile } from 'features/authentication/hooks/use-stable-user-profile';
 import AppTopBar from 'features/top-bar/components/AppTopBar';
-import { AppSideBar } from '../../features/side-bar/components/AppSideBar';
+import { AppSideBar } from 'features/side-bar/components/AppSideBar';
 
 export type AppLayoutProps = {
     onLogoutClick?: () => void;
 };
 
-export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildren<AppLayoutProps>>) {
+function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildren<AppLayoutProps>>) {
     const [isDeveloperMode] = useAppParameterState(PARAM_DEVELOPER_MODE);
     const userProfile = useStableUserProfile();
 
@@ -42,3 +42,5 @@ export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildre
         </Stack>
     );
 }
+
+export default AppLayout;

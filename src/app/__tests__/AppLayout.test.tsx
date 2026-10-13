@@ -7,7 +7,7 @@
 
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { AppLayout } from '../AppLayout';
+import AppLayout from '../AppLayout';
 
 const mocks = vi.hoisted(() => ({
     useAppParameterState: vi.fn(),

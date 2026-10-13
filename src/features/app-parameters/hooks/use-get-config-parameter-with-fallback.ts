@@ -6,12 +6,12 @@
  */
 
 import { getAppName } from '@gridsuite/commons-ui';
-import { APP_NAME } from 'app/config/app-config';
 import { useGetParameterQuery } from 'shared/api/config-api';
-import { getInitialAppParametersState } from '../store/app-parameters.default';
+import { mapRawParamValue } from 'shared/api/config-api/config.mapping';
+import { useStableUserProfile } from 'features/authentication/hooks/use-stable-user-profile';
+import { APP_NAME } from 'shared/app.constants';
 import { AppParametersKey } from '../store/app-parameters.type';
-import { mapRawParamValue } from '../../../shared/api/config-api/config.mapping';
-import { useStableUserProfile } from '../../authentication/hooks/use-stable-user-profile';
+import { getInitialAppParametersState } from '../store/app-parameters.default';
 
 /**
  * This data is fetched from AppSideBar, which is displayed before user is authenticated

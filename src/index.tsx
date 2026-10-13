@@ -8,15 +8,15 @@
 import 'typeface-roboto';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './app/styles/index.css';
-import AppWrapper from './app/providers/AppProviders';
+import './index.css';
+import App from './app/App';
 
 const container = document.getElementById('root');
 if (container) {
     const root = createRoot(container);
     root.render(
         <React.StrictMode>
-            <AppWrapper />
+            <App />
         </React.StrictMode>
     );
 } else {
