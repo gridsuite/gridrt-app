@@ -20,14 +20,14 @@ import { Provider } from 'react-redux';
 import { PropsWithChildren } from 'react';
 import { store } from './store/store';
 import { appMessages } from './config/app-messages';
-import { getAppTheme } from './config/app-theme';
+import { getAppTheme } from './config/theme/app-theme';
 import { useGetConfigParameterWithFallback } from '../features/app-parameters/hooks/use-get-config-parameter-with-fallback';
 import { useNotificationsUrlGenerator } from '../shared/api/ws/use-notifications-url-generator';
 import { SnackRefRegisterer } from '../features/snacking/SnackRefRegisterer';
 
 const basename = new URL(document.querySelector('base')?.href ?? '').pathname;
 
-function Providers({ children }: PropsWithChildren) {
+function AppProviders({ children }: PropsWithChildren) {
     const { data: language } = useGetConfigParameterWithFallback(PARAM_LANGUAGE);
     const computedLanguage = getComputedLanguage(language);
     const { data: theme } = useGetConfigParameterWithFallback(PARAM_THEME);
@@ -55,4 +55,4 @@ function Providers({ children }: PropsWithChildren) {
     );
 }
 
-export default Providers;
+export default AppProviders;

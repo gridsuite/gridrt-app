@@ -23,10 +23,10 @@ import { getErrorMessage } from 'shared/lib/error';
 import { fetchIdpSettings } from 'shared/config/idp-settings';
 import { useAppParametersInvalidationListener } from '../features/app-parameters/hooks/use-app-parameters-invalidation-listener';
 import { useAppDispatch, useAppSelector } from './store/store';
-import { AppRouter } from './router/AppRouter';
+import { AppRouter } from './AppRouter';
 import { useStableUserProfile } from '../features/authentication/hooks/use-stable-user-profile';
-import MainLayout from './MainLayout';
-import Providers from './Providers';
+import AppLayout from './AppLayout';
+import AppProviders from './AppProviders';
 
 function App() {
     const userProfile = useStableUserProfile();
@@ -83,8 +83,8 @@ function App() {
     const onLogoutClick = () => logout(dispatch, userManager.instance)?.catch((err) => console.error(err));
 
     return (
-        <Providers>
-            <MainLayout onLogoutClick={onLogoutClick}>
+        <AppProviders>
+            <AppLayout onLogoutClick={onLogoutClick}>
                 <CardErrorBoundary>
                     {userProfile !== null ? (
                         <AppRouter />
@@ -100,8 +100,8 @@ function App() {
                         />
                     )}
                 </CardErrorBoundary>
-            </MainLayout>
-        </Providers>
+            </AppLayout>
+        </AppProviders>
     );
 }
 export default App;
