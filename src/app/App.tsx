@@ -25,7 +25,8 @@ import { useAppParametersInvalidationListener } from './notifications/use-app-pa
 import { useAppDispatch, useAppSelector } from './store/store';
 import { AppRouter } from './router/AppRouter';
 import { useStableUserProfile } from '../features/authentication/hooks/use-stable-user-profile';
-import { AppLayout } from './layout/AppLayout';
+import MainLayout from './main-layout/MainLayout';
+import Providers from './providers/Providers';
 
 function App() {
     const userProfile = useStableUserProfile();
@@ -82,23 +83,25 @@ function App() {
     const onLogoutClick = () => logout(dispatch, userManager.instance)?.catch((err) => console.error(err));
 
     return (
-        <AppLayout onLogoutClick={onLogoutClick}>
-            <CardErrorBoundary>
-                {userProfile !== null ? (
-                    <AppRouter />
-                ) : (
-                    <AuthenticationRouter
-                        userManager={userManager}
-                        signInCallbackError={signInCallbackError}
-                        authenticationRouterError={authenticationRouterError}
-                        showAuthenticationRouterLogin={showAuthenticationRouterLogin}
-                        dispatch={dispatch}
-                        navigate={navigate}
-                        location={location}
-                    />
-                )}
-            </CardErrorBoundary>
-        </AppLayout>
+        <Providers>
+            <MainLayout onLogoutClick={onLogoutClick}>
+                <CardErrorBoundary>
+                    {userProfile !== null ? (
+                        <AppRouter />
+                    ) : (
+                        <AuthenticationRouter
+                            userManager={userManager}
+                            signInCallbackError={signInCallbackError}
+                            authenticationRouterError={authenticationRouterError}
+                            showAuthenticationRouterLogin={showAuthenticationRouterLogin}
+                            dispatch={dispatch}
+                            navigate={navigate}
+                            location={location}
+                        />
+                    )}
+                </CardErrorBoundary>
+            </MainLayout>
+        </Providers>
     );
 }
 export default App;

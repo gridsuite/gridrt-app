@@ -13,11 +13,11 @@ import { useStableUserProfile } from 'features/authentication/hooks/use-stable-u
 import AppTopBar from 'features/top-bar/components/AppTopBar';
 import { AppSideBar } from '../../features/side-bar/components/AppSideBar';
 
-export type AppLayoutProps = {
+export type MainLayoutProps = {
     onLogoutClick?: () => void;
 };
 
-export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildren<AppLayoutProps>>) {
+function MainLayout({ onLogoutClick, children }: Readonly<PropsWithChildren<MainLayoutProps>>) {
     const [isDeveloperMode] = useAppParameterState(PARAM_DEVELOPER_MODE);
     const userProfile = useStableUserProfile();
 
@@ -42,3 +42,5 @@ export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildre
         </Stack>
     );
 }
+
+export default MainLayout;

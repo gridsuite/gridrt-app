@@ -7,7 +7,7 @@
 
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { AppLayout } from '../AppLayout';
+import MainLayout from '../MainLayout';
 
 const mocks = vi.hoisted(() => ({
     useAppParameterState: vi.fn(),
@@ -43,7 +43,7 @@ vi.mock('features/side-bar/components/AppSideBar', () => ({
     },
 }));
 
-describe('AppLayout', () => {
+describe('MainLayout', () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mocks.useAppParameterState.mockImplementation((paramName: string) => {
@@ -60,9 +60,9 @@ describe('AppLayout', () => {
         const onLogoutClick = vi.fn();
 
         render(
-            <AppLayout onLogoutClick={onLogoutClick}>
+            <MainLayout onLogoutClick={onLogoutClick}>
                 <main>Application content</main>
-            </AppLayout>
+            </MainLayout>
         );
 
         expect(screen.getByText('Application content')).toBeInTheDocument();
@@ -82,13 +82,13 @@ describe('AppLayout', () => {
             return [undefined];
         });
 
-        render(<AppLayout>Application content</AppLayout>);
+        render(<MainLayout>Application content</MainLayout>);
 
         expect(screen.getByText('Developer mode')).toBeInTheDocument();
     });
 
     it('does not display the developer mode banner when developer mode is disabled', () => {
-        render(<AppLayout>Application content</AppLayout>);
+        render(<MainLayout>Application content</MainLayout>);
 
         expect(screen.queryByText('Developer mode')).not.toBeInTheDocument();
     });
@@ -103,7 +103,7 @@ describe('AppLayout', () => {
         });
         mocks.useStableUserProfile.mockReturnValue(null);
 
-        render(<AppLayout>Application content</AppLayout>);
+        render(<MainLayout>Application content</MainLayout>);
 
         expect(screen.queryByText('Developer mode')).not.toBeInTheDocument();
     });
