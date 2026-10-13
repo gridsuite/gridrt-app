@@ -7,7 +7,7 @@
 
 import { useSnackMessage } from '@gridsuite/commons-ui';
 import { useEffect } from 'react';
-import { snackRef } from '../../shared/lib/snack-ref';
+import { snackRef } from './snack-ref';
 
 export function SnackRefRegisterer() {
     const snackFns = useSnackMessage();
