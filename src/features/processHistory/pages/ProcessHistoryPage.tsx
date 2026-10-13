@@ -10,6 +10,7 @@ import { Box, Typography } from '@mui/material';
 import { useProcessResults } from '../hooks/use-process-list';
 import { HistoryProcessAlert } from '../components/HistoryProcessAlert';
 import { ProcessHistorySortProvider } from '../components/process-history-sort-provider';
+import { ProcessHistoryFilterProvider } from '../components/process-history-filter-provider';
 import ProcessHistoryTable from './ProcessHistoryTable';
 
 function ProcessHistoryPage() {
@@ -17,24 +18,34 @@ function ProcessHistoryPage() {
 
     return (
         <ProcessHistorySortProvider>
-            <HistoryProcessAlert isEmpty={isEmpty} isError={isError} isLoading={isLoading} />
-            {!isError && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden', px: '24px' }}>
+            <ProcessHistoryFilterProvider>
+                <HistoryProcessAlert isEmpty={isEmpty} isError={isError} isLoading={isLoading} />
+                {!isError && (
                     <Box
                         sx={{
                             display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            ml: 1,
+                            flexDirection: 'column',
+                            height: '100%',
+                            overflow: 'hidden',
+                            px: '24px',
                         }}
                     >
-                        <Typography variant="h5" sx={{ mt: '24px', mb: '24px' }}>
-                            <FormattedMessage id="ProcessExecutionHistory" />
-                        </Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                ml: 1,
+                            }}
+                        >
+                            <Typography variant="h5" sx={{ mt: '24px', mb: '24px' }}>
+                                <FormattedMessage id="ProcessExecutionHistory" />
+                            </Typography>
+                        </Box>
+                        <ProcessHistoryTable executions={executions} />
                     </Box>
-                    <ProcessHistoryTable executions={executions} />
-                </Box>
-            )}
+                )}
+            </ProcessHistoryFilterProvider>
         </ProcessHistorySortProvider>
     );
 }

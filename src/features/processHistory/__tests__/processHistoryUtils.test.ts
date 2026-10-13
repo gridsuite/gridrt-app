@@ -12,16 +12,17 @@ import { processResultsColumnsDefinition } from 'features/processHistory/process
 const intlMock = {
     formatMessage: ({ id }: { id: string }) => id,
 } as unknown as IntlShape;
+const getEnumLabelMock = (value: string) => value;
 
 describe('processResultsColumnsDefinition', () => {
     it('returns the expected columns in order', () => {
-        const columns = processResultsColumnsDefinition(intlMock);
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
 
         expect(columns.map((col) => col.colId)).toEqual(['caseName', 'status', 'startedAt', 'completedAt', 'actions']);
     });
 
     it('resolves header names through intl', () => {
-        const columns = processResultsColumnsDefinition(intlMock);
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
         const byColId = (colId: string) => columns.find((col) => col.colId === colId);
 
         expect(byColId('caseName')?.headerName).toBe('RawSnapshots');
@@ -32,7 +33,7 @@ describe('processResultsColumnsDefinition', () => {
     });
 
     it('pins the first column with a fixed width, no column is resizable', () => {
-        const columns = processResultsColumnsDefinition(intlMock);
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
 
         expect(columns[0].pinned).toBe('left');
         expect(columns[0].width).toBe(210);
@@ -40,8 +41,24 @@ describe('processResultsColumnsDefinition', () => {
         columns.forEach((col) => expect(col.resizable).toBe(false));
     });
 
+    it('sorts and filters the case name and status columns, only sorts the date columns', () => {
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
+        const contextOf = (colId: string) => columns.find((col) => col.colId === colId)?.context;
+
+        ['caseName', 'status'].forEach((colId) => {
+            expect(contextOf(colId)?.sortParams).toBeDefined();
+            expect(contextOf(colId)?.filterComponent).toBeDefined();
+        });
+        ['startedAt', 'completedAt'].forEach((colId) => {
+            expect(contextOf(colId)?.sortParams).toBeDefined();
+            expect(contextOf(colId)?.filterComponent).toBeUndefined();
+        });
+        expect(contextOf('actions')?.sortParams).toBeUndefined();
+        expect(contextOf('actions')?.filterComponent).toBeUndefined();
+    });
+
     it('falls back to caseUuid when caseName is missing in the valueGetter', () => {
-        const columns = processResultsColumnsDefinition(intlMock);
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
         const caseNameCol = columns.find((col) => col.colId === 'caseName');
         const valueGetter = caseNameCol?.valueGetter as (params: any) => unknown;
 

@@ -26,5 +26,8 @@
     "DownloadCase": "Download case",
     "ErrorLoadingProcessHistory": "Unable to load process executions.",
     "NoProcessHistory": "Nothing to report, Yet!",
-    "Loading": "Loading..."
+    "Loading": "Loading...",
+    "filter.filterOoo": "Filter...",
+    "filter.startsWith": "Starts with",
+    "filter.contains": "Contains"
 }
