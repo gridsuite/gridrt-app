@@ -33,7 +33,7 @@ export function HistoryProcessAlert({ isEmpty, isError, isLoading }: Readonly<Pr
     if (isError) {
         return (
             <Alert severity="error">
-                <FormattedMessage id="ErrorChargingProcessHistory" />
+                <FormattedMessage id="ErrorLoadingProcessHistory" />
             </Alert>
         );
     }

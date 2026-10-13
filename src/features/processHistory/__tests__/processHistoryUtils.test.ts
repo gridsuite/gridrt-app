@@ -17,14 +17,7 @@ describe('processResultsColumnsDefinition', () => {
     it('returns the expected columns in order', () => {
         const columns = processResultsColumnsDefinition(intlMock);
 
-        expect(columns.map((col) => col.colId)).toEqual([
-            'caseName',
-            'status',
-            'startedAt',
-            'completedAt',
-            'actions',
-            'filler',
-        ]);
+        expect(columns.map((col) => col.colId)).toEqual(['caseName', 'status', 'startedAt', 'completedAt', 'actions']);
     });
 
     it('resolves header names through intl', () => {
@@ -36,6 +29,15 @@ describe('processResultsColumnsDefinition', () => {
         expect(byColId('startedAt')?.headerName).toBe('StartedAt');
         expect(byColId('completedAt')?.headerName).toBe('CompletedAt');
         expect(byColId('actions')?.headerName).toBe('Actions');
+    });
+
+    it('pins the first column with a fixed width, no column is resizable', () => {
+        const columns = processResultsColumnsDefinition(intlMock);
+
+        expect(columns[0].pinned).toBe('left');
+        expect(columns[0].width).toBe(210);
+        columns.forEach((col) => expect(col.flex).toBeUndefined());
+        columns.forEach((col) => expect(col.resizable).toBe(false));
     });
 
     it('falls back to caseUuid when caseName is missing in the valueGetter', () => {

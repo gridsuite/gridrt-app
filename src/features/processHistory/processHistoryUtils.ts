@@ -26,9 +26,12 @@ export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
             headerName: intl.formatMessage({ id: 'RawSnapshots' }),
             colId: 'caseName',
             field: 'caseName',
-            minWidth: 200,
-            initialFlex: 10,
-            pinned: true,
+            pinned: 'left',
+            suppressMovable: true,
+            lockPosition: true,
+            width: 210,
+            minWidth: 210,
+            resizable: false,
             cellRendererParams: (params: any) => ({
                 id: params.data.id,
             }),
@@ -93,8 +96,9 @@ export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
             headerName: intl.formatMessage({ id: 'Actions' }),
             colId: 'actions',
             field: 'actions',
-            minWidth: 72,
-            maxWidth: 72,
+            // wide enough to display the "Actions" header without truncation
+            minWidth: 96,
+            maxWidth: 96,
             resizable: false,
             cellRenderer: ProcessActionsCellRenderer,
             cellRendererParams: (params: any) => ({
@@ -103,12 +107,6 @@ export const processResultsColumnsDefinition = (intl: IntlShape): ColDef[] => {
                 caseName: params.data.caseName ?? params.data.caseUuid,
             }),
             sortable: false,
-        }),
-        makeAgGridCustomHeaderColumn({
-            headerName: '',
-            colId: 'filler',
-            minWidth: 0,
-            flex: 1,
         }),
     ];
 };
