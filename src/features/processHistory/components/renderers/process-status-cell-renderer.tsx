@@ -7,6 +7,7 @@
 
 import { Done, Autorenew, ErrorOutlineOutlined } from '@mui/icons-material';
 import { Box, Chip, Icon, Stack, useTheme } from '@mui/material';
+import { purple } from '@mui/material/colors';
 import { useIntl } from 'react-intl';
 import { ReactNode } from 'react';
 import { Status } from '../../../../shared/api/snapshot-refiner-api';
@@ -22,11 +23,11 @@ export function ProcessStatusCellRenderer({ value }: Readonly<ProcessStatusCellR
 
     switch (value) {
         case Status.Failed:
-            colorVal = theme.palette.mode === 'light' ? '#D32F2F' : '#E57373';
+            colorVal = theme.palette.mode === 'light' ? theme.palette.error.main : theme.palette.error.light;
             iconVal = <ErrorOutlineOutlined />;
             break;
         case Status.Running:
-            colorVal = theme.palette.mode === 'light' ? '#A0F' : '#EA80FC';
+            colorVal = theme.palette.mode === 'light' ? purple.A700 : purple.A100;
             iconVal = <Autorenew />;
             break;
         default:
