@@ -71,15 +71,7 @@ export default function ProcessHistoryTable({ executions }: Readonly<ProcessExec
         []
     );
 
-    const getCustomRowStyle = useCallback(
-        (_cellData: any) => {
-            const style: RowStyle = { background: theme.palette.background.default, highlightColor: 'yellow' };
-            return {
-                ...style,
-            };
-        },
-        [theme]
-    );
+    const getCustomRowStyle = useCallback((): RowStyle => ({ background: theme.palette.background.default }), [theme]);
 
     const getEnumLabel = useCallback(
         (value: string) => intl.formatMessage({ id: value, defaultMessage: value }),
@@ -98,15 +90,6 @@ export default function ProcessHistoryTable({ executions }: Readonly<ProcessExec
                 height: '100%',
                 width: '100%',
                 ml: 1,
-                '& .row-action-button': {
-                    visibility: 'hidden',
-                },
-                '& .ag-row-hover .row-action-button': {
-                    visibility: 'visible',
-                },
-                '& .ag-row': {
-                    cursor: 'pointer',
-                },
             }}
         >
             <CustomAGGrid

@@ -70,9 +70,6 @@ export const processResultsColumnsDefinition = (
             minWidth: 210,
             resizable: false,
             filter: true,
-            cellRendererParams: (params: any) => ({
-                id: params.data.id,
-            }),
             context: {
                 sortParams,
                 filterComponent: CustomAggridComparatorFilter,
@@ -97,9 +94,6 @@ export const processResultsColumnsDefinition = (
             resizable: false,
             filter: true,
             cellRenderer: ProcessStatusCellRenderer,
-            cellRendererParams: (params: any) => ({
-                id: params.data.id,
-            }),
             filterParams: enumFilterParams,
             context: {
                 sortParams,
@@ -125,9 +119,6 @@ export const processResultsColumnsDefinition = (
             maxWidth: 183,
             resizable: false,
             cellRenderer: ProcessDateCellRenderer,
-            cellRendererParams: (params: any) => ({
-                id: params.data.id,
-            }),
             context: {
                 sortParams,
             },
@@ -142,9 +133,6 @@ export const processResultsColumnsDefinition = (
             maxWidth: 183,
             resizable: false,
             cellRenderer: ProcessDateCellRenderer,
-            cellRendererParams: (params: any) => ({
-                id: params.data.id,
-            }),
             context: {
                 sortParams,
             },

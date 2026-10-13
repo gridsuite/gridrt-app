@@ -7,7 +7,7 @@
 import { useIntl } from 'react-intl';
 import { Box, Tooltip } from '@mui/material';
 
-export type ProcessDateCellRendererProps = { value: string; id: string };
+export type ProcessDateCellRendererProps = { value: string };
 
 export function ProcessDateCellRenderer({ value }: Readonly<ProcessDateCellRendererProps>) {
     const intl = useIntl();
@@ -32,7 +32,6 @@ export function ProcessDateCellRenderer({ value }: Readonly<ProcessDateCellRende
             hour12: false,
         }).format(dateValue);
     }
-    // @ts-ignore
     return (
         <Box>
             <Tooltip title={fullDate}>

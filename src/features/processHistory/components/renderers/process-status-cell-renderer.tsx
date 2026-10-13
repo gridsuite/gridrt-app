@@ -12,7 +12,7 @@ import { useIntl } from 'react-intl';
 import { ReactNode } from 'react';
 import { Status } from '../../../../shared/api/snapshot-refiner-api';
 
-export type ProcessStatusCellRendererProps = { value: Status; id: string };
+export type ProcessStatusCellRendererProps = { value: Status };
 
 export function ProcessStatusCellRenderer({ value }: Readonly<ProcessStatusCellRendererProps>) {
     const intl = useIntl();
