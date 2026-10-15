@@ -63,10 +63,10 @@ export const processResultsColumnsDefinition = (
             headerName: intl.formatMessage({ id: 'RawSnapshots' }),
             colId: 'caseName',
             field: 'caseName',
-            pinned: 'left',
             suppressMovable: true,
             lockPosition: true,
-            width: 210,
+            // fills the remaining width (AG Grid only applies flex to not pinned columns)
+            flex: 1,
             minWidth: 210,
             resizable: true,
             filter: true,
@@ -91,7 +91,6 @@ export const processResultsColumnsDefinition = (
             field: 'status',
             minWidth: 174,
             maxWidth: 174,
-            resizable: false,
             filter: true,
             cellRenderer: ProcessStatusCellRenderer,
             filterParams: enumFilterParams,
@@ -117,7 +116,6 @@ export const processResultsColumnsDefinition = (
             field: 'startedAt',
             minWidth: 183,
             maxWidth: 183,
-            resizable: false,
             cellRenderer: ProcessDateCellRenderer,
             context: {
                 sortParams,
@@ -131,7 +129,6 @@ export const processResultsColumnsDefinition = (
             field: 'completedAt',
             minWidth: 183,
             maxWidth: 183,
-            resizable: false,
             cellRenderer: ProcessDateCellRenderer,
             context: {
                 sortParams,
@@ -146,7 +143,6 @@ export const processResultsColumnsDefinition = (
             // wide enough to display the "Actions" header without truncation
             minWidth: 96,
             maxWidth: 96,
-            resizable: false,
             cellRenderer: ProcessActionsCellRenderer,
             cellRendererParams: (params: any) => ({
                 processUuid: params.data.processUuid,

@@ -32,13 +32,15 @@ describe('processResultsColumnsDefinition', () => {
         expect(byColId('actions')?.headerName).toBe('Actions');
     });
 
-    it('pins the first column with a fixed width, no column is resizable', () => {
+    it('lets only the first, not pinned, column fill the remaining width and be resized', () => {
         const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
 
-        expect(columns[0].pinned).toBe('left');
-        expect(columns[0].width).toBe(210);
-        columns.forEach((col) => expect(col.flex).toBeUndefined());
-        columns.forEach((col) => expect(col.resizable).toBe(false));
+        expect(columns[0].pinned).toBeUndefined();
+        expect(columns[0].flex).toBe(1);
+        expect(columns[0].resizable).toBe(true);
+        columns.slice(1).forEach((col) => expect(col.flex).toBeUndefined());
+        // the other columns keep the table default (not resizable)
+        columns.slice(1).forEach((col) => expect(col.resizable).toBeUndefined());
     });
 
     it('sorts and filters the case name and status columns, only sorts the date columns', () => {

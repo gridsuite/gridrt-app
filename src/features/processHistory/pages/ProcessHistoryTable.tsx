@@ -29,6 +29,15 @@ type ProcessExecutionListProps = {
     isLoading: boolean;
 };
 
+// only what differs from AG Grid defaults (sortable, no filter), columns override what is specific to them
+const defaultColDef = {
+    resizable: false,
+    lockPinned: true,
+    wrapHeaderText: true,
+    autoHeaderHeight: true,
+    cellRenderer: DefaultCellRenderer,
+} satisfies ColDef;
+
 export default function ProcessHistoryTable({ executions, isLoading }: Readonly<ProcessExecutionListProps>) {
     const theme = useTheme();
     const gridRef = useRef<AgGridReact>(null);
@@ -57,20 +66,6 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
     useEffect(() => {
         updateAgGridFilters(gridRef.current?.api, filters);
     }, [filters]);
-
-    const defaultColDef = useMemo(
-        () =>
-            ({
-                filter: false,
-                sortable: true,
-                resizable: true,
-                lockPinned: true,
-                wrapHeaderText: true,
-                autoHeaderHeight: true,
-                cellRenderer: DefaultCellRenderer,
-            }) satisfies ColDef,
-        []
-    );
 
     const getCustomRowStyle = useCallback((): RowStyle => ({ background: theme.palette.background.default }), [theme]);
 
