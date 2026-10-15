@@ -67,7 +67,7 @@ export default function ProcessHistoryTable({ executions }: Readonly<ProcessExec
             wrapHeaderText: true,
             autoHeaderHeight: true,
             cellRenderer: DefaultCellRenderer,
-        }),
+        } satisfies ColDef),
         []
     );
 
