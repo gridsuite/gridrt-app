@@ -23,8 +23,8 @@ export function ProcessActionsCellRenderer({
     caseName,
 }: Readonly<ProcessActionsCellRendererProps>) {
     const [downloadResultCase] = useDownloadResultCaseMutation();
-    const downloadAction = useCallback(() => {
-        downloadResultCase({ processUuid, caseName });
+    const downloadAction = useCallback(async () => {
+        await downloadResultCase({ processUuid, caseName });
     }, [downloadResultCase, processUuid, caseName]);
 
     return (
