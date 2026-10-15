@@ -68,7 +68,7 @@ export const processResultsColumnsDefinition = (
             lockPosition: true,
             width: 210,
             minWidth: 210,
-            resizable: false,
+            resizable: true,
             filter: true,
             context: {
                 sortParams,
