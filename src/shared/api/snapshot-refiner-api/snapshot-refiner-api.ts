@@ -12,7 +12,6 @@ export type RunSnapshotRefinerApiArg = {
     caseFile: File;
 };
 
-export type DownloadResultCaseApiResponse = string;
 export type DownloadResultCaseApiArg = {
     processUuid: string;
     caseName: string;
@@ -31,7 +30,7 @@ const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
                 };
             },
         }),
-        downloadResultCase: build.mutation<DownloadResultCaseApiResponse, DownloadResultCaseApiArg>({
+        downloadResultCase: build.mutation<string, DownloadResultCaseApiArg>({
             query: ({ processUuid, caseName }) => ({
                 url: `/v1/process/${processUuid}/result-case`,
                 // the file is saved here so that only its name, and not the blob, ends up in the store
