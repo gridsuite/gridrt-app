@@ -85,7 +85,6 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
                 flexDirection: 'column',
                 height: '100%',
                 width: '100%',
-                ml: 1,
             }}
         >
             <CustomAGGrid
