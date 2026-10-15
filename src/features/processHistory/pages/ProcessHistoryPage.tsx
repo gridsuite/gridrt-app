@@ -6,7 +6,7 @@
  */
 
 import { FormattedMessage } from 'react-intl';
-import { Box, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { useProcessResults } from '../hooks/use-process-list';
 import { HistoryProcessAlert } from '../components/HistoryProcessAlert';
 import { ProcessHistorySortProvider } from '../components/process-history-sort-provider';
@@ -21,18 +21,18 @@ function ProcessHistoryPage() {
             <ProcessHistoryFilterProvider>
                 <HistoryProcessAlert isEmpty={isEmpty} isError={isError} isLoading={isLoading} />
                 {!isError && (
-                   <Stack
-                    sx={{
-                        height: '100%',
-                        width: '100%',
-                        px: 3,
-                    }}
-                >
-                    <Typography variant="h5" sx={{ my: 3 }}>
-                        <FormattedMessage id="ProcessExecutionHistory" />
-                    </Typography>
-                    <ProcessHistoryTable executions={executions} />
-                </Stack>
+                    <Stack
+                        sx={{
+                            height: '100%',
+                            width: '100%',
+                            px: 3,
+                        }}
+                    >
+                        <Typography variant="h5" sx={{ my: 3 }}>
+                            <FormattedMessage id="ProcessExecutionHistory" />
+                        </Typography>
+                        <ProcessHistoryTable executions={executions} />
+                    </Stack>
                 )}
             </ProcessHistoryFilterProvider>
         </ProcessHistorySortProvider>

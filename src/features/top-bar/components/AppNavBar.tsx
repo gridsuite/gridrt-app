@@ -28,10 +28,7 @@ function TabLabel({ icon, label }: { readonly icon: ReactNode; readonly label: s
         <Tooltip title={label} disableHoverListener={!isXs} disableFocusListener={!isXs} disableTouchListener={!isXs}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1 }}>
                 {icon}
-                <Typography
-                    variant="subtitle2"
-                    sx={{ display: { xs: 'none', sm: 'inline' }, color: 'text.secondary', textTransform: 'none' }}
-                >
+                <Typography variant="subtitle2" sx={{ display: { xs: 'none', sm: 'inline' }, textTransform: 'none' }}>
                     <span>{label}</span>
                 </Typography>
             </Box>
