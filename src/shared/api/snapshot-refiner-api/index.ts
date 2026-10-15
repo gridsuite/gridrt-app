@@ -6,5 +6,8 @@
  */
 
 export { snapshotRefinerBaseApi } from './snapshot-refiner-base-api';
-export { useRunSnapshotRefinerMutation } from './snapshot-refiner-api';
+export { useRunSnapshotRefinerMutation, useDownloadResultCaseMutation } from './snapshot-refiner-api';
 export type { RunSnapshotRefinerApiResponse, RunSnapshotRefinerApiArg } from './snapshot-refiner-api';
+export { useGetAllProcessExecutionsQuery, useGetProcessExecutionQuery } from './snapshot-refiner.generated';
+export type { ProcessExecution, ProcessStepExecution } from './snapshot-refiner.generated';
+export { CaseDeletionStatus, ReportDeletionStatus, ProcessStepType, Status } from './snapshot-refiner.generated';

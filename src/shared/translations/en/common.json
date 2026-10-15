@@ -11,5 +11,20 @@
     "runProcess.cancel": "Cancel",
     "runProcess.launch": "Launch",
     "runProcess.launching": "Launching...",
-    "runProcess.successTitle": "Process launched"
+    "runProcess.successTitle": "Process launched",
+    "topBar.processHistory": "Process history",
+    "CompletedAt": "End",
+    "StartedAt": "Start",
+    "RawSnapshots": "Raw snapshots",
+    "FAILED": "Failed",
+    "COMPLETED": "Success",
+    "RUNNING": "Running",
+    "Status": "Status",
+    "Actions": "Actions",
+    "DownloadCase": "Download case",
+    "getAllProcessExecutions": "Error while loading the process history",
+    "downloadResultCase": "Error while downloading the case",
+    "filter.filterOoo": "Filter...",
+    "filter.startsWith": "Starts with",
+    "filter.contains": "Contains"
 }
