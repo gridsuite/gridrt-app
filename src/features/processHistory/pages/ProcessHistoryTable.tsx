@@ -16,9 +16,8 @@ import {
     useCustomAggridFilterContext,
     useCustomAggridSortContext,
 } from '@gridsuite/commons-ui';
-import { GridApi, RowStyle } from 'ag-grid-community';
+import { ColDef, GridApi, RowStyle } from 'ag-grid-community';
 import { ProcessExecutionInfo } from '../model/process-execution-info';
-import { AGGRID_LOCALES } from '../../../shared/translations/not-intl/aggrid-locales';
 import {
     PROCESS_HISTORY_FILTER_PARAMS,
     PROCESS_HISTORY_SORT_PARAMS,
@@ -27,9 +26,10 @@ import {
 
 type ProcessExecutionListProps = {
     executions: ProcessExecutionInfo[];
+    isLoading: boolean;
 };
 
-export default function ProcessHistoryTable({ executions }: Readonly<ProcessExecutionListProps>) {
+export default function ProcessHistoryTable({ executions, isLoading }: Readonly<ProcessExecutionListProps>) {
     const theme = useTheme();
     const gridRef = useRef<AgGridReact>(null);
     const intl = useIntl();
@@ -59,15 +59,16 @@ export default function ProcessHistoryTable({ executions }: Readonly<ProcessExec
     }, [filters]);
 
     const defaultColDef = useMemo(
-        () => ({
-            filter: false,
-            sortable: true,
-            resizable: true,
-            lockPinned: true,
-            wrapHeaderText: true,
-            autoHeaderHeight: true,
-            cellRenderer: DefaultCellRenderer,
-        } satisfies ColDef),
+        () =>
+            ({
+                filter: false,
+                sortable: true,
+                resizable: true,
+                lockPinned: true,
+                wrapHeaderText: true,
+                autoHeaderHeight: true,
+                cellRenderer: DefaultCellRenderer,
+            }) satisfies ColDef,
         []
     );
 
@@ -95,18 +96,12 @@ export default function ProcessHistoryTable({ executions }: Readonly<ProcessExec
             <CustomAGGrid
                 ref={gridRef}
                 rowData={executions}
+                // on error there is no row: the grid shows its no rows overlay and the error is shown in a snackbar
+                loading={isLoading}
                 defaultColDef={defaultColDef}
                 columnDefs={columns}
-                overrideLocales={AGGRID_LOCALES}
                 onGridReady={({ api }) => {
                     applyTableState(api);
-                }}
-                onModelUpdated={({ api }) => {
-                    if (api.getDisplayedRowCount()) {
-                        api.hideOverlay();
-                    } else {
-                        api.showNoRowsOverlay();
-                    }
                 }}
                 getRowStyle={getCustomRowStyle}
             />

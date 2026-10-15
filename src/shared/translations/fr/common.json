@@ -23,11 +23,8 @@
     "Status": "Statut",
     "Actions": "Actions",
     "DownloadCase": "Télécharger la situation",
-    "ErrorLoadingProcessHistory": "Erreur lors du chargement de l'historique des processus.",
     "getAllProcessExecutions": "Erreur lors du chargement de l'historique des processus",
     "downloadResultCase": "Erreur lors du téléchargement de la situation",
-    "NoProcessHistory": "Pas de processus.",
-    "Loading": "Chargement en cours",
     "filter.filterOoo": "Filtrer...",
     "filter.startsWith": "Commence par",
     "filter.contains": "Contient"

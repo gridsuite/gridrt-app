@@ -22,7 +22,6 @@ export function useProcessResults() {
 
     return {
         executions: mappedData,
-        isEmpty: data.length === 0,
         isError,
         isLoading,
         isSuccess,

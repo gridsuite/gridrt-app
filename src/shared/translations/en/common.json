@@ -23,11 +23,8 @@
     "Status": "Status",
     "Actions": "Actions",
     "DownloadCase": "Download case",
-    "ErrorLoadingProcessHistory": "Unable to load process executions.",
     "getAllProcessExecutions": "Error while loading the process history",
     "downloadResultCase": "Error while downloading the case",
-    "NoProcessHistory": "Nothing to report, Yet!",
-    "Loading": "Loading...",
     "filter.filterOoo": "Filter...",
     "filter.startsWith": "Starts with",
     "filter.contains": "Contains"
