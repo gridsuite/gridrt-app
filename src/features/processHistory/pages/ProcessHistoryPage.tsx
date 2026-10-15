@@ -21,29 +21,18 @@ function ProcessHistoryPage() {
             <ProcessHistoryFilterProvider>
                 <HistoryProcessAlert isEmpty={isEmpty} isError={isError} isLoading={isLoading} />
                 {!isError && (
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            height: '100%',
-                            overflow: 'hidden',
-                            px: '24px',
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                ml: 1,
-                            }}
-                        >
-                            <Typography variant="h5" sx={{ mt: '24px', mb: '24px' }}>
-                                <FormattedMessage id="ProcessExecutionHistory" />
-                            </Typography>
-                        </Box>
-                        <ProcessHistoryTable executions={executions} />
-                    </Box>
+                   <Stack
+                    sx={{
+                        height: '100%',
+                        width: '100%',
+                        px: 3,
+                    }}
+                >
+                    <Typography variant="h5" sx={{ my: 3 }}>
+                        <FormattedMessage id="ProcessExecutionHistory" />
+                    </Typography>
+                    <ProcessHistoryTable executions={executions} />
+                </Stack>
                 )}
             </ProcessHistoryFilterProvider>
         </ProcessHistorySortProvider>
