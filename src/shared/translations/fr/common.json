@@ -19,7 +19,6 @@
     "FAILED": "Échec",
     "COMPLETED": "Terminé",
     "RUNNING": "En cours",
-    "ProcessExecutionHistory": "Historique des processus",
     "Status": "Statut",
     "Actions": "Actions",
     "DownloadCase": "Télécharger la situation",

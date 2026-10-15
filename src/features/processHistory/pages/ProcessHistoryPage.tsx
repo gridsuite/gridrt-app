@@ -26,7 +26,7 @@ function ProcessHistoryPage() {
                     }}
                 >
                     <Typography variant="h5" sx={{ my: 3 }}>
-                        <FormattedMessage id="ProcessExecutionHistory" />
+                        <FormattedMessage id="topBar.processHistory" />
                     </Typography>
                     <ProcessHistoryTable executions={executions} isLoading={isLoading} />
                 </Stack>
