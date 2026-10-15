@@ -35,7 +35,7 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
                 <Toolbar
                     disableGutters
                     sx={{
-                        height: 56,
+                        minHeight: { xs: 56 },
                         px: 3,
                         py: 2,
                         alignItems: 'center',
