@@ -13,7 +13,6 @@ User interface used to (to be completed):
 - monitor processing status in real time;
 - view results and logs;
 
-
 `gridrt-app` consumes the REST API exposed by `snapshot-refiner-server`, manages UI state, handles navigation, and provides user interactions.
 
 To launch the app, run:
@@ -37,7 +36,7 @@ If you are a developer and you want to update or enhance components used from th
 - Redux Toolkit
 - RTK Query
 - React Hook Form
-- Zod
+- Yup
 
 ## Development Scripts
 
@@ -81,6 +80,6 @@ Notes:
 - Check [license-checker-config.json](license-checker-config.json) for the license allow list and package exclusions.
   If you need to update this list, please inform the organization's owners.
 - Some packages are excluded because their licenses are not correctly described in their package metadata:
-  - `esprima@1.2.2`
-  - `jackspeak@2.3.6`
-  - `path-scurry@1.10.2`
+    - `esprima@1.2.2`
+    - `jackspeak@2.3.6`
+    - `path-scurry@1.10.2`
