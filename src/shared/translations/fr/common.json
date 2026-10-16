@@ -24,6 +24,7 @@
     "DownloadCase": "Télécharger la situation",
     "getAllProcessExecutions": "Erreur lors du chargement de l'historique des processus",
     "downloadResultCase": "Erreur lors du téléchargement de la situation",
+    "runSnapshotRefiner": "Erreur lors du lancement du processus",
     "filter.filterOoo": "Filtrer...",
     "filter.startsWith": "Commence par",
     "filter.contains": "Contient"
