@@ -16,6 +16,9 @@ declare module '@mui/material/styles' {
         circle_hover: CSSObject;
         link: CSSObject;
         mapboxStyle: string;
+        aggrid: {
+            theme: 'ag-theme-alpine' | 'ag-theme-alpine-dark';
+        };
     };
     export interface Theme extends MuiTheme, Required<ThemeExtension> {}
     // allow configuration using `createTheme`

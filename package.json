@@ -18,6 +18,8 @@
         "@mui/material": "^9.4.0",
         "@mui/x-tree-view": "^9.13.0",
         "@reduxjs/toolkit": "^2.9.0",
+        "ag-grid-community": "^35.3.1",
+        "ag-grid-react": "^35.3.1",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
         "react-hook-form": "^7.62.0",

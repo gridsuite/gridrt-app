@@ -7,6 +7,7 @@
 
 export const APP_PATHS = {
     home: '/',
+    processHistory: '/process-history',
     signInCallback: '/sign-in-callback',
     logoutCallback: '/logout-callback',
     notFound: '*',
