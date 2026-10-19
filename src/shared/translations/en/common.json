@@ -24,6 +24,7 @@
     "DownloadCase": "Download case",
     "getAllProcessExecutions": "Error while loading the process history",
     "downloadResultCase": "Error while downloading the case",
+    "runSnapshotRefiner": "Error while starting the process",
     "filter.filterOoo": "Filter...",
     "filter.startsWith": "Starts with",
     "filter.contains": "Contains"
