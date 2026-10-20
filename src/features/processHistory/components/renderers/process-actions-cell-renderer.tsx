@@ -6,7 +6,7 @@
  */
 
 import { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 import { Delete, FileDownload } from '@mui/icons-material';
 import { Status, useDownloadResultCaseMutation } from '../../../../shared/api/snapshot-refiner-api';
@@ -15,13 +15,16 @@ export type ProcessActionsCellRendererProps = {
     processUuid: string;
     status: Status;
     caseName: string;
+    onDeleteProcess?: () => void;
 };
 
 export function ProcessActionsCellRenderer({
     processUuid,
     status,
     caseName,
+    onDeleteProcess,
 }: Readonly<ProcessActionsCellRendererProps>) {
+    const intl = useIntl();
     const [downloadResultCase] = useDownloadResultCaseMutation();
     const downloadAction = useCallback(async () => {
         await downloadResultCase({ processUuid, caseName });
@@ -30,7 +33,14 @@ export function ProcessActionsCellRenderer({
     return (
         <Stack direction="row" sx={{ alignItems: 'center' }}>
             <Tooltip title={<FormattedMessage id="DeleteProcess" />}>
-                <Delete className="process-delete-icon" fontSize="small" color="action" />
+                <IconButton
+                    className="process-delete-icon"
+                    size="small"
+                    aria-label={intl.formatMessage({ id: 'DeleteProcess' })}
+                    onClick={onDeleteProcess}
+                >
+                    <Delete fontSize="small" />
+                </IconButton>
             </Tooltip>
             <Tooltip title={<FormattedMessage id="DownloadCase" />}>
                 <span>

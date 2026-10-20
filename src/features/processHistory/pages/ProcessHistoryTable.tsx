@@ -7,7 +7,8 @@
 
 import { Box, useTheme } from '@mui/material';
 import { useIntl } from 'react-intl';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { RefObject } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import {
     CustomAGGrid,
@@ -27,6 +28,9 @@ import {
 type ProcessExecutionListProps = {
     executions: ProcessExecutionInfo[];
     isLoading: boolean;
+    gridRef: RefObject<AgGridReact | null>;
+    onSelectionChange: (count: number) => void;
+    onDeleteProcess: () => void;
 };
 
 // only what differs from AG Grid defaults (sortable, no filter), columns override what is specific to them
@@ -45,9 +49,14 @@ const rowSelection: RowSelectionOptions = {
     enableClickSelection: false,
 };
 
-export default function ProcessHistoryTable({ executions, isLoading }: Readonly<ProcessExecutionListProps>) {
+export default function ProcessHistoryTable({
+    executions,
+    isLoading,
+    gridRef,
+    onSelectionChange,
+    onDeleteProcess,
+}: Readonly<ProcessExecutionListProps>) {
     const theme = useTheme();
-    const gridRef = useRef<AgGridReact>(null);
     const [hasSelection, setHasSelection] = useState(false);
     const intl = useIntl();
     const sortState = useCustomAggridSortContext().getSortConfig(PROCESS_HISTORY_SORT_PARAMS);
@@ -69,11 +78,11 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
             state: sortState ?? [],
             defaultState: { sort: null },
         });
-    }, [sortState]);
+    }, [gridRef, sortState]);
 
     useEffect(() => {
         updateAgGridFilters(gridRef.current?.api, filters);
-    }, [filters]);
+    }, [filters, gridRef]);
 
     const getCustomRowStyle = useCallback((): RowStyle => ({ background: theme.palette.background.default }), [theme]);
 
@@ -83,8 +92,8 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
     );
 
     const columns = useMemo(() => {
-        return processResultsColumnsDefinition(intl, getEnumLabel);
-    }, [intl, getEnumLabel]);
+        return processResultsColumnsDefinition(intl, getEnumLabel, onDeleteProcess);
+    }, [intl, getEnumLabel, onDeleteProcess]);
 
     return (
         <Box
@@ -96,7 +105,7 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
                 '& .ag-selection-checkbox, & .ag-header-select-all': {
                     visibility: hasSelection ? 'visible' : 'hidden',
                 },
-                '& .ag-row:hover .ag-selection-checkbox, & .ag-row:focus-within .ag-selection-checkbox': {
+                '& .ag-row:hover .ag-selection-checkbox, & .ag-row:has(:focus-visible) .ag-selection-checkbox': {
                     visibility: 'visible',
                 },
                 '& .ag-header-cell:hover .ag-header-select-all, & .ag-header-cell:focus-within .ag-header-select-all': {
@@ -105,7 +114,7 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
                 '& .process-delete-icon': {
                     visibility: 'hidden',
                 },
-                '& .ag-row:hover .process-delete-icon, & .ag-row:focus-within .process-delete-icon': {
+                '& .ag-row:hover .process-delete-icon, & .ag-row:has(:focus-visible) .process-delete-icon': {
                     visibility: 'visible',
                 },
             }}
@@ -120,7 +129,11 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
                 rowSelection={rowSelection}
                 selectionColumnDef={{ width: 48, sortable: false, resizable: false }}
                 getRowId={({ data }) => data.processUuid}
-                onSelectionChanged={({ api }) => setHasSelection(api.getSelectedNodes().length > 0)}
+                onSelectionChanged={({ api }) => {
+                    const count = api.getSelectedNodes().length;
+                    setHasSelection(count > 0);
+                    onSelectionChange(count);
+                }}
                 onGridReady={({ api }) => {
                     applyTableState(api);
                 }}
