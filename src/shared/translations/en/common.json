@@ -22,6 +22,7 @@
     "Status": "Status",
     "Actions": "Actions",
     "DownloadCase": "Download case",
+    "DeleteProcess": "Delete process (not yet available)",
     "getAllProcessExecutions": "Error while loading the process history",
     "downloadResultCase": "Error while downloading the case",
     "runSnapshotRefiner": "Error while starting the process",

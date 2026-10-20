@@ -7,7 +7,7 @@
 
 import { Box, useTheme } from '@mui/material';
 import { useIntl } from 'react-intl';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import {
     CustomAGGrid,
@@ -16,7 +16,7 @@ import {
     useCustomAggridFilterContext,
     useCustomAggridSortContext,
 } from '@gridsuite/commons-ui';
-import { ColDef, GridApi, RowStyle } from 'ag-grid-community';
+import { ColDef, GridApi, RowSelectionOptions, RowStyle } from 'ag-grid-community';
 import { ProcessExecutionInfo } from '../model/process-execution-info';
 import {
     PROCESS_HISTORY_FILTER_PARAMS,
@@ -38,9 +38,17 @@ const defaultColDef = {
     cellRenderer: DefaultCellRenderer,
 } satisfies ColDef;
 
+const rowSelection: RowSelectionOptions = {
+    mode: 'multiRow',
+    checkboxes: true,
+    headerCheckbox: true,
+    enableClickSelection: false,
+};
+
 export default function ProcessHistoryTable({ executions, isLoading }: Readonly<ProcessExecutionListProps>) {
     const theme = useTheme();
     const gridRef = useRef<AgGridReact>(null);
+    const [hasSelection, setHasSelection] = useState(false);
     const intl = useIntl();
     const sortState = useCustomAggridSortContext().getSortConfig(PROCESS_HISTORY_SORT_PARAMS);
     const filters = useCustomAggridFilterContext().getFilters(PROCESS_HISTORY_FILTER_PARAMS);
@@ -85,6 +93,21 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
                 flexDirection: 'column',
                 height: '100%',
                 width: '100%',
+                '& .ag-selection-checkbox, & .ag-header-select-all': {
+                    visibility: hasSelection ? 'visible' : 'hidden',
+                },
+                '& .ag-row:hover .ag-selection-checkbox, & .ag-row:focus-within .ag-selection-checkbox': {
+                    visibility: 'visible',
+                },
+                '& .ag-header-cell:hover .ag-header-select-all, & .ag-header-cell:focus-within .ag-header-select-all': {
+                    visibility: 'visible',
+                },
+                '& .process-delete-icon': {
+                    visibility: 'hidden',
+                },
+                '& .ag-row:hover .process-delete-icon, & .ag-row:focus-within .process-delete-icon': {
+                    visibility: 'visible',
+                },
             }}
         >
             <CustomAGGrid
@@ -94,6 +117,10 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
                 loading={isLoading}
                 defaultColDef={defaultColDef}
                 columnDefs={columns}
+                rowSelection={rowSelection}
+                selectionColumnDef={{ width: 48, sortable: false, resizable: false }}
+                getRowId={({ data }) => data.processUuid}
+                onSelectionChanged={({ api }) => setHasSelection(api.getSelectedNodes().length > 0)}
                 onGridReady={({ api }) => {
                     applyTableState(api);
                 }}

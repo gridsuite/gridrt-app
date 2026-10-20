@@ -22,6 +22,7 @@
     "Status": "Statut",
     "Actions": "Actions",
     "DownloadCase": "Télécharger la situation",
+    "DeleteProcess": "Supprimer le processus (pas encore disponible)",
     "getAllProcessExecutions": "Erreur lors du chargement de l'historique des processus",
     "downloadResultCase": "Erreur lors du téléchargement de la situation",
     "runSnapshotRefiner": "Erreur lors du lancement du processus",

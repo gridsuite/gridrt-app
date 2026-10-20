@@ -7,8 +7,8 @@
 
 import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { IconButton, Tooltip } from '@mui/material';
-import { FileDownload } from '@mui/icons-material';
+import { IconButton, Stack, Tooltip } from '@mui/material';
+import { Delete, FileDownload } from '@mui/icons-material';
 import { Status, useDownloadResultCaseMutation } from '../../../../shared/api/snapshot-refiner-api';
 
 export type ProcessActionsCellRendererProps = {
@@ -28,17 +28,22 @@ export function ProcessActionsCellRenderer({
     }, [downloadResultCase, processUuid, caseName]);
 
     return (
-        <Tooltip title={<FormattedMessage id="DownloadCase" />}>
-            <span>
-                <IconButton
-                    size="small"
-                    disabled={status !== Status.Completed}
-                    color="primary"
-                    onClick={downloadAction}
-                >
-                    <FileDownload fontSize="small" />
-                </IconButton>
-            </span>
-        </Tooltip>
+        <Stack direction="row" sx={{ alignItems: 'center' }}>
+            <Tooltip title={<FormattedMessage id="DeleteProcess" />}>
+                <Delete className="process-delete-icon" fontSize="small" color="action" />
+            </Tooltip>
+            <Tooltip title={<FormattedMessage id="DownloadCase" />}>
+                <span>
+                    <IconButton
+                        size="small"
+                        disabled={status !== Status.Completed}
+                        color="primary"
+                        onClick={downloadAction}
+                    >
+                        <FileDownload fontSize="small" />
+                    </IconButton>
+                </span>
+            </Tooltip>
+        </Stack>
     );
 }

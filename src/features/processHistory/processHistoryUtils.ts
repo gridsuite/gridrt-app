@@ -141,8 +141,8 @@ export const processResultsColumnsDefinition = (
             colId: 'actions',
             field: 'actions',
             // wide enough to display the "Actions" header without truncation
-            minWidth: 96,
-            maxWidth: 96,
+            minWidth: 112,
+            maxWidth: 112,
             cellRenderer: ProcessActionsCellRenderer,
             cellRendererParams: (params: any) => ({
                 processUuid: params.data.processUuid,
