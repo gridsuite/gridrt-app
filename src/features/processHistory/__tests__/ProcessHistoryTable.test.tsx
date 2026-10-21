@@ -35,6 +35,7 @@ describe('ProcessHistoryTable selection', () => {
                     executions={[{ processUuid: 'process-1' }]}
                     isLoading={false}
                     gridRef={createRef<AgGridReact>()}
+                    selectedProcesses={[]}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
                 />
@@ -55,12 +56,14 @@ describe('ProcessHistoryTable selection', () => {
 
     it('shows row checkboxes while any row is selected, and hides them again when deselected', () => {
         const onSelectionChange = vi.fn();
-        const { container } = render(
+        const gridRef = createRef<AgGridReact>();
+        const { container, rerender } = render(
             <IntlProvider locale="en" messages={messages}>
                 <ProcessHistoryTable
                     executions={[{ processUuid: 'process-1' }]}
                     isLoading={false}
-                    gridRef={createRef<AgGridReact>()}
+                    gridRef={gridRef}
+                    selectedProcesses={[]}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
                 />
@@ -81,14 +84,65 @@ describe('ProcessHistoryTable selection', () => {
         expect(document.head.textContent).toContain('.ag-row:has(:focus-visible) .process-delete-icon');
         expect(document.head.textContent).not.toContain('.ag-row:focus-within');
 
-        act(() => captured.props?.onSelectionChanged?.({ api: { getSelectedNodes: () => [{}, {}] } } as never));
+        act(() =>
+            captured.props?.onSelectionChanged?.({
+                api: { getSelectedRows: () => [{ processUuid: 'process-1' }, { processUuid: 'process-2' }] },
+            } as never)
+        );
+        expect(onSelectionChange).toHaveBeenLastCalledWith(['process-1', 'process-2']);
+        rerender(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessHistoryTable
+                    executions={[{ processUuid: 'process-1' }]}
+                    isLoading={false}
+                    gridRef={gridRef}
+                    selectedProcesses={['process-1', 'process-2']}
+                    onSelectionChange={onSelectionChange}
+                    onDeleteProcess={vi.fn()}
+                />
+            </IntlProvider>
+        );
         expect(wrapper?.className).not.toBe(initialClass);
-        expect(onSelectionChange).toHaveBeenLastCalledWith(2);
         const selectedClass = wrapper?.className.split(' ').find((className) => className.startsWith('css-'));
         expect(document.head.textContent).toContain(`.${selectedClass} .ag-header-select-all{visibility:hidden;}`);
 
-        act(() => captured.props?.onSelectionChanged?.({ api: { getSelectedNodes: () => [] } } as never));
+        act(() => captured.props?.onSelectionChanged?.({ api: { getSelectedRows: () => [] } } as never));
+        expect(onSelectionChange).toHaveBeenLastCalledWith([]);
+        rerender(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessHistoryTable
+                    executions={[{ processUuid: 'process-1' }]}
+                    isLoading={false}
+                    gridRef={gridRef}
+                    selectedProcesses={[]}
+                    onSelectionChange={onSelectionChange}
+                    onDeleteProcess={vi.fn()}
+                />
+            </IntlProvider>
+        );
         expect(wrapper?.className).toBe(initialClass);
-        expect(onSelectionChange).toHaveBeenLastCalledWith(0);
+    });
+
+    it('does not include rows without a process UUID in the selection', () => {
+        const onSelectionChange = vi.fn();
+        render(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessHistoryTable
+                    executions={[]}
+                    isLoading={false}
+                    gridRef={createRef<AgGridReact>()}
+                    selectedProcesses={[]}
+                    onSelectionChange={onSelectionChange}
+                    onDeleteProcess={vi.fn()}
+                />
+            </IntlProvider>
+        );
+
+        act(() =>
+            captured.props?.onSelectionChanged?.({
+                api: { getSelectedRows: () => [{}, { processUuid: 'process-1' }] },
+            } as never)
+        );
+        expect(onSelectionChange).toHaveBeenCalledWith(['process-1']);
     });
 });

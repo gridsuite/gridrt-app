@@ -21,25 +21,28 @@ function ProcessHistoryPage() {
     const { executions, isLoading, refresh } = useProcessResults();
     const [deleteProcess] = useDeleteProcessExecutionMutation();
     const gridRef = useRef<AgGridReact>(null);
-    const [selectedCount, setSelectedCount] = useState(0);
-    const [processesToDelete, setProcessesToDelete] = useState<string[]>([]);
+    const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
+    const deletionTargets = useRef<string[]>([]);
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const openDeleteDialog = (processUuids: string[]) => {
-        if (processUuids.length === 0) return;
-        setProcessesToDelete(processUuids);
+        if (processUuids.length === 0) {
+            return;
+        }
+        deletionTargets.current = [...processUuids];
         setDeleteDialogOpen(true);
     };
 
     const confirmDeletion = async () => {
-        if (isDeleting || processesToDelete.length === 0) return;
+        if (isDeleting || deletionTargets.current.length === 0) {
+            return;
+        }
         setIsDeleting(true);
-        await Promise.allSettled(processesToDelete.map((processUuid) => deleteProcess({ processUuid }).unwrap()));
+        await Promise.allSettled(deletionTargets.current.map((processUuid) => deleteProcess({ processUuid }).unwrap()));
         refresh();
-        gridRef.current?.api?.deselectAll();
         setDeleteDialogOpen(false);
-        setProcessesToDelete([]);
+        deletionTargets.current = [];
         setIsDeleting(false);
     };
 
@@ -62,12 +65,12 @@ function ProcessHistoryPage() {
                                 <FormattedMessage id="topBar.processHistory" />
                             </Typography>
                         </Box>
-                        {selectedCount > 0 && (
+                        {selectedProcesses.length > 0 && (
                             <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
                                 <Typography>
                                     <FormattedMessage
                                         id="processHistory.selectedCount"
-                                        values={{ count: selectedCount }}
+                                        values={{ count: selectedProcesses.length }}
                                     />
                                 </Typography>
                                 <Button startIcon={<Close />} onClick={() => gridRef.current?.api?.deselectAll()}>
@@ -77,11 +80,7 @@ function ProcessHistoryPage() {
                                     variant="outlined"
                                     color="error"
                                     startIcon={<Delete />}
-                                    onClick={() =>
-                                        openDeleteDialog(
-                                            gridRef.current?.api?.getSelectedRows().map((row) => row.processUuid) ?? []
-                                        )
-                                    }
+                                    onClick={() => openDeleteDialog(selectedProcesses)}
                                 >
                                     <FormattedMessage id="processHistory.deleteSelected" />
                                 </Button>
@@ -92,12 +91,13 @@ function ProcessHistoryPage() {
                         executions={executions}
                         isLoading={isLoading}
                         gridRef={gridRef}
-                        onSelectionChange={setSelectedCount}
+                        selectedProcesses={selectedProcesses}
+                        onSelectionChange={setSelectedProcesses}
                         onDeleteProcess={(processUuid) => openDeleteDialog([processUuid])}
                     />
                     <DeleteProcessDialog
                         open={deleteDialogOpen}
-                        count={processesToDelete.length}
+                        count={deletionTargets.current.length}
                         onClose={() => setDeleteDialogOpen(false)}
                         onConfirm={confirmDeletion}
                         isDeleting={isDeleting}

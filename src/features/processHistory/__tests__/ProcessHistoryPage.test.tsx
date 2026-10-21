@@ -14,7 +14,6 @@ import messages from 'shared/translations/en/common.json';
 import type ProcessHistoryTable from 'features/processHistory/pages/ProcessHistoryTable';
 
 const mocks = vi.hoisted(() => ({
-    deselectAll: vi.fn(),
     deleteProcess: vi.fn(),
     refresh: vi.fn(),
     tableProps: null as ComponentProps<typeof ProcessHistoryTable> | null,
@@ -56,14 +55,14 @@ describe('ProcessHistoryPage selection actions', () => {
         expect(screen.getByText('Process history')).toBeInTheDocument();
         expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
 
-        act(() => mocks.tableProps?.onSelectionChange(1));
+        act(() => mocks.tableProps?.onSelectionChange(['process-1']));
         expect(screen.getByText('1 element selected')).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Delete' })).toBeEnabled();
 
-        act(() => mocks.tableProps?.onSelectionChange(2));
+        act(() => mocks.tableProps?.onSelectionChange(['process-1', 'process-2']));
         expect(screen.getByText('2 elements selected')).toBeInTheDocument();
 
-        act(() => mocks.tableProps?.onSelectionChange(0));
+        act(() => mocks.tableProps?.onSelectionChange([]));
         expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
     });
 
@@ -74,17 +73,15 @@ describe('ProcessHistoryPage selection actions', () => {
             </IntlProvider>
         );
 
-        act(() => mocks.tableProps?.onSelectionChange(2));
+        act(() => mocks.tableProps?.onSelectionChange(['process-1', 'process-2']));
         mocks.tableProps!.gridRef.current = {
             api: {
                 deselectAll: () => {
-                    mocks.deselectAll();
-                    mocks.tableProps?.onSelectionChange(0);
+                    mocks.tableProps?.onSelectionChange([]);
                 },
             },
         } as never;
         fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
-        expect(mocks.deselectAll).toHaveBeenCalledOnce();
         expect(screen.queryByText('2 elements selected')).not.toBeInTheDocument();
     });
 
@@ -98,7 +95,7 @@ describe('ProcessHistoryPage selection actions', () => {
         mocks.tableProps!.gridRef.current = {
             api: { getSelectedRows: () => [{ processUuid: 'process-1' }, { processUuid: 'process-2' }] },
         } as never;
-        act(() => mocks.tableProps?.onSelectionChange(2));
+        act(() => mocks.tableProps?.onSelectionChange(['process-1', 'process-2']));
         fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
         expect(screen.getByRole('dialog', { name: 'Delete 2 processes' })).toBeInTheDocument();
         expect(
@@ -112,6 +109,7 @@ describe('ProcessHistoryPage selection actions', () => {
 
         act(() => mocks.tableProps?.onDeleteProcess('process-1'));
         expect(screen.getByRole('dialog', { name: 'Delete the process' })).toBeInTheDocument();
+        expect(screen.getByText('2 elements selected')).toBeInTheDocument();
         expect(
             screen.getByText('This process will be deleted permanently. Its data will be lost.')
         ).toBeInTheDocument();
@@ -127,7 +125,7 @@ describe('ProcessHistoryPage selection actions', () => {
         mocks.tableProps!.gridRef.current = {
             api: { getSelectedRows: () => [{ processUuid: 'process-1' }] },
         } as never;
-        act(() => mocks.tableProps?.onSelectionChange(1));
+        act(() => mocks.tableProps?.onSelectionChange(['process-1']));
         fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
         expect(screen.getByRole('dialog', { name: 'Delete the process' })).toBeInTheDocument();
         expect(
@@ -142,16 +140,12 @@ describe('ProcessHistoryPage selection actions', () => {
                 <ProcessHistoryPage />
             </IntlProvider>
         );
-        mocks.tableProps!.gridRef.current = {
-            api: { getSelectedRows: () => [{ processUuid: 'other-process' }], deselectAll: mocks.deselectAll },
-        } as never;
 
         act(() => mocks.tableProps?.onDeleteProcess('process-1'));
         fireEvent.click(screen.getByRole('dialog').querySelectorAll('button')[1]);
         await waitFor(() => expect(mocks.deleteProcess).toHaveBeenCalledWith({ processUuid: 'process-1' }));
         expect(mocks.deleteProcess).toHaveBeenCalledOnce();
         await waitFor(() => expect(mocks.refresh).toHaveBeenCalledOnce());
-        expect(mocks.deselectAll).toHaveBeenCalledOnce();
     });
 
     it('deletes the selected UUIDs captured when the toolbar dialog opens', async () => {
@@ -163,11 +157,13 @@ describe('ProcessHistoryPage selection actions', () => {
         );
         let selected = [{ processUuid: 'process-1' }, { processUuid: 'process-2' }];
         mocks.tableProps!.gridRef.current = {
-            api: { getSelectedRows: () => selected, deselectAll: mocks.deselectAll },
+            api: { getSelectedRows: () => selected },
         } as never;
-        act(() => mocks.tableProps?.onSelectionChange(2));
+        act(() => mocks.tableProps?.onSelectionChange(['process-1', 'process-2']));
         fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
         selected = [{ processUuid: 'process-3' }];
+        act(() => mocks.tableProps?.onSelectionChange(['process-3']));
+        expect(screen.getByRole('dialog', { name: 'Delete 2 processes' })).toBeInTheDocument();
         fireEvent.click(screen.getByRole('dialog').querySelectorAll('button')[1]);
         await waitFor(() => expect(mocks.deleteProcess).toHaveBeenCalledTimes(2));
         expect(mocks.deleteProcess).toHaveBeenCalledWith({ processUuid: 'process-1' });
@@ -190,15 +186,13 @@ describe('ProcessHistoryPage selection actions', () => {
         mocks.tableProps!.gridRef.current = {
             api: {
                 getSelectedRows: () => [{ processUuid: 'process-1' }, { processUuid: 'process-2' }],
-                deselectAll: mocks.deselectAll,
             },
         } as never;
-        act(() => mocks.tableProps?.onSelectionChange(2));
+        act(() => mocks.tableProps?.onSelectionChange(['process-1', 'process-2']));
         fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
         fireEvent.click(screen.getByRole('dialog').querySelectorAll('button')[1]);
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
         expect(mocks.refresh).toHaveBeenCalledOnce();
-        expect(mocks.deselectAll).toHaveBeenCalledOnce();
         expect(mocks.deleteProcess).toHaveBeenCalledTimes(2);
     });
 
@@ -215,7 +209,6 @@ describe('ProcessHistoryPage selection actions', () => {
                 <ProcessHistoryPage />
             </IntlProvider>
         );
-        mocks.tableProps!.gridRef.current = { api: { deselectAll: mocks.deselectAll } } as never;
         act(() => mocks.tableProps?.onDeleteProcess('process-1'));
         fireEvent.click(screen.getByRole('dialog').querySelectorAll('button')[1]);
         expect(screen.getByRole('dialog').querySelectorAll('button')[1]).toBeDisabled();
@@ -225,7 +218,6 @@ describe('ProcessHistoryPage selection actions', () => {
         await act(async () => rejectRequest(new Error('Request failed')));
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
         expect(mocks.refresh).toHaveBeenCalledOnce();
-        expect(mocks.deselectAll).toHaveBeenCalledOnce();
     });
 
     it('closes even when a step result could not be deleted', async () => {
@@ -237,11 +229,9 @@ describe('ProcessHistoryPage selection actions', () => {
                 <ProcessHistoryPage />
             </IntlProvider>
         );
-        mocks.tableProps!.gridRef.current = { api: { deselectAll: mocks.deselectAll } } as never;
         act(() => mocks.tableProps?.onDeleteProcess('process-1'));
         fireEvent.click(screen.getByRole('dialog').querySelectorAll('button')[1]);
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
         expect(mocks.refresh).toHaveBeenCalledOnce();
-        expect(mocks.deselectAll).toHaveBeenCalledOnce();
     });
 });

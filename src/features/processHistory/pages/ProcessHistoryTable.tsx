@@ -7,7 +7,7 @@
 
 import { Box, useTheme } from '@mui/material';
 import { useIntl } from 'react-intl';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import type { RefObject } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import {
@@ -29,7 +29,8 @@ type ProcessExecutionListProps = {
     executions: ProcessExecutionInfo[];
     isLoading: boolean;
     gridRef: RefObject<AgGridReact | null>;
-    onSelectionChange: (count: number) => void;
+    selectedProcesses: string[];
+    onSelectionChange: (processUuids: string[]) => void;
     onDeleteProcess: (processUuid: string) => void;
 };
 
@@ -54,11 +55,11 @@ export default function ProcessHistoryTable({
     executions,
     isLoading,
     gridRef,
+    selectedProcesses,
     onSelectionChange,
     onDeleteProcess,
 }: Readonly<ProcessExecutionListProps>) {
     const theme = useTheme();
-    const [hasSelection, setHasSelection] = useState(false);
     const intl = useIntl();
     const sortState = useCustomAggridSortContext().getSortConfig(PROCESS_HISTORY_SORT_PARAMS);
     const filters = useCustomAggridFilterContext().getFilters(PROCESS_HISTORY_FILTER_PARAMS);
@@ -104,7 +105,7 @@ export default function ProcessHistoryTable({
                 height: '100%',
                 width: '100%',
                 '& .ag-selection-checkbox': {
-                    visibility: hasSelection ? 'visible' : 'hidden',
+                    visibility: selectedProcesses.length > 0 ? 'visible' : 'hidden',
                 },
                 '& .ag-header-select-all': {
                     visibility: 'hidden',
@@ -140,9 +141,12 @@ export default function ProcessHistoryTable({
                 selectionColumnDef={{ width: 48, sortable: false, resizable: false }}
                 getRowId={({ data }) => data.processUuid}
                 onSelectionChanged={({ api }) => {
-                    const count = api.getSelectedNodes().length;
-                    setHasSelection(count > 0);
-                    onSelectionChange(count);
+                    onSelectionChange(
+                        api
+                            .getSelectedRows()
+                            .map((row: ProcessExecutionInfo) => row.processUuid)
+                            .filter((processUuid): processUuid is string => processUuid !== undefined)
+                    );
                 }}
                 onGridReady={({ api }) => {
                     applyTableState(api);
