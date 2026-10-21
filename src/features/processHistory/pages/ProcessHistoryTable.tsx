@@ -46,6 +46,7 @@ const rowSelection: RowSelectionOptions = {
     mode: 'multiRow',
     checkboxes: true,
     headerCheckbox: true,
+    selectAll: 'filtered',
     enableClickSelection: false,
 };
 
@@ -102,13 +103,22 @@ export default function ProcessHistoryTable({
                 flexDirection: 'column',
                 height: '100%',
                 width: '100%',
-                '& .ag-selection-checkbox, & .ag-header-select-all': {
+                '& .ag-selection-checkbox': {
                     visibility: hasSelection ? 'visible' : 'hidden',
+                },
+                '& .ag-header-select-all': {
+                    visibility: 'hidden',
                 },
                 '& .ag-row:hover .ag-selection-checkbox, & .ag-row:has(:focus-visible) .ag-selection-checkbox': {
                     visibility: 'visible',
                 },
-                '& .ag-header-cell:hover .ag-header-select-all, & .ag-header-cell:focus-within .ag-header-select-all': {
+                '& .ag-header-cell:hover .ag-header-select-all': {
+                    visibility: 'visible',
+                },
+                '& .ag-header-select-all:has(input:checked)': {
+                    visibility: 'visible',
+                },
+                '& .ag-header-select-all:has(input:indeterminate)': {
                     visibility: 'visible',
                 },
                 '& .process-delete-icon': {

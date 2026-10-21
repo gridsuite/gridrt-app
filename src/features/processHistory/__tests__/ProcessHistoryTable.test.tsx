@@ -46,13 +46,14 @@ describe('ProcessHistoryTable selection', () => {
             mode: 'multiRow',
             checkboxes: true,
             headerCheckbox: true,
+            selectAll: 'filtered',
             enableClickSelection: false,
         });
         expect(captured.props?.selectionColumnDef).toMatchObject({ width: 48 });
         expect(captured.props?.getRowId?.({ data: { processUuid: 'process-1' } } as never)).toBe('process-1');
     });
 
-    it('shows every checkbox while any row is selected, and hides them again when deselected', () => {
+    it('shows row checkboxes while any row is selected, and hides them again when deselected', () => {
         const onSelectionChange = vi.fn();
         const { container } = render(
             <IntlProvider locale="en" messages={messages}>
@@ -70,6 +71,11 @@ describe('ProcessHistoryTable selection', () => {
 
         expect(document.head.textContent).toContain('.ag-row:hover .ag-selection-checkbox');
         expect(document.head.textContent).toContain('.ag-header-cell:hover .ag-header-select-all');
+        expect(document.head.textContent).toContain('.ag-header-select-all:has(input:checked){visibility:visible;}');
+        expect(document.head.textContent).toContain(
+            '.ag-header-select-all:has(input:indeterminate){visibility:visible;}'
+        );
+        expect(document.head.textContent).not.toContain('.ag-header-cell:has(:focus-visible) .ag-header-select-all');
         expect(document.head.textContent).toContain('.ag-row:hover .process-delete-icon');
         expect(document.head.textContent).toContain('.ag-row:has(:focus-visible) .ag-selection-checkbox');
         expect(document.head.textContent).toContain('.ag-row:has(:focus-visible) .process-delete-icon');
@@ -78,6 +84,8 @@ describe('ProcessHistoryTable selection', () => {
         act(() => captured.props?.onSelectionChanged?.({ api: { getSelectedNodes: () => [{}, {}] } } as never));
         expect(wrapper?.className).not.toBe(initialClass);
         expect(onSelectionChange).toHaveBeenLastCalledWith(2);
+        const selectedClass = wrapper?.className.split(' ').find((className) => className.startsWith('css-'));
+        expect(document.head.textContent).toContain(`.${selectedClass} .ag-header-select-all{visibility:hidden;}`);
 
         act(() => captured.props?.onSelectionChanged?.({ api: { getSelectedNodes: () => [] } } as never));
         expect(wrapper?.className).toBe(initialClass);
