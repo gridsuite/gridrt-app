@@ -16,6 +16,11 @@ export default mergeConfig(
             globals: true,
             setupFiles: './vitest.setup.ts',
             css: true,
+            server: {
+                deps: {
+                    inline: ['@gridsuite/commons-ui', 'react-router'],
+                },
+            },
             coverage: {
                 reporter: ['text', 'lcov'],
             },
