@@ -44,6 +44,7 @@ describe('ProcessHistoryPage selection actions', () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mocks.tableProps = null;
+        mocks.refresh.mockResolvedValue(undefined);
     });
     it('shows the selected count and actions beside the title only when rows are selected', () => {
         render(

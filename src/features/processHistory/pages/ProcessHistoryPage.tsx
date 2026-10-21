@@ -40,7 +40,8 @@ function ProcessHistoryPage() {
         }
         setIsDeleting(true);
         await Promise.allSettled(deletionTargets.current.map((processUuid) => deleteProcess({ processUuid }).unwrap()));
-        refresh();
+        // eslint-disable-next-line no-void
+        void refresh();
         setDeleteDialogOpen(false);
         deletionTargets.current = [];
         setIsDeleting(false);
