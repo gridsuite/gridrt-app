@@ -16,7 +16,7 @@ const config: ConfigFile = {
     exportName: 'snapshotRefinerGeneratedApi',
     hooks: true,
     useEnumType: true,
-    filterEndpoints: ['getAllProcessExecutions', 'getProcessExecution'],
+    filterEndpoints: ['getAllProcessExecutions', 'getProcessExecution', 'deleteProcessExecution'],
     endpointOverrides: gatewayManagedHeaderOverrides,
 };
 

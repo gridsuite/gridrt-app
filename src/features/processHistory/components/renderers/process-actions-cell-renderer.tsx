@@ -15,7 +15,7 @@ export type ProcessActionsCellRendererProps = {
     processUuid: string;
     status: Status;
     caseName: string;
-    onDeleteProcess?: () => void;
+    onDeleteProcess?: (processUuid: string) => void;
 };
 
 export function ProcessActionsCellRenderer({
@@ -37,7 +37,7 @@ export function ProcessActionsCellRenderer({
                     className="process-delete-icon"
                     size="small"
                     aria-label={intl.formatMessage({ id: 'DeleteProcess' })}
-                    onClick={onDeleteProcess}
+                    onClick={() => onDeleteProcess?.(processUuid)}
                 >
                     <Delete fontSize="small" />
                 </IconButton>

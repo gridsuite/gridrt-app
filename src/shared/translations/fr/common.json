@@ -30,6 +30,7 @@
     "processHistory.deleteMultipleDialogTitle": "Supprimer {count} processus",
     "processHistory.deleteDialogContent": "Ce processus sera définitivement supprimé. Ses données ne pourront pas être récupérées.",
     "processHistory.deleteMultipleDialogContent": "Ces processus seront définitivement supprimés. Leurs données ne pourront pas être récupérées.",
+    "deleteProcessExecution": "Erreur lors de la suppression du processus",
     "getAllProcessExecutions": "Erreur lors du chargement de l'historique des processus",
     "downloadResultCase": "Erreur lors du téléchargement de la situation",
     "runSnapshotRefiner": "Erreur lors du lancement du processus",

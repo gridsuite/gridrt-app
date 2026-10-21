@@ -30,7 +30,7 @@ type ProcessExecutionListProps = {
     isLoading: boolean;
     gridRef: RefObject<AgGridReact | null>;
     onSelectionChange: (count: number) => void;
-    onDeleteProcess: () => void;
+    onDeleteProcess: (processUuid: string) => void;
 };
 
 // only what differs from AG Grid defaults (sortable, no filter), columns override what is specific to them

@@ -54,7 +54,7 @@ const enumFilterParams = {
 export const processResultsColumnsDefinition = (
     intl: IntlShape,
     getEnumLabel: (value: string) => string, // Used for translation of enum values in the filter
-    onDeleteProcess?: () => void
+    onDeleteProcess?: (processUuid: string) => void
 ): ColDef[] => {
     const sortParams = PROCESS_HISTORY_SORT_PARAMS;
     const filterParams = PROCESS_HISTORY_FILTER_PARAMS;

@@ -72,9 +72,9 @@ describe('processResultsColumnsDefinition', () => {
         const onDeleteProcess = vi.fn();
         const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock, onDeleteProcess);
         const actionsCol = columns.find((col) => col.colId === 'actions');
-        const params = actionsCol?.cellRendererParams as (params: any) => { onDeleteProcess: () => void };
+        const params = actionsCol?.cellRendererParams as (params: any) => { onDeleteProcess: (uuid: string) => void };
 
-        params({ data: { processUuid: 'process-1' } }).onDeleteProcess();
-        expect(onDeleteProcess).toHaveBeenCalledOnce();
+        params({ data: { processUuid: 'process-1' } }).onDeleteProcess('process-1');
+        expect(onDeleteProcess).toHaveBeenCalledWith('process-1');
     });
 });

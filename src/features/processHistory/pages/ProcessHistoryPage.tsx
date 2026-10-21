@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { Close, Delete } from '@mui/icons-material';
 import type { AgGridReact } from 'ag-grid-react';
+import { useDeleteProcessExecutionMutation } from 'shared/api/snapshot-refiner-api';
 import { useProcessResults } from '../hooks/use-process-list';
 import { ProcessHistorySortProvider } from '../components/process-history-sort-provider';
 import { ProcessHistoryFilterProvider } from '../components/process-history-filter-provider';
@@ -17,11 +18,30 @@ import { DeleteProcessDialog } from '../components/DeleteProcessDialog';
 import ProcessHistoryTable from './ProcessHistoryTable';
 
 function ProcessHistoryPage() {
-    const { executions, isLoading } = useProcessResults();
+    const { executions, isLoading, refresh } = useProcessResults();
+    const [deleteProcess] = useDeleteProcessExecutionMutation();
     const gridRef = useRef<AgGridReact>(null);
     const [selectedCount, setSelectedCount] = useState(0);
+    const [processesToDelete, setProcessesToDelete] = useState<string[]>([]);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [deleteDialogCount, setDeleteDialogCount] = useState(1);
+
+    const openDeleteDialog = (processUuids: string[]) => {
+        if (processUuids.length === 0) return;
+        setProcessesToDelete(processUuids);
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDeletion = async () => {
+        if (isDeleting || processesToDelete.length === 0) return;
+        setIsDeleting(true);
+        await Promise.allSettled(processesToDelete.map((processUuid) => deleteProcess({ processUuid }).unwrap()));
+        refresh();
+        gridRef.current?.api?.deselectAll();
+        setDeleteDialogOpen(false);
+        setProcessesToDelete([]);
+        setIsDeleting(false);
+    };
 
     return (
         <ProcessHistorySortProvider>
@@ -57,10 +77,11 @@ function ProcessHistoryPage() {
                                     variant="outlined"
                                     color="error"
                                     startIcon={<Delete />}
-                                    onClick={() => {
-                                        setDeleteDialogCount(selectedCount);
-                                        setDeleteDialogOpen(true);
-                                    }}
+                                    onClick={() =>
+                                        openDeleteDialog(
+                                            gridRef.current?.api?.getSelectedRows().map((row) => row.processUuid) ?? []
+                                        )
+                                    }
                                 >
                                     <FormattedMessage id="processHistory.deleteSelected" />
                                 </Button>
@@ -72,15 +93,14 @@ function ProcessHistoryPage() {
                         isLoading={isLoading}
                         gridRef={gridRef}
                         onSelectionChange={setSelectedCount}
-                        onDeleteProcess={() => {
-                            setDeleteDialogCount(1);
-                            setDeleteDialogOpen(true);
-                        }}
+                        onDeleteProcess={(processUuid) => openDeleteDialog([processUuid])}
                     />
                     <DeleteProcessDialog
                         open={deleteDialogOpen}
-                        count={deleteDialogCount}
+                        count={processesToDelete.length}
                         onClose={() => setDeleteDialogOpen(false)}
+                        onConfirm={confirmDeletion}
+                        isDeleting={isDeleting}
                     />
                 </Stack>
             </ProcessHistoryFilterProvider>

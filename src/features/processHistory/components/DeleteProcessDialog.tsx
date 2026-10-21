@@ -12,11 +12,19 @@ type DeleteProcessDialogProps = {
     open: boolean;
     count: number;
     onClose: () => void;
+    onConfirm: () => void;
+    isDeleting: boolean;
 };
 
-export function DeleteProcessDialog({ open, count, onClose }: Readonly<DeleteProcessDialogProps>) {
+export function DeleteProcessDialog({
+    open,
+    count,
+    onClose,
+    onConfirm,
+    isDeleting,
+}: Readonly<DeleteProcessDialogProps>) {
     return (
-        <Dialog open={open} onClose={onClose} aria-labelledby="delete-process-title">
+        <Dialog open={open} onClose={isDeleting ? undefined : onClose} aria-labelledby="delete-process-title">
             <DialogTitle id="delete-process-title">
                 {count > 1 ? (
                     <FormattedMessage id="processHistory.deleteMultipleDialogTitle" values={{ count }} />
@@ -36,10 +44,10 @@ export function DeleteProcessDialog({ open, count, onClose }: Readonly<DeletePro
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>
+                <Button onClick={onClose} disabled={isDeleting}>
                     <FormattedMessage id="processHistory.cancelSelection" />
                 </Button>
-                <Button variant="contained" color="error" disabled>
+                <Button variant="contained" color="error" disabled={isDeleting} onClick={onConfirm}>
                     <FormattedMessage id="processHistory.deleteSelected" />
                 </Button>
             </DialogActions>

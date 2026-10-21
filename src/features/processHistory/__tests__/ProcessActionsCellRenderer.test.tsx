@@ -32,6 +32,6 @@ describe('ProcessActionsCellRenderer', () => {
         );
 
         fireEvent.click(screen.getByRole('button', { name: 'Delete process' }));
-        expect(onDeleteProcess).toHaveBeenCalledOnce();
+        expect(onDeleteProcess).toHaveBeenCalledWith('process-1');
     });
 });
