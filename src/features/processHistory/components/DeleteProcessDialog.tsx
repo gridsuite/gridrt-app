@@ -26,21 +26,11 @@ export function DeleteProcessDialog({
     return (
         <Dialog open={open} onClose={isDeleting ? undefined : onClose} aria-labelledby="delete-process-title">
             <DialogTitle id="delete-process-title">
-                {count > 1 ? (
-                    <FormattedMessage id="processHistory.deleteMultipleDialogTitle" values={{ count }} />
-                ) : (
-                    <FormattedMessage id="processHistory.deleteDialogTitle" />
-                )}
+                <FormattedMessage id="processHistory.deleteDialogTitle" values={{ count }} />
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    <FormattedMessage
-                        id={
-                            count > 1
-                                ? 'processHistory.deleteMultipleDialogContent'
-                                : 'processHistory.deleteDialogContent'
-                        }
-                    />
+                    <FormattedMessage id="processHistory.deleteDialogContent" values={{ count }} />
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

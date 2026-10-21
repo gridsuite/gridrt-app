@@ -47,7 +47,7 @@ export function ProcessActionsCellRenderer({
                     <IconButton
                         size="small"
                         disabled={status !== Status.Completed}
-                        color="primary"
+                        aria-label={intl.formatMessage({ id: 'DownloadCase' })}
                         onClick={downloadAction}
                     >
                         <FileDownload fontSize="small" />
