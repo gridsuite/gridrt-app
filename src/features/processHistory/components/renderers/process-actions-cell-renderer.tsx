@@ -31,7 +31,7 @@ export function ProcessActionsCellRenderer({
     }, [downloadResultCase, processUuid, caseName]);
 
     return (
-        <Stack direction="row" sx={{ alignItems: 'center' }}>
+        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             <Tooltip title={<FormattedMessage id="DeleteProcess" />}>
                 <IconButton
                     className="process-delete-icon"

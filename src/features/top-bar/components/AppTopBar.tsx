@@ -67,7 +67,6 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
                                     sx={{
                                         flexShrink: 0,
                                         whiteSpace: 'nowrap',
-                                        textTransform: 'none',
                                         typography: 'subtitle2',
                                     }}
                                 >
