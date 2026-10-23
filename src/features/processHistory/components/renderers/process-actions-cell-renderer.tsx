@@ -36,6 +36,7 @@ export function ProcessActionsCellRenderer({
                 <IconButton
                     className="process-delete-icon"
                     size="small"
+                    disabled={status === Status.Running}
                     aria-label={intl.formatMessage({ id: 'DeleteProcess' })}
                     onClick={() => onDeleteProcess?.(processUuid)}
                 >
