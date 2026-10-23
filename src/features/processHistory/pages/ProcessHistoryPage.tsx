@@ -49,7 +49,6 @@ function ProcessHistoryPage() {
         // eslint-disable-next-line no-void
         void refresh();
         setDeleteDialogOpen(false);
-        deletionTargets.current = [];
         setIsDeleting(false);
     };
 
