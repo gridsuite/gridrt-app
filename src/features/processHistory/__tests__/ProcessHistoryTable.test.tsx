@@ -48,6 +48,7 @@ describe('ProcessHistoryTable selection', () => {
             headerCheckbox: true,
             selectAll: 'filtered',
             enableClickSelection: false,
+            isRowSelectable: expect.any(Function),
         });
         expect(captured.props?.selectionColumnDef).toMatchObject({ width: 48 });
         expect(captured.props?.getRowId?.({ data: { processUuid: 'process-1' } } as never)).toBe('process-1');

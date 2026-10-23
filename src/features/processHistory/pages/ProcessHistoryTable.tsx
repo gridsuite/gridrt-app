@@ -18,6 +18,7 @@ import {
     useCustomAggridSortContext,
 } from '@gridsuite/commons-ui';
 import { ColDef, GridApi, RowSelectionOptions, RowStyle } from 'ag-grid-community';
+import { Status } from '../../../shared/api/snapshot-refiner-api';
 import { ProcessExecutionInfo } from '../model/process-execution-info';
 import {
     PROCESS_HISTORY_FILTER_PARAMS,
@@ -42,12 +43,13 @@ const defaultColDef = {
     cellRenderer: DefaultCellRenderer,
 } satisfies ColDef;
 
-const rowSelection: RowSelectionOptions = {
+const rowSelection: RowSelectionOptions<ProcessExecutionInfo> = {
     mode: 'multiRow',
     checkboxes: true,
     headerCheckbox: true,
     selectAll: 'filtered',
     enableClickSelection: false,
+    isRowSelectable: ({ data }) => data?.status !== Status.Running,
 };
 
 export default function ProcessHistoryTable({
