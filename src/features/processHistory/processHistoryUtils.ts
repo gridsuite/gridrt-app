@@ -53,7 +53,8 @@ const enumFilterParams = {
 
 export const processResultsColumnsDefinition = (
     intl: IntlShape,
-    getEnumLabel: (value: string) => string // Used for translation of enum values in the filter
+    getEnumLabel: (value: string) => string, // Used for translation of enum values in the filter
+    onDeleteProcess?: (processUuid: string) => void
 ): ColDef[] => {
     const sortParams = PROCESS_HISTORY_SORT_PARAMS;
     const filterParams = PROCESS_HISTORY_FILTER_PARAMS;
@@ -141,13 +142,14 @@ export const processResultsColumnsDefinition = (
             colId: 'actions',
             field: 'actions',
             // wide enough to display the "Actions" header without truncation
-            minWidth: 96,
-            maxWidth: 96,
+            minWidth: 112,
+            maxWidth: 112,
             cellRenderer: ProcessActionsCellRenderer,
             cellRendererParams: (params: any) => ({
                 processUuid: params.data.processUuid,
                 status: params.data.status,
                 caseName: params.data.caseName ?? params.data.caseUuid,
+                onDeleteProcess,
             }),
             sortable: false,
         }),

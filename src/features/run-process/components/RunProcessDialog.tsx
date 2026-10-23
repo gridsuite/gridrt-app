@@ -34,7 +34,7 @@ const FORM_POPUP_WIDTH_SX = {
     },
 };
 
-const ACTION_BUTTON_SX = { typography: 'subtitle2', textTransform: 'none' } as const;
+const ACTION_BUTTON_SX = { typography: 'subtitle2' } as const;
 
 function DialogCloseIconButton({ onClick }: Readonly<{ onClick: () => void }>) {
     const intl = useIntl();

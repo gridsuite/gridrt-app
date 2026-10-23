@@ -7,6 +7,15 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/v1/process/${queryArg.processUuid}` }),
     }),
+    deleteProcessExecution: build.mutation<
+      DeleteProcessExecutionApiResponse,
+      DeleteProcessExecutionApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/v1/process/${queryArg.processUuid}`,
+        method: "DELETE",
+      }),
+    }),
     getAllProcessExecutions: build.query<
       GetAllProcessExecutionsApiResponse,
       GetAllProcessExecutionsApiArg
@@ -20,6 +29,13 @@ export { injectedRtkApi as snapshotRefinerGeneratedApi };
 export type GetProcessExecutionApiResponse =
   /** status 200 Process execution for given UUID */ ProcessExecution;
 export type GetProcessExecutionApiArg = {
+  /** Process execution UUID */
+  processUuid: string;
+};
+export type DeleteProcessExecutionApiResponse =
+  | /** status 200 All process execution data was successfully deleted across all servers */ ProcessExecution
+  | /** status 207 Deletion request processed: one or more servers failed to delete the data */ ProcessExecution;
+export type DeleteProcessExecutionApiArg = {
   /** Process execution UUID */
   processUuid: string;
 };
@@ -99,5 +115,8 @@ export enum ResultDeletionStatus {
   Successful = "SUCCESSFUL",
   NothingToDelete = "NOTHING_TO_DELETE",
 }
-export const { useGetProcessExecutionQuery, useGetAllProcessExecutionsQuery } =
-  injectedRtkApi;
+export const {
+  useGetProcessExecutionQuery,
+  useDeleteProcessExecutionMutation,
+  useGetAllProcessExecutionsQuery,
+} = injectedRtkApi;

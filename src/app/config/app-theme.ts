@@ -8,6 +8,25 @@
 import { LIGHT_THEME } from '@gridsuite/commons-ui';
 import { createTheme, Theme } from '@mui/material';
 
+const componentsStyleOverrides = () => {
+    return {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    textTransform: 'none',
+                },
+            },
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    textTransform: 'none',
+                },
+            },
+        },
+    };
+};
+
 const lightTheme: Theme = createTheme({
     palette: {
         mode: 'light',
@@ -34,8 +53,10 @@ const lightTheme: Theme = createTheme({
     aggrid: {
         theme: 'ag-theme-alpine',
     },
-
     mapboxStyle: 'mapbox://styles/mapbox/light-v9',
+    components: {
+        ...componentsStyleOverrides(),
+    },
 });
 
 const darkTheme: Theme = createTheme({
@@ -64,8 +85,10 @@ const darkTheme: Theme = createTheme({
     aggrid: {
         theme: 'ag-theme-alpine-dark',
     },
-
     mapboxStyle: 'mapbox://styles/mapbox/dark-v9',
+    components: {
+        ...componentsStyleOverrides(),
+    },
 });
 
 export const getAppTheme = (theme: string): Theme => (theme === LIGHT_THEME ? lightTheme : darkTheme);

@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import type { IntlShape } from 'react-intl';
 import { processResultsColumnsDefinition } from 'features/processHistory/processHistoryUtils';
 
@@ -66,5 +66,15 @@ describe('processResultsColumnsDefinition', () => {
 
         expect(valueGetter({ data: { caseName: 'A name', caseUuid: 'uuid-1' } })).toBe('A name');
         expect(valueGetter({ data: { caseUuid: 'uuid-1' } })).toBe('uuid-1');
+    });
+
+    it('passes the delete dialog callback to the row actions', () => {
+        const onDeleteProcess = vi.fn();
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock, onDeleteProcess);
+        const actionsCol = columns.find((col) => col.colId === 'actions');
+        const params = actionsCol?.cellRendererParams as (params: any) => { onDeleteProcess: (uuid: string) => void };
+
+        params({ data: { processUuid: 'process-1' } }).onDeleteProcess('process-1');
+        expect(onDeleteProcess).toHaveBeenCalledWith('process-1');
     });
 });
