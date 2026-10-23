@@ -14,7 +14,7 @@ export type RunSnapshotRefinerApiArg = {
 
 export type DownloadResultCaseApiArg = {
     processUuid: string;
-    caseName: string;
+    fileNameInput: string;
 };
 
 const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
@@ -31,7 +31,7 @@ const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
             },
         }),
         downloadResultCase: build.mutation<string, DownloadResultCaseApiArg>({
-            query: ({ processUuid, caseName }) => ({
+            query: ({ processUuid, fileNameInput }) => ({
                 url: `/v1/process/${processUuid}/result-case`,
                 // the file is saved here so that only its name, and not the blob, ends up in the store
                 responseHandler: async (response) => {
@@ -43,7 +43,7 @@ const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
                         response.headers.get('Content-Disposition') ?? ''
                     )?.[1];
                     const extension = serverFilename?.split('.').pop();
-                    const fileName = extension ? `${caseName.replace(/\.[^.]+$/, '')}.${extension}` : caseName;
+                    const fileName = extension ? `${fileNameInput}.${extension}` : fileNameInput;
 
                     const url = URL.createObjectURL(await response.blob());
                     const link = document.createElement('a');

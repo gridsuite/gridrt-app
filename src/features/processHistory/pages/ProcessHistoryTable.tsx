@@ -32,6 +32,7 @@ type ProcessExecutionListProps = {
     gridRef: RefObject<AgGridReact | null>;
     onSelectionChange: (processUuids: string[]) => void;
     onDeleteProcess: (processUuid: string) => void;
+    onDownloadClick: (processUuid: string, caseName: string) => void;
 };
 
 // only what differs from AG Grid defaults (sortable, no filter), columns override what is specific to them
@@ -58,6 +59,7 @@ export default function ProcessHistoryTable({
     gridRef,
     onSelectionChange,
     onDeleteProcess,
+    onDownloadClick,
 }: Readonly<ProcessExecutionListProps>) {
     const theme = useTheme();
     const intl = useIntl();
@@ -94,8 +96,8 @@ export default function ProcessHistoryTable({
     );
 
     const columns = useMemo(() => {
-        return processResultsColumnsDefinition(intl, getEnumLabel, onDeleteProcess);
-    }, [intl, getEnumLabel, onDeleteProcess]);
+        return processResultsColumnsDefinition(intl, getEnumLabel, onDownloadClick, onDeleteProcess);
+    }, [intl, getEnumLabel, onDownloadClick, onDeleteProcess]);
 
     const hasSelection = (gridRef.current?.api?.getSelectedRows()?.length ?? 0) > 0;
 

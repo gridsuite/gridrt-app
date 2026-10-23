@@ -37,6 +37,7 @@ describe('ProcessHistoryTable selection', () => {
                     gridRef={createRef<AgGridReact>()}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
+                    onDownloadClick={vi.fn()}
                 />
             </IntlProvider>
         );
@@ -65,6 +66,7 @@ describe('ProcessHistoryTable selection', () => {
                     gridRef={gridRef}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
+                    onDownloadClick={vi.fn()}
                 />
             </IntlProvider>
         );
@@ -97,6 +99,7 @@ describe('ProcessHistoryTable selection', () => {
                     gridRef={gridRef}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
+                    onDownloadClick={vi.fn()}
                 />
             </IntlProvider>
         );
@@ -114,6 +117,7 @@ describe('ProcessHistoryTable selection', () => {
                     gridRef={gridRef}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
+                    onDownloadClick={vi.fn()}
                 />
             </IntlProvider>
         );
@@ -153,6 +157,7 @@ describe('ProcessHistoryTable selection', () => {
                     gridRef={createRef<AgGridReact>()}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
+                    onDownloadClick={vi.fn()}
                 />
             </IntlProvider>
         );
