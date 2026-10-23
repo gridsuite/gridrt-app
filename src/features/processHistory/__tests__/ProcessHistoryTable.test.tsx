@@ -35,7 +35,6 @@ describe('ProcessHistoryTable selection', () => {
                     executions={[{ processUuid: 'process-1' }]}
                     isLoading={false}
                     gridRef={createRef<AgGridReact>()}
-                    selectedProcesses={[]}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
                 />
@@ -63,7 +62,6 @@ describe('ProcessHistoryTable selection', () => {
                     executions={[{ processUuid: 'process-1' }]}
                     isLoading={false}
                     gridRef={gridRef}
-                    selectedProcesses={[]}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
                 />
@@ -96,13 +94,12 @@ describe('ProcessHistoryTable selection', () => {
                     executions={[{ processUuid: 'process-1' }]}
                     isLoading={false}
                     gridRef={gridRef}
-                    selectedProcesses={['process-1', 'process-2']}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
                 />
             </IntlProvider>
         );
-        expect(wrapper?.className).not.toBe(initialClass);
+        expect(wrapper?.className).toBe(initialClass);
         const selectedClass = wrapper?.className.split(' ').find((className) => className.startsWith('css-'));
         expect(document.head.textContent).toContain(`.${selectedClass} .ag-header-select-all{visibility:hidden;}`);
 
@@ -114,7 +111,6 @@ describe('ProcessHistoryTable selection', () => {
                     executions={[{ processUuid: 'process-1' }]}
                     isLoading={false}
                     gridRef={gridRef}
-                    selectedProcesses={[]}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
                 />
@@ -131,7 +127,6 @@ describe('ProcessHistoryTable selection', () => {
                     executions={[]}
                     isLoading={false}
                     gridRef={createRef<AgGridReact>()}
-                    selectedProcesses={[]}
                     onSelectionChange={onSelectionChange}
                     onDeleteProcess={vi.fn()}
                 />

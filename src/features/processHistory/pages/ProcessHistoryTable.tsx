@@ -7,8 +7,8 @@
 
 import { Box, useTheme } from '@mui/material';
 import { useIntl } from 'react-intl';
-import { useCallback, useEffect, useMemo } from 'react';
 import type { RefObject } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import {
     CustomAGGrid,
@@ -29,7 +29,6 @@ type ProcessExecutionListProps = {
     executions: ProcessExecutionInfo[];
     isLoading: boolean;
     gridRef: RefObject<AgGridReact | null>;
-    selectedProcesses: string[];
     onSelectionChange: (processUuids: string[]) => void;
     onDeleteProcess: (processUuid: string) => void;
 };
@@ -55,7 +54,6 @@ export default function ProcessHistoryTable({
     executions,
     isLoading,
     gridRef,
-    selectedProcesses,
     onSelectionChange,
     onDeleteProcess,
 }: Readonly<ProcessExecutionListProps>) {
@@ -105,7 +103,7 @@ export default function ProcessHistoryTable({
                 height: '100%',
                 width: '100%',
                 '& .ag-selection-checkbox': {
-                    visibility: selectedProcesses.length > 0 ? 'visible' : 'hidden',
+                    visibility: (gridRef.current?.api?.getSelectedRows()?.length ?? 0) > 0 ? 'visible' : 'hidden',
                 },
                 '& .ag-header-select-all': {
                     visibility: 'hidden',

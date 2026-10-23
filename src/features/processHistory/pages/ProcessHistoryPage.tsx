@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { Close, Delete } from '@mui/icons-material';
@@ -26,13 +26,19 @@ function ProcessHistoryPage() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-    const openDeleteDialog = (processUuids: string[]) => {
-        if (processUuids.length === 0) {
+    const openDeleteDialog = useCallback((processUuids: string[] | string) => {
+        let formattedProcessUuids: string[];
+        if (!Array.isArray(processUuids)) {
+            formattedProcessUuids = [processUuids];
+        } else {
+            formattedProcessUuids = processUuids;
+        }
+        if (formattedProcessUuids.length === 0) {
             return;
         }
-        deletionTargets.current = [...processUuids];
+        deletionTargets.current = [...formattedProcessUuids];
         setDeleteDialogOpen(true);
-    };
+    }, []);
 
     const confirmDeletion = async () => {
         if (isDeleting || deletionTargets.current.length === 0) {
@@ -92,9 +98,8 @@ function ProcessHistoryPage() {
                         executions={executions}
                         isLoading={isLoading}
                         gridRef={gridRef}
-                        selectedProcesses={selectedProcesses}
                         onSelectionChange={setSelectedProcesses}
-                        onDeleteProcess={(processUuid) => openDeleteDialog([processUuid])}
+                        onDeleteProcess={openDeleteDialog}
                     />
                     <DeleteProcessDialog
                         open={deleteDialogOpen}
