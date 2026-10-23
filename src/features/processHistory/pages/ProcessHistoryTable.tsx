@@ -27,6 +27,7 @@ import {
 type ProcessExecutionListProps = {
     executions: ProcessExecutionInfo[];
     isLoading: boolean;
+    onDownloadClick: (processUuid: string, caseName: string) => void;
 };
 
 // only what differs from AG Grid defaults (sortable, no filter), columns override what is specific to them
@@ -38,7 +39,11 @@ const defaultColDef = {
     cellRenderer: DefaultCellRenderer,
 } satisfies ColDef;
 
-export default function ProcessHistoryTable({ executions, isLoading }: Readonly<ProcessExecutionListProps>) {
+export default function ProcessHistoryTable({
+    executions,
+    isLoading,
+    onDownloadClick,
+}: Readonly<ProcessExecutionListProps>) {
     const theme = useTheme();
     const gridRef = useRef<AgGridReact>(null);
     const intl = useIntl();
@@ -75,8 +80,8 @@ export default function ProcessHistoryTable({ executions, isLoading }: Readonly<
     );
 
     const columns = useMemo(() => {
-        return processResultsColumnsDefinition(intl, getEnumLabel);
-    }, [intl, getEnumLabel]);
+        return processResultsColumnsDefinition(intl, getEnumLabel, onDownloadClick);
+    }, [intl, getEnumLabel, onDownloadClick]);
 
     return (
         <Box

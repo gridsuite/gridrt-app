@@ -16,13 +16,13 @@ const getEnumLabelMock = (value: string) => value;
 
 describe('processResultsColumnsDefinition', () => {
     it('returns the expected columns in order', () => {
-        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock, onDownloadCase);
 
         expect(columns.map((col) => col.colId)).toEqual(['caseName', 'status', 'startedAt', 'completedAt', 'actions']);
     });
 
     it('resolves header names through intl', () => {
-        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock, onDownloadCase);
         const byColId = (colId: string) => columns.find((col) => col.colId === colId);
 
         expect(byColId('caseName')?.headerName).toBe('RawSnapshots');
@@ -33,7 +33,7 @@ describe('processResultsColumnsDefinition', () => {
     });
 
     it('lets only the first, not pinned, column fill the remaining width and be resized', () => {
-        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock, onDownloadCase);
 
         expect(columns[0].pinned).toBeUndefined();
         expect(columns[0].flex).toBe(1);
@@ -44,7 +44,7 @@ describe('processResultsColumnsDefinition', () => {
     });
 
     it('sorts and filters the case name and status columns, only sorts the date columns', () => {
-        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock, onDownloadCase);
         const contextOf = (colId: string) => columns.find((col) => col.colId === colId)?.context;
 
         ['caseName', 'status'].forEach((colId) => {
@@ -60,7 +60,7 @@ describe('processResultsColumnsDefinition', () => {
     });
 
     it('falls back to caseUuid when caseName is missing in the valueGetter', () => {
-        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock);
+        const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock, onDownloadCase);
         const caseNameCol = columns.find((col) => col.colId === 'caseName');
         const valueGetter = caseNameCol?.valueGetter as (params: any) => unknown;
 

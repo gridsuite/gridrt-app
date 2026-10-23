@@ -5,28 +5,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { IconButton, Tooltip } from '@mui/material';
 import { FileDownload } from '@mui/icons-material';
-import { Status, useDownloadResultCaseMutation } from '../../../../shared/api/snapshot-refiner-api';
+import { Status } from '../../../../shared/api/snapshot-refiner-api';
 
 export type ProcessActionsCellRendererProps = {
     processUuid: string;
     status: Status;
     caseName: string;
+    onDownloadClick: (processUuid: string, caseName: string) => void;
 };
 
 export function ProcessActionsCellRenderer({
     processUuid,
     status,
     caseName,
+    onDownloadClick,
 }: Readonly<ProcessActionsCellRendererProps>) {
-    const [downloadResultCase] = useDownloadResultCaseMutation();
-    const downloadAction = useCallback(async () => {
-        await downloadResultCase({ processUuid, caseName });
-    }, [downloadResultCase, processUuid, caseName]);
-
     return (
         <Tooltip title={<FormattedMessage id="DownloadCase" />}>
             <span>
@@ -34,7 +30,7 @@ export function ProcessActionsCellRenderer({
                     size="small"
                     disabled={status !== Status.Completed}
                     color="primary"
-                    onClick={downloadAction}
+                    onClick={() => onDownloadClick(processUuid, caseName)}
                 >
                     <FileDownload fontSize="small" />
                 </IconButton>
