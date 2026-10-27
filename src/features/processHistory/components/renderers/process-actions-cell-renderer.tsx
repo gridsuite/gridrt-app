@@ -39,6 +39,8 @@ export function ProcessActionsCellRenderer({
                     disabled={status === Status.Running}
                     aria-label={intl.formatMessage({ id: 'DeleteProcess' })}
                     onClick={() => onDeleteProcess?.(processUuid)}
+                    // keep enough contrast on selected/hovered rows in light mode
+                    sx={(theme) => (theme.palette.mode === 'light' ? { color: theme.palette.text.secondary } : {})}
                 >
                     <Delete fontSize="small" />
                 </IconButton>
@@ -50,6 +52,8 @@ export function ProcessActionsCellRenderer({
                         disabled={status !== Status.Completed}
                         aria-label={intl.formatMessage({ id: 'DownloadCase' })}
                         onClick={downloadAction}
+                        // keep enough contrast on selected/hovered rows in light mode
+                        sx={(theme) => (theme.palette.mode === 'light' ? { color: theme.palette.text.secondary } : {})}
                     >
                         <FileDownload fontSize="small" />
                     </IconButton>

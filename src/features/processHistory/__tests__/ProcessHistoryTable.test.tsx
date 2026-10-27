@@ -50,7 +50,7 @@ describe('ProcessHistoryTable selection', () => {
             enableClickSelection: false,
             isRowSelectable: expect.any(Function),
         });
-        expect(captured.props?.selectionColumnDef).toMatchObject({ width: 48 });
+        expect(captured.props?.selectionColumnDef).toMatchObject({ width: 32 });
         expect(captured.props?.getRowId?.({ data: { processUuid: 'process-1' } } as never)).toBe('process-1');
     });
 
@@ -118,6 +118,29 @@ describe('ProcessHistoryTable selection', () => {
             </IntlProvider>
         );
         expect(wrapper?.className).toBe(initialClass);
+    });
+
+    it('hides the row delete icon on hover while any row is selected', () => {
+        const gridRef = {
+            current: { api: { getSelectedRows: () => [{ processUuid: 'process-1' }], applyColumnState: vi.fn() } },
+        };
+        const { container } = render(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessHistoryTable
+                    executions={[{ processUuid: 'process-1' }]}
+                    isLoading={false}
+                    gridRef={gridRef as never}
+                    onSelectionChange={vi.fn()}
+                    onDeleteProcess={vi.fn()}
+                />
+            </IntlProvider>
+        );
+        const selectedClass = container.firstElementChild?.className
+            .split(' ')
+            .find((className) => className.startsWith('css-'));
+
+        expect(document.head.textContent).toContain(`.${selectedClass} .process-delete-icon{visibility:hidden;}`);
+        expect(document.head.textContent).not.toContain(`.${selectedClass} .ag-row:hover .process-delete-icon`);
     });
 
     it('does not include rows without a process UUID in the selection', () => {

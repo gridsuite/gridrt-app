@@ -73,7 +73,7 @@ function ProcessHistoryPage() {
                         </Box>
                         {selectedProcesses.length > 0 && (
                             <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-                                <Typography>
+                                <Typography variant="body2">
                                     <FormattedMessage
                                         id="processHistory.selectedCount"
                                         values={{ count: selectedProcesses.length }}

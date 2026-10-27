@@ -29,7 +29,7 @@ export function DeleteProcessDialog({
                 <FormattedMessage id="processHistory.deleteDialogTitle" values={{ count }} />
             </DialogTitle>
             <DialogContent>
-                <DialogContentText>
+                <DialogContentText sx={{ color: 'text.primary' }}>
                     <FormattedMessage id="processHistory.deleteDialogContent" values={{ count }} />
                 </DialogContentText>
             </DialogContent>

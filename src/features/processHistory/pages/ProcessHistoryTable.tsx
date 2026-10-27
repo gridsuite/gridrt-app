@@ -97,6 +97,8 @@ export default function ProcessHistoryTable({
         return processResultsColumnsDefinition(intl, getEnumLabel, onDeleteProcess);
     }, [intl, getEnumLabel, onDeleteProcess]);
 
+    const hasSelection = (gridRef.current?.api?.getSelectedRows()?.length ?? 0) > 0;
+
     return (
         <Box
             sx={{
@@ -105,7 +107,7 @@ export default function ProcessHistoryTable({
                 height: '100%',
                 width: '100%',
                 '& .ag-selection-checkbox': {
-                    visibility: (gridRef.current?.api?.getSelectedRows()?.length ?? 0) > 0 ? 'visible' : 'hidden',
+                    visibility: hasSelection ? 'visible' : 'hidden',
                 },
                 '& .ag-header-select-all': {
                     visibility: 'hidden',
@@ -125,9 +127,12 @@ export default function ProcessHistoryTable({
                 '& .process-delete-icon': {
                     visibility: 'hidden',
                 },
-                '& .ag-row:hover .process-delete-icon, & .ag-row:has(:focus-visible) .process-delete-icon': {
-                    visibility: 'visible',
-                },
+                // row deletion is hidden while a selection exists
+                ...(!hasSelection && {
+                    '& .ag-row:hover .process-delete-icon, & .ag-row:has(:focus-visible) .process-delete-icon': {
+                        visibility: 'visible',
+                    },
+                }),
             }}
         >
             <CustomAGGrid
@@ -138,7 +143,12 @@ export default function ProcessHistoryTable({
                 defaultColDef={defaultColDef}
                 columnDefs={columns}
                 rowSelection={rowSelection}
-                selectionColumnDef={{ width: 48, sortable: false, resizable: false }}
+                selectionColumnDef={{
+                    width: 32,
+                    minWidth: 32,
+                    sortable: false,
+                    resizable: false,
+                }}
                 getRowId={({ data }) => data.processUuid}
                 onSelectionChanged={({ api }) => {
                     onSelectionChange(
