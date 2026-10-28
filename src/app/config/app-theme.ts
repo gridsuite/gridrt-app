@@ -27,6 +27,32 @@ const componentsStyleOverrides = () => {
     };
 };
 
+const darkScrollbarStyles = (theme: Theme) => {
+    const trackColor = theme.palette.grey[800];
+    const thumbColor = theme.palette.grey[500];
+
+    return {
+        '*': {
+            scrollbarColor: `${thumbColor} ${trackColor}`,
+
+            '&::-webkit-scrollbar': {
+                width: '12px',
+                height: '12px',
+            },
+
+            '&::-webkit-scrollbar-track': {
+                backgroundColor: trackColor,
+            },
+
+            '&::-webkit-scrollbar-thumb': {
+                backgroundColor: thumbColor,
+                borderRadius: '8px',
+                border: `3px solid ${trackColor}`,
+            },
+        },
+    };
+};
+
 const lightTheme: Theme = createTheme({
     palette: {
         mode: 'light',
@@ -87,6 +113,9 @@ const darkTheme: Theme = createTheme({
     },
     mapboxStyle: 'mapbox://styles/mapbox/dark-v9',
     components: {
+        MuiCssBaseline: {
+            styleOverrides: darkScrollbarStyles,
+        },
         ...componentsStyleOverrides(),
     },
 });
