@@ -12,11 +12,6 @@ import { ProcessActionsCellRenderer } from 'features/processHistory/components/r
 import { Status } from 'shared/api/snapshot-refiner-api';
 import messages from 'shared/translations/en/common.json';
 
-vi.mock('shared/api/snapshot-refiner-api', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('shared/api/snapshot-refiner-api')>()),
-    useDownloadResultCaseMutation: () => [vi.fn()],
-}));
-
 describe('ProcessActionsCellRenderer', () => {
     it('opens the confirmation dialog through the row delete button', () => {
         const onDeleteProcess = vi.fn();
@@ -27,11 +22,29 @@ describe('ProcessActionsCellRenderer', () => {
                     caseName="Case"
                     status={Status.Completed}
                     onDeleteProcess={onDeleteProcess}
+                    onDownloadClick={vi.fn()}
                 />
             </IntlProvider>
         );
 
         fireEvent.click(screen.getByRole('button', { name: 'Delete process' }));
         expect(onDeleteProcess).toHaveBeenCalledWith('process-1');
+    });
+
+    it('calls the download callback through the row download button', () => {
+        const onDownloadClick = vi.fn();
+        render(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessActionsCellRenderer
+                    processUuid="process-1"
+                    caseName="Case"
+                    status={Status.Completed}
+                    onDownloadClick={onDownloadClick}
+                />
+            </IntlProvider>
+        );
+
+        fireEvent.click(screen.getByRole('button', { name: 'Download case' }));
+        expect(onDownloadClick).toHaveBeenCalledWith('process-1', 'Case');
     });
 });
