@@ -77,7 +77,7 @@ export function DownloadCaseDialog({
                 ...methods,
                 validationSchema: exportNetworkFormSchema,
             }}
-            disabledSave={isDisabledValidationButton(errors, FILE_NAME) || isDownloading}
+            disabledSave={isDisabledValidationButton(errors, FILE_NAME)}
             onSave={onSubmit}
             titleId="DownloadCase"
             sx={{
