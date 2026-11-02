@@ -49,6 +49,24 @@ If you are a developer and you want to update or enhance components used from th
 - **`npm run prebuild`** - Runs linting and type checking before the build. This script is executed automatically by npm before `npm run build` and ensures that the build is not executed if linting or type checking fails. You do not need to call this manually unless you want to verify code quality without building.
 - **`npm run test`** - Runs tests with Vitest.
 
+### Test performance and isolation
+
+Run the complete suite once with `npm run test:run`. Vitest pre-bundles Commons UI,
+Material UI and React Router instead of repeatedly loading their dependency trees.
+The optimizer cache is reused between runs; a fresh install or dependency change
+adds a one-time pre-bundling cost before Vitest's reported duration starts.
+
+Tests use one shared worker. `vitest.setup.ts` resets application modules before
+each file so mocks, stores and MSW hooks are recreated, while dependencies remain
+cached. It also explicitly runs React Testing Library cleanup and restores the
+browser state modified by the current suite. New tests must clean up any additional
+shared state they change. Test transforms use esbuild, not the app's React Compiler.
+
+Check for order dependencies with
+`npm run test:run -- --sequence.shuffle --sequence.seed 42`.
+On the development machine, all 34 tests passed in 6.16 seconds wall-clock with the
+optimizer cache. A cold run took 10.42 seconds (Vitest reported 4.42 seconds).
+
 ## OpenAPI Code Generation
 
 The interface with `snapshot-refiner-server` is generated using OpenAPI code generation.
