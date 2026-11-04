@@ -52,7 +52,6 @@ function ProcessHistoryPage() {
     const deletionTargets = useRef<string[]>([]);
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [isDownloading, setIsDownloading] = useState(false);
     const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
 
     const openDeleteDialog = useCallback((processUuids: string[] | string) => {
@@ -105,48 +104,43 @@ function ProcessHistoryPage() {
                 snackInfo({
                     messageTxt: intl.formatMessage({ id: 'downloadCase.message.started' }, { fileName }),
                 });
-                setIsDownloading(true);
             };
 
-            try {
-                if (exportInfos.exportToGridExplore) {
-                    if (!parentDirectoryUuid) {
-                        snackWithFallback(
-                            snackError,
-                            new Error('A parent directory is required to download a case on GridExplore'),
-                            { headerId: 'downloadCase.message.failed' }
-                        );
-                        return;
-                    }
-                    const resultUuid = getCaseSavingResultUuid(executions, processUuid);
-                    if (!resultUuid) {
-                        snackWithFallback(
-                            snackError,
-                            new Error(
-                                `No completed CASE_SAVING step with a resultUuid was found for process ${processUuid}`
-                            ),
-                            { headerId: 'downloadCase.message.failed' }
-                        );
-                        return;
-                    }
-                    startDownload();
-                    await duplicateExistingCase({
-                        sourceCaseUuid: resultUuid,
-                        caseName: fileName,
-                        parentDirectoryUuid,
-                        description: description ?? '',
-                    }).unwrap();
-                } else {
-                    startDownload();
-                    await downloadResultCase({ processUuid, fileNameInput: fileName }).unwrap();
+            if (exportInfos.exportToGridExplore) {
+                if (!parentDirectoryUuid) {
+                    snackWithFallback(
+                        snackError,
+                        new Error('A parent directory is required to download a case on GridExplore'),
+                        { headerId: 'downloadCase.message.failed' }
+                    );
+                    return;
                 }
-                snackSuccess({
-                    messageTxt: intl.formatMessage({ id: 'downloadCase.message.succeeded' }, { fileName }),
-                    persist: true,
-                });
-            } finally {
-                setIsDownloading(false);
+                const resultUuid = getCaseSavingResultUuid(executions, processUuid);
+                if (!resultUuid) {
+                    snackWithFallback(
+                        snackError,
+                        new Error(
+                            `No completed CASE_SAVING step with a resultUuid was found for process ${processUuid}`
+                        ),
+                        { headerId: 'downloadCase.message.failed' }
+                    );
+                    return;
+                }
+                startDownload();
+                await duplicateExistingCase({
+                    sourceCaseUuid: resultUuid,
+                    caseName: fileName,
+                    parentDirectoryUuid,
+                    description: description ?? '',
+                }).unwrap();
+            } else {
+                startDownload();
+                await downloadResultCase({ processUuid, fileNameInput: fileName }).unwrap();
             }
+            snackSuccess({
+                messageTxt: intl.formatMessage({ id: 'downloadCase.message.succeeded' }, { fileName }),
+                persist: true,
+            });
         },
         [
             processToDownload,
@@ -220,7 +214,6 @@ function ProcessHistoryPage() {
                     {downloadDialogOpen && (
                         <DownloadCaseDialog
                             open={downloadDialogOpen}
-                            isDownloading={isDownloading}
                             processToDownload={processToDownload}
                             onClose={closeDownloadDialog}
                             onDownload={onDownloadCase}

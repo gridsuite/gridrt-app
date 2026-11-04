@@ -16,31 +16,20 @@ import {
     FILE_NAME,
     isDisabledValidationButton,
     NetworkExportInfos,
-    PARAM_DEVELOPER_MODE,
 } from '@gridsuite/commons-ui';
 import { useForm } from 'react-hook-form';
-import { useAppParameterState } from 'features/app-parameters/hooks/use-app-parameter-state';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCallback, useEffect } from 'react';
 import type { ProcessToDownload } from '../pages/ProcessHistoryPage';
 
 type DownloadCaseDialogProps = {
     open: boolean;
-    isDownloading: boolean;
     processToDownload: ProcessToDownload | null;
     onClose: () => void;
     onDownload: (params: Record<string, any>, exportInfos: NetworkExportInfos) => void;
 };
 
-export function DownloadCaseDialog({
-    open,
-    isDownloading,
-    processToDownload,
-    onClose,
-    onDownload,
-}: DownloadCaseDialogProps) {
-    const [isDeveloperMode] = useAppParameterState(PARAM_DEVELOPER_MODE);
-
+export function DownloadCaseDialog({ open, processToDownload, onClose, onDownload }: DownloadCaseDialogProps) {
     const methods = useForm<ExportNetworkFormData>({
         defaultValues: emptyExportNetworkFormData,
         resolver: yupResolver(exportNetworkFormSchema),
@@ -86,7 +75,12 @@ export function DownloadCaseDialog({
                 },
             }}
         >
-            <ExportNetworkForm open={open} isDeveloperMode={isDeveloperMode} displayFormat={false} />
+            <ExportNetworkForm
+                formatsWithParameters={{}}
+                parameters={[]}
+                availableCompressions={[]}
+                displayFormat={false}
+            />
         </CustomMuiDialog>
     );
 }

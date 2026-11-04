@@ -30,7 +30,7 @@ export const PROCESS_HISTORY_SORT_PARAMS: SortParams = {
 };
 
 export const PROCESS_HISTORY_FILTER_PARAMS: Pick<FilterParams, 'type' | 'tab'> = {
-    type: TableType.ProcessExecutionHistory,
+    type: TableType.ProcessExecutionList,
     tab: PROCESS_HISTORY_TABLE,
 };
 
