@@ -13,6 +13,20 @@ import {
     loginFr,
     topBarEn,
     topBarFr,
+    exportNetworkEn,
+    exportNetworkFr,
+    descriptionEn,
+    descriptionFr,
+    parametersFr,
+    parametersEn,
+    treeviewFinderEn,
+    treeviewFinderFr,
+    genericValidationFr,
+    genericValidationEn,
+    networkModificationsEn,
+    networkModificationsFr,
+    commonButtonEn,
+    commonButtonFr,
 } from '@gridsuite/commons-ui';
 import type { IntlConfig } from 'react-intl';
 import pluginMessagesEn from 'plugins/translations/en.json';
@@ -26,6 +40,13 @@ export const appMessages: Record<GsLangUser, IntlConfig['messages']> = {
         ...loginEn,
         ...topBarEn,
         ...cardErrorBoundaryEn,
+        ...exportNetworkEn,
+        ...descriptionEn,
+        ...parametersEn,
+        ...treeviewFinderEn,
+        ...genericValidationEn,
+        ...networkModificationsEn,
+        ...commonButtonEn,
         ...pluginMessagesEn, // keep it at the end to allow translation overwriting
     },
     fr: {
@@ -33,6 +54,13 @@ export const appMessages: Record<GsLangUser, IntlConfig['messages']> = {
         ...loginFr,
         ...topBarFr,
         ...cardErrorBoundaryFr,
+        ...exportNetworkFr,
+        ...descriptionFr,
+        ...parametersFr,
+        ...treeviewFinderFr,
+        ...genericValidationFr,
+        ...networkModificationsFr,
+        ...commonButtonFr,
         ...pluginMessagesFr, // keep it at the end to allow translation overwriting
     },
 };

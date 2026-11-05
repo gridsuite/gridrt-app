@@ -5,17 +5,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 import { Delete, FileDownload } from '@mui/icons-material';
-import { Status, useDownloadResultCaseMutation } from '../../../../shared/api/snapshot-refiner-api';
+import { Status } from '../../../../shared/api/snapshot-refiner-api';
 
 export type ProcessActionsCellRendererProps = {
     processUuid: string;
     status: Status;
     caseName: string;
     onDeleteProcess?: (processUuid: string) => void;
+    onDownloadClick: (processUuid: string, caseName: string) => void;
 };
 
 export function ProcessActionsCellRenderer({
@@ -23,12 +23,9 @@ export function ProcessActionsCellRenderer({
     status,
     caseName,
     onDeleteProcess,
+    onDownloadClick,
 }: Readonly<ProcessActionsCellRendererProps>) {
     const intl = useIntl();
-    const [downloadResultCase] = useDownloadResultCaseMutation();
-    const downloadAction = useCallback(async () => {
-        await downloadResultCase({ processUuid, caseName });
-    }, [downloadResultCase, processUuid, caseName]);
 
     return (
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
@@ -51,7 +48,7 @@ export function ProcessActionsCellRenderer({
                         size="small"
                         disabled={status !== Status.Completed}
                         aria-label={intl.formatMessage({ id: 'DownloadCase' })}
-                        onClick={downloadAction}
+                        onClick={() => onDownloadClick(processUuid, caseName)}
                         // keep enough contrast on selected/hovered rows in light mode
                         sx={(theme) => (theme.palette.mode === 'light' ? { color: theme.palette.text.secondary } : {})}
                     >

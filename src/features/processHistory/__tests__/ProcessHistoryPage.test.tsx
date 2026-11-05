@@ -12,20 +12,43 @@ import type { ComponentProps } from 'react';
 import ProcessHistoryPage from 'features/processHistory/pages/ProcessHistoryPage';
 import messages from 'shared/translations/en/common.json';
 import type ProcessHistoryTable from 'features/processHistory/pages/ProcessHistoryTable';
+import { DownloadCaseDialog } from '../components/DownloadCaseDialog';
+import type { ProcessExecutionInfo } from '../model/process-execution-info';
+import { ProcessStepType, Status } from '../../../shared/api/snapshot-refiner-api';
 
 const mocks = vi.hoisted(() => ({
     deleteProcess: vi.fn(),
+    downloadResultCase: vi.fn(),
+    duplicateExistingCase: vi.fn(),
+    executions: [] as ProcessExecutionInfo[],
     refresh: vi.fn(),
+    snackInfo: vi.fn(),
+    snackSuccess: vi.fn(),
+    snackError: vi.fn(),
     tableProps: null as ComponentProps<typeof ProcessHistoryTable> | null,
+    downloadDialogProps: null as ComponentProps<typeof DownloadCaseDialog> | null,
 }));
 const deletedProcess = { caseDeletionStatus: 'SUCCESSFUL', reportDeletionStatus: 'NOTHING_TO_DELETE' };
 
 vi.mock('features/processHistory/hooks/use-process-list', () => ({
-    useProcessResults: () => ({ executions: [], isLoading: false, refresh: mocks.refresh }),
+    useProcessResults: () => ({ executions: mocks.executions, isLoading: false, refresh: mocks.refresh }),
 }));
 vi.mock('shared/api/snapshot-refiner-api', async (importOriginal) => ({
     ...(await importOriginal<typeof import('shared/api/snapshot-refiner-api')>()),
     useDeleteProcessExecutionMutation: () => [mocks.deleteProcess],
+    useDownloadResultCaseMutation: () => [mocks.downloadResultCase],
+}));
+vi.mock('shared/api/explore-api', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('shared/api/explore-api')>()),
+    useDuplicateExistingCaseMutation: () => [mocks.duplicateExistingCase],
+}));
+vi.mock('@gridsuite/commons-ui', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@gridsuite/commons-ui')>()),
+    useSnackMessage: () => ({
+        snackInfo: mocks.snackInfo,
+        snackSuccess: mocks.snackSuccess,
+        snackError: mocks.snackError,
+    }),
 }));
 vi.mock('features/processHistory/components/process-history-sort-provider', () => ({
     ProcessHistorySortProvider: ({ children }: { children: React.ReactNode }) => children,
@@ -39,11 +62,19 @@ vi.mock('features/processHistory/pages/ProcessHistoryTable', () => ({
         return <div data-testid="process-grid" />;
     },
 }));
+vi.mock('features/processHistory/components/DownloadCaseDialog', () => ({
+    DownloadCaseDialog: (props: ComponentProps<typeof DownloadCaseDialog>) => {
+        mocks.downloadDialogProps = props;
+        return <div data-testid="download-dialog" />;
+    },
+}));
 
 describe('ProcessHistoryPage selection actions', () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        mocks.executions = [];
         mocks.tableProps = null;
+        mocks.downloadDialogProps = null;
         mocks.refresh.mockResolvedValue(undefined);
     });
     it('shows the selected count and actions beside the title only when rows are selected', () => {
@@ -234,5 +265,164 @@ describe('ProcessHistoryPage selection actions', () => {
         fireEvent.click(screen.getByRole('dialog').querySelectorAll('button')[1]);
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
         expect(mocks.refresh).toHaveBeenCalledOnce();
+    });
+
+    it('downloads the result case locally', async () => {
+        mocks.downloadResultCase.mockReturnValue({
+            unwrap: () => Promise.resolve('Case 1.biidm'),
+        });
+        render(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessHistoryPage />
+            </IntlProvider>
+        );
+        act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
+        await act(async () => {
+            mocks.downloadDialogProps?.onDownload(
+                {},
+                {
+                    fileName: 'Case 1',
+                    exportToGridExplore: false,
+                    selectedFormat: '',
+                    selectedCompression: '',
+                }
+            );
+        });
+        expect(mocks.downloadResultCase).toHaveBeenCalledWith({
+            processUuid: 'process-1',
+            fileNameInput: 'Case 1',
+        });
+        expect(mocks.duplicateExistingCase).not.toHaveBeenCalled();
+    });
+
+    it('duplicates the result case in GridExplore', async () => {
+        mocks.executions = [
+            {
+                processUuid: 'process-1',
+                executionSteps: [
+                    {
+                        processStepType: ProcessStepType.CaseSaving,
+                        status: Status.Completed,
+                        resultUuid: 'result-1',
+                    },
+                ],
+            },
+        ];
+        mocks.duplicateExistingCase.mockReturnValue({
+            unwrap: () => Promise.resolve(undefined),
+        });
+        render(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessHistoryPage />
+            </IntlProvider>
+        );
+        act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
+        await act(async () => {
+            mocks.downloadDialogProps?.onDownload(
+                {},
+                {
+                    fileName: 'Case 1',
+                    exportToGridExplore: true,
+                    parentDirectoryUuid: 'directory-1',
+                    description: 'Description',
+                    selectedFormat: '',
+                    selectedCompression: '',
+                }
+            );
+        });
+        expect(mocks.duplicateExistingCase).toHaveBeenCalledWith({
+            sourceCaseUuid: 'result-1',
+            caseName: 'Case 1',
+            parentDirectoryUuid: 'directory-1',
+            description: 'Description',
+        });
+        expect(mocks.downloadResultCase).not.toHaveBeenCalled();
+    });
+
+    it('closes the download dialog when the download starts', async () => {
+        let resolveDownload: () => void = () => {};
+        mocks.downloadResultCase.mockReturnValue({
+            unwrap: () =>
+                new Promise<void>((resolve) => {
+                    resolveDownload = resolve;
+                }),
+        });
+        render(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessHistoryPage />
+            </IntlProvider>
+        );
+        act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
+        expect(screen.getByTestId('download-dialog')).toBeInTheDocument();
+        await act(async () => {
+            mocks.downloadDialogProps!.onDownload(
+                {},
+                {
+                    fileName: 'Case 1',
+                    exportToGridExplore: false,
+                    selectedFormat: '',
+                    selectedCompression: '',
+                }
+            );
+
+            await Promise.resolve();
+        });
+        expect(screen.queryByRole('download-dialog')).not.toBeInTheDocument();
+        expect(mocks.downloadResultCase).toHaveBeenCalledWith({
+            processUuid: 'process-1',
+            fileNameInput: 'Case 1',
+        });
+        await act(async () => {
+            resolveDownload();
+            await Promise.resolve();
+        });
+    });
+
+    it('does not download to GridExplore when no completed case saving result exists', async () => {
+        render(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessHistoryPage />
+            </IntlProvider>
+        );
+        act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
+        await act(async () => {
+            mocks.downloadDialogProps?.onDownload(
+                {},
+                {
+                    fileName: 'Case 1',
+                    exportToGridExplore: true,
+                    parentDirectoryUuid: 'directory-1',
+                    selectedFormat: '',
+                    selectedCompression: '',
+                }
+            );
+        });
+        expect(mocks.downloadResultCase).not.toHaveBeenCalled();
+        expect(mocks.duplicateExistingCase).not.toHaveBeenCalled();
+        expect(mocks.snackError).toHaveBeenCalledOnce();
+        expect(mocks.snackInfo).not.toHaveBeenCalled();
+    });
+
+    it('does not download to GridExplore when no parent directory is provided', async () => {
+        render(
+            <IntlProvider locale="en" messages={messages}>
+                <ProcessHistoryPage />
+            </IntlProvider>
+        );
+        act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
+        await act(async () => {
+            mocks.downloadDialogProps?.onDownload(
+                {},
+                {
+                    fileName: 'Case 1',
+                    exportToGridExplore: true,
+                    selectedFormat: '',
+                    selectedCompression: '',
+                }
+            );
+        });
+        expect(mocks.downloadResultCase).not.toHaveBeenCalled();
+        expect(mocks.duplicateExistingCase).not.toHaveBeenCalled();
+        expect(mocks.snackError).toHaveBeenCalledOnce();
     });
 });
