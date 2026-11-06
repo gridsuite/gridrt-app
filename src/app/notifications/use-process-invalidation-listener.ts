@@ -32,7 +32,10 @@ export const useProcessInvalidationsListener = () => {
         [dispatch]
     );
 
+    const invalidateProcessesOnReopen = useCallback(() => invalidateProcessExecutionsLists(dispatch), [dispatch]);
+
     useNotificationsListener(REAL_TIME_NOTIFICATION_URL_KEY, {
         listenerCallbackMessage: invalidateProcess,
+        listenerCallbackOnReopen: invalidateProcessesOnReopen,
     });
 };
