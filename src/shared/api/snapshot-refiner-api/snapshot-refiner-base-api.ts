@@ -8,8 +8,14 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { createBaseQuery } from '../rtk-query/base-api';
 
+export const SnapshotRefinerTags = {
+    ProcessExecutions: 'ProcessExecutions',
+    ProcessExecution: 'ProcessExecution',
+} as const;
+
 export const snapshotRefinerBaseApi = createApi({
     reducerPath: 'snapshotRefinerApi',
     baseQuery: createBaseQuery(`${import.meta.env.VITE_API_GATEWAY}/snapshot-refiner`),
+    tagTypes: Object.values(SnapshotRefinerTags),
     endpoints: () => ({}),
 });

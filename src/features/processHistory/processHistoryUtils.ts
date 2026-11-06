@@ -145,6 +145,8 @@ export const processResultsColumnsDefinition = (
             // wide enough to display the "Actions" header without truncation
             minWidth: 112,
             maxWidth: 112,
+            // the actions depend on the status: the cell is only refreshed by the grid when its value changes
+            valueGetter: (params) => params.data?.status,
             cellRenderer: ProcessActionsCellRenderer,
             cellRendererParams: (params: any) => ({
                 processUuid: params.data.processUuid,
