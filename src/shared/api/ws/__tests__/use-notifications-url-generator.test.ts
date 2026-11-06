@@ -9,7 +9,11 @@ import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS } from '@gridsuite/
 import { renderHook } from '@testing-library/react';
 import { APP_NAME } from 'app/config/app-config';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useNotificationsUrlGenerator } from 'shared/api/ws/use-notifications-url-generator';
+import {
+    PREFIX_REAL_TIME_NOTIFICATION_WS,
+    REAL_TIME_NOTIFICATION_URL_KEY,
+    useNotificationsUrlGenerator,
+} from 'shared/api/ws/use-notifications-url-generator';
 
 describe('useNotificationsUrlGenerator', () => {
     beforeEach(() => {
@@ -25,6 +29,7 @@ describe('useNotificationsUrlGenerator', () => {
 
         expect(result.current).toEqual({
             [NotificationsUrlKeys.CONFIG]: `wss://gridapp.test/${PREFIX_CONFIG_NOTIFICATION_WS}/notify?${params}`,
+            [REAL_TIME_NOTIFICATION_URL_KEY]: `wss://gridapp.test/${PREFIX_REAL_TIME_NOTIFICATION_WS}/notify?${params}`,
         });
     });
 
@@ -38,6 +43,7 @@ describe('useNotificationsUrlGenerator', () => {
 
         expect(result.current).toEqual({
             [NotificationsUrlKeys.CONFIG]: `ws://gridapp.test/${PREFIX_CONFIG_NOTIFICATION_WS}/notify?${params}`,
+            [REAL_TIME_NOTIFICATION_URL_KEY]: `ws://gridapp.test/${PREFIX_REAL_TIME_NOTIFICATION_WS}/notify?${params}`,
         });
     });
 });
