@@ -26,11 +26,9 @@ export const useNotificationsUrlGenerator = (): Partial<
                     appName: APP_NAME,
                 }
             )}`,
-            [RT_NOTIFICATION_URL_KEY]: `${webSocketBaseUrl}${PREFIX_RT_NOTIFICATION_WS}/notify?${new URLSearchParams(
-                {
-                    appName: APP_NAME,
-                }
-            )}`,
+            [RT_NOTIFICATION_URL_KEY]: `${webSocketBaseUrl}${PREFIX_RT_NOTIFICATION_WS}/notify?${new URLSearchParams({
+                appName: APP_NAME,
+            })}`,
         }),
         [webSocketBaseUrl]
     );
