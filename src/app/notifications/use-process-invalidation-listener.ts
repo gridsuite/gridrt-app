@@ -12,7 +12,7 @@ import {
     invalidateProcessExecutionsLists,
     isProcessExecutionUpdateNotification,
 } from 'shared/api/snapshot-refiner-api';
-import { REAL_TIME_NOTIFICATION_URL_KEY } from 'shared/api/ws/use-notifications-url-generator';
+import { RT_NOTIFICATION_URL_KEY } from 'shared/api/ws/use-notifications-url-generator';
 
 import { useAppDispatch } from '../store/store';
 
@@ -34,7 +34,7 @@ export const useProcessInvalidationsListener = () => {
 
     const invalidateProcessesOnReopen = useCallback(() => invalidateProcessExecutionsLists(dispatch), [dispatch]);
 
-    useNotificationsListener(REAL_TIME_NOTIFICATION_URL_KEY, {
+    useNotificationsListener(RT_NOTIFICATION_URL_KEY, {
         listenerCallbackMessage: invalidateProcess,
         listenerCallbackOnReopen: invalidateProcessesOnReopen,
     });
