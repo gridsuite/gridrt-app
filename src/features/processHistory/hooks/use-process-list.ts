@@ -16,7 +16,7 @@ export const mapProcessInfos = (api: ProcessExecution): ProcessExecutionInfo => 
 });
 
 export function useProcessResults() {
-    const { data = [], isError, isLoading, isSuccess, refetch } = useGetAllProcessExecutionsQuery();
+    const { data = [], isError, isLoading, isSuccess } = useGetAllProcessExecutionsQuery();
 
     const mappedData = data.map(mapProcessInfos);
 
@@ -25,6 +25,5 @@ export function useProcessResults() {
         isError,
         isLoading,
         isSuccess,
-        refresh: refetch,
     };
 }

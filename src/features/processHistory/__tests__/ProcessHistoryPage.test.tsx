@@ -21,7 +21,6 @@ const mocks = vi.hoisted(() => ({
     downloadResultCase: vi.fn(),
     duplicateExistingCase: vi.fn(),
     executions: [] as ProcessExecutionInfo[],
-    refresh: vi.fn(),
     snackInfo: vi.fn(),
     snackSuccess: vi.fn(),
     snackError: vi.fn(),
@@ -31,7 +30,7 @@ const mocks = vi.hoisted(() => ({
 const deletedProcess = { caseDeletionStatus: 'SUCCESSFUL', reportDeletionStatus: 'NOTHING_TO_DELETE' };
 
 vi.mock('features/processHistory/hooks/use-process-list', () => ({
-    useProcessResults: () => ({ executions: mocks.executions, isLoading: false, refresh: mocks.refresh }),
+    useProcessResults: () => ({ executions: mocks.executions, isLoading: false }),
 }));
 vi.mock('shared/api/snapshot-refiner-api', async (importOriginal) => ({
     ...(await importOriginal<typeof import('shared/api/snapshot-refiner-api')>()),
@@ -75,7 +74,6 @@ describe('ProcessHistoryPage selection actions', () => {
         mocks.executions = [];
         mocks.tableProps = null;
         mocks.downloadDialogProps = null;
-        mocks.refresh.mockResolvedValue(undefined);
     });
     it('shows the selected count and actions beside the title only when rows are selected', () => {
         render(
@@ -165,7 +163,7 @@ describe('ProcessHistoryPage selection actions', () => {
         ).toBeInTheDocument();
     });
 
-    it('deletes only the row clicked and refreshes the list', async () => {
+    it('deletes only the row clicked', async () => {
         mocks.deleteProcess.mockImplementation(() => ({ unwrap: () => Promise.resolve(deletedProcess) }));
         render(
             <IntlProvider locale="en" messages={messages}>
@@ -177,7 +175,7 @@ describe('ProcessHistoryPage selection actions', () => {
         fireEvent.click(screen.getByRole('dialog').querySelectorAll('button')[1]);
         await waitFor(() => expect(mocks.deleteProcess).toHaveBeenCalledWith({ processUuid: 'process-1' }));
         expect(mocks.deleteProcess).toHaveBeenCalledOnce();
-        await waitFor(() => expect(mocks.refresh).toHaveBeenCalledOnce());
+        await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
     });
 
     it('deletes the selected UUIDs captured when the toolbar dialog opens', async () => {
@@ -200,10 +198,10 @@ describe('ProcessHistoryPage selection actions', () => {
         await waitFor(() => expect(mocks.deleteProcess).toHaveBeenCalledTimes(2));
         expect(mocks.deleteProcess).toHaveBeenCalledWith({ processUuid: 'process-1' });
         expect(mocks.deleteProcess).toHaveBeenCalledWith({ processUuid: 'process-2' });
-        await waitFor(() => expect(mocks.refresh).toHaveBeenCalledOnce());
+        await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
     });
 
-    it('refreshes, deselects and closes when a deletion reports partial failure', async () => {
+    it('deselects and closes when a deletion reports partial failure', async () => {
         mocks.deleteProcess.mockImplementation(({ processUuid }: { processUuid: string }) => ({
             unwrap: () =>
                 Promise.resolve(
@@ -224,7 +222,6 @@ describe('ProcessHistoryPage selection actions', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
         fireEvent.click(screen.getByRole('dialog').querySelectorAll('button')[1]);
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
-        expect(mocks.refresh).toHaveBeenCalledOnce();
         expect(mocks.deleteProcess).toHaveBeenCalledTimes(2);
     });
 
@@ -249,7 +246,6 @@ describe('ProcessHistoryPage selection actions', () => {
 
         await act(async () => rejectRequest(new Error('Request failed')));
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
-        expect(mocks.refresh).toHaveBeenCalledOnce();
     });
 
     it('closes even when a step result could not be deleted', async () => {
@@ -264,7 +260,6 @@ describe('ProcessHistoryPage selection actions', () => {
         act(() => mocks.tableProps?.onDeleteProcess('process-1'));
         fireEvent.click(screen.getByRole('dialog').querySelectorAll('button')[1]);
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
-        expect(mocks.refresh).toHaveBeenCalledOnce();
     });
 
     it('downloads the result case locally', async () => {
