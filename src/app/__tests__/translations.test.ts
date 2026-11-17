@@ -6,6 +6,8 @@
  */
 
 import { describe, it, expect } from 'vitest';
+import messagesEn from 'shared/translations/en/common.json';
+import messagesFr from 'shared/translations/fr/common.json';
 import { appMessages } from '../config/app-messages';
 import { Status } from '../../shared/api/snapshot-refiner-api';
 
@@ -54,5 +56,12 @@ describe('translations', () => {
             .filter(([id]) => !(id in messages))
             .map(([id, files]) => `${id} (${[...files].join(', ')})`);
         expect(missing).toEqual([]);
+    });
+
+    it('en and fr common translations have the same keys', () => {
+        const en = Object.keys(messagesEn);
+        const fr = Object.keys(messagesFr);
+        expect(fr.filter((key) => !en.includes(key))).toEqual([]);
+        expect(en.filter((key) => !fr.includes(key))).toEqual([]);
     });
 });
