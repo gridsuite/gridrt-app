@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { FormControlLabel, Switch, Typography } from '@mui/material';
+import { FormControlLabel, Switch } from '@mui/material';
 import type { ChangeEvent } from 'react';
 import { useIntl } from 'react-intl';
 
@@ -24,12 +24,9 @@ export function SandboxModeToggle({ isSandboxMode, onChange }: Readonly<SandboxM
     return (
         <FormControlLabel
             control={<Switch color="secondary" checked={isSandboxMode} onChange={handleToggle} />}
-            label={
-                <Typography variant="body1" sx={{ color: 'secondary.main' }}>
-                    {intl.formatMessage({ id: 'topBar.sandboxMode' })}
-                </Typography>
-            }
+            label={intl.formatMessage({ id: 'topBar.sandboxMode' })}
             labelPlacement="start"
+            slotProps={{ typography: { variant: 'subtitle2', sx: { color: 'secondary.main' } } }}
             sx={{ mx: 0, flexShrink: 0, whiteSpace: 'nowrap' }}
         />
     );

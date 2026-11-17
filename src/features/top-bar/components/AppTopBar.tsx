@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { AppBar, Button, Divider, Stack, Toolbar, useTheme } from '@mui/material';
+import { AppBar, Button, Divider, Stack, Toolbar } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router';
@@ -20,11 +20,8 @@ export type AppTopBarProps = {
     userProfile: UserProfile | null;
 };
 
-const SANDBOX_ACTIVE_BACKGROUND = 'rgba(156, 39, 176, 0.08)';
-
 function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
     const intl = useIntl();
-    const theme = useTheme();
     const [isSandboxMode, setSandboxMode] = useState(false);
     const [isRunDialogOpen, setRunDialogOpen] = useState(false);
     const location = useLocation();
@@ -37,10 +34,6 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
         }
     }, [isSandboxMode, location.pathname, navigate]);
 
-    const toolbarBackground = isSandboxMode
-        ? SANDBOX_ACTIVE_BACKGROUND
-        : theme.palette.grey[theme.palette.mode === 'dark' ? 800 : 100];
-
     return (
         <AppBar position="sticky" color="default" elevation={0}>
             {userProfile !== null && (
@@ -49,10 +42,9 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
                     sx={{
                         minHeight: { xs: 56 },
                         px: 3,
-                        py: 2,
                         alignItems: 'center',
                         flexShrink: 0,
-                        bgcolor: toolbarBackground,
+                        bgcolor: (theme) => theme.topBar[isSandboxMode ? 'sandboxMode' : 'defaultMode'].background,
                     }}
                 >
                     {isSandboxMode && <AppNavBar />}

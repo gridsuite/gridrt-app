@@ -6,7 +6,7 @@
  */
 
 import { LIGHT_THEME } from '@gridsuite/commons-ui';
-import { createTheme, Theme } from '@mui/material';
+import { alpha, createTheme, Theme } from '@mui/material';
 
 const componentsStyleOverrides = () => {
     return {
@@ -27,7 +27,15 @@ const componentsStyleOverrides = () => {
     };
 };
 
-const lightTheme: Theme = createTheme({
+// Derived from the resolved palette, hence applied in a second createTheme pass (see below)
+const getTopBarTokens = ({ palette }: Theme): Pick<Theme, 'topBar'> => ({
+    topBar: {
+        defaultMode: { background: palette.grey[palette.mode === 'dark' ? 800 : 100] },
+        sandboxMode: { background: alpha(palette.secondary.main, palette.action.selectedOpacity) },
+    },
+});
+
+const lightBaseTheme = createTheme({
     palette: {
         mode: 'light',
     },
@@ -59,7 +67,7 @@ const lightTheme: Theme = createTheme({
     },
 });
 
-const darkTheme: Theme = createTheme({
+const darkBaseTheme = createTheme({
     palette: {
         mode: 'dark',
     },
@@ -90,5 +98,8 @@ const darkTheme: Theme = createTheme({
         ...componentsStyleOverrides(),
     },
 });
+
+const lightTheme: Theme = createTheme(lightBaseTheme, getTopBarTokens(lightBaseTheme));
+const darkTheme: Theme = createTheme(darkBaseTheme, getTopBarTokens(darkBaseTheme));
 
 export const getAppTheme = (theme: string): Theme => (theme === LIGHT_THEME ? lightTheme : darkTheme);
