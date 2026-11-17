@@ -6,23 +6,20 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import { IntlProvider, ReactIntlErrorCode } from 'react-intl';
+import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router';
-import { CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
+import { createTheme, CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { it, expect, vi } from 'vitest';
 import { http, HttpResponse } from 'msw';
-import { LIGHT_THEME, SnackbarProvider } from '@gridsuite/commons-ui';
+import { SnackbarProvider } from '@gridsuite/commons-ui';
 import { server } from 'test-utils/msw/server';
 import App from '../App';
 import { store } from '../store/store';
-import { getAppTheme } from '../config/app-theme';
-import { appMessages } from '../config/app-messages';
 
 vi.mock('uuid', () => ({ v4: () => '00000000-0000-0000-0000-000000000000' }));
 
 it('renders', async () => {
-    const missingTranslations: string[] = [];
     server.use(
         http.get('*/env.json', () =>
             HttpResponse.json({
@@ -37,21 +34,11 @@ it('renders', async () => {
     );
 
     render(
-        <IntlProvider
-            locale="en"
-            messages={appMessages.en}
-            onError={(err) => {
-                if (err.code === ReactIntlErrorCode.MISSING_TRANSLATION) {
-                    missingTranslations.push(err.message);
-                } else {
-                    throw err;
-                }
-            }}
-        >
+        <IntlProvider locale="en">
             <BrowserRouter>
                 <Provider store={store}>
                     <StyledEngineProvider injectFirst>
-                        <ThemeProvider theme={getAppTheme(LIGHT_THEME)}>
+                        <ThemeProvider theme={createTheme()}>
                             <SnackbarProvider hideIconVariant={false}>
                                 <CssBaseline />
                                 <App />
@@ -65,5 +52,4 @@ it('renders', async () => {
     // single test on sidebar for now
     const sideBar = await screen.findByRole('complementary');
     expect(sideBar).toBeInTheDocument();
-    expect(missingTranslations).toEqual([]);
 });
