@@ -1,4 +1,5 @@
 {
+    "PageNotFound": "Page introuvable",
     "close": "Fermer",
     "parameters": "Paramètres",
     "paramsChangingError": "Une erreur est survenue lors de la modification des paramètres",
