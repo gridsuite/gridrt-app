@@ -38,12 +38,20 @@ const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
                     if (!response.ok) {
                         return response.text();
                     }
-                    // the produced case keeps its own format (e.g. biidm): take the extension from the server filename
+                    // Keep the case format (e.g. xiidm) and any compression extension from the server filename.
                     const serverFilename = /filename="?([^";]+)"?/.exec(
                         response.headers.get('Content-Disposition') ?? ''
                     )?.[1];
-                    const extension = serverFilename?.split('.').pop();
-                    const fileName = extension ? `${fileNameInput}.${extension}` : fileNameInput;
+                    console.log('DBG DBR hearder=', response.headers, response.headers.get('Content-Disposition'));
+                    console.log('DBG DBR serverFilename=', serverFilename);
+                    const extensionParts = serverFilename?.split('.').slice(1);
+                    // keep the 2 last extensions, at most (ex: biidm.zip)
+                    const extensions = extensionParts
+                        ?.slice(/^(zip|gz)$/i.test(extensionParts.at(-1) ?? '') ? -2 : -1)
+                        .join('.');
+                    console.log('DBG DBR extension=', extensions);
+                    const fileName = extensions ? `${fileNameInput}.${extensions}` : fileNameInput;
+                    console.log('DBG DBR fileName=', fileName);
 
                     const url = URL.createObjectURL(await response.blob());
                     const link = document.createElement('a');
