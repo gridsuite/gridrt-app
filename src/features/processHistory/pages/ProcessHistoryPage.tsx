@@ -40,7 +40,7 @@ function getCaseSavingResultUuid(executions: ProcessExecutionInfo[], selectedPro
 }
 
 function ProcessHistoryPage() {
-    const { executions, isLoading, refresh } = useProcessResults();
+    const { executions, isLoading } = useProcessResults();
     const [deleteProcess] = useDeleteProcessExecutionMutation();
     const [downloadResultCase] = useDownloadResultCaseMutation();
     const [duplicateExistingCase] = useDuplicateExistingCaseMutation();
@@ -74,8 +74,6 @@ function ProcessHistoryPage() {
         }
         setIsDeleting(true);
         await Promise.allSettled(deletionTargets.current.map((processUuid) => deleteProcess({ processUuid }).unwrap()));
-        // eslint-disable-next-line no-void
-        void refresh();
         setDeleteDialogOpen(false);
         setIsDeleting(false);
     };

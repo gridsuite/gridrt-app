@@ -8,7 +8,12 @@ import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS } from '@gridsuite/
 import { APP_NAME } from 'app/config/app-config';
 import { useMemo } from 'react';
 
-export const useNotificationsUrlGenerator = (): Partial<Record<NotificationsUrlKeys, string | undefined>> => {
+export const RT_NOTIFICATION_URL_KEY = 'RT';
+export const PREFIX_RT_NOTIFICATION_WS = `${import.meta.env.VITE_WS_GATEWAY}/rt-notification`;
+
+export const useNotificationsUrlGenerator = (): Partial<
+    Record<NotificationsUrlKeys | typeof RT_NOTIFICATION_URL_KEY, string | undefined>
+> => {
     // The websocket API doesn't allow relative urls
     const webSocketBaseUrl = document.baseURI.replace(/^http:\/\//, 'ws://').replace(/^https:\/\//, 'wss://');
 
@@ -21,6 +26,9 @@ export const useNotificationsUrlGenerator = (): Partial<Record<NotificationsUrlK
                     appName: APP_NAME,
                 }
             )}`,
+            [RT_NOTIFICATION_URL_KEY]: `${webSocketBaseUrl}${PREFIX_RT_NOTIFICATION_WS}/notify?${new URLSearchParams({
+                appName: APP_NAME,
+            })}`,
         }),
         [webSocketBaseUrl]
     );

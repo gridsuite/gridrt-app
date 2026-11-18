@@ -15,3 +15,5 @@ export {
 } from './snapshot-refiner.generated';
 export type { ProcessExecution, ProcessStepExecution } from './snapshot-refiner.generated';
 export { CaseDeletionStatus, ReportDeletionStatus, ProcessStepType, Status } from './snapshot-refiner.generated';
+export * from './snapshot-refiner.enhanced';
+export * from './snapshot-refiner.notification.type';

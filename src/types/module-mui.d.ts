@@ -19,6 +19,10 @@ declare module '@mui/material/styles' {
         aggrid: {
             theme: 'ag-theme-alpine' | 'ag-theme-alpine-dark';
         };
+        topBar: {
+            defaultMode: { background: string };
+            sandboxMode: { background: string };
+        };
     };
     export interface Theme extends MuiTheme, Required<ThemeExtension> {}
     // allow configuration using `createTheme`
