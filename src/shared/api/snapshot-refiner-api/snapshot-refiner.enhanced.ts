@@ -27,3 +27,7 @@ export const invalidateProcessExecutionsLists = (dispatch: AppDispatch) =>
 
 export const invalidateProcessExecution = (dispatch: AppDispatch, executionId: string) =>
     dispatch(snapshotRefinerApi.util.invalidateTags([{ type: SnapshotRefinerTags.ProcessExecution, id: executionId }]));
+
+export const invalidateAllQueries = (dispatch: AppDispatch) => {
+    dispatch(snapshotRefinerApi.util.invalidateTags(Object.values(SnapshotRefinerTags)));
+};

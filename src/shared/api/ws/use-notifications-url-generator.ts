@@ -4,15 +4,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS } from '@gridsuite/commons-ui';
+import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS, PREFIX_RT_NOTIFICATION_WS } from '@gridsuite/commons-ui';
 import { APP_NAME } from 'app/config/app-config';
 import { useMemo } from 'react';
 
-export const RT_NOTIFICATION_URL_KEY = 'RT';
-export const PREFIX_RT_NOTIFICATION_WS = `${import.meta.env.VITE_WS_GATEWAY}/rt-notification`;
-
 export const useNotificationsUrlGenerator = (): Partial<
-    Record<NotificationsUrlKeys | typeof RT_NOTIFICATION_URL_KEY, string | undefined>
+    Record<NotificationsUrlKeys, string | undefined>
 > => {
     // The websocket API doesn't allow relative urls
     const webSocketBaseUrl = document.baseURI.replace(/^http:\/\//, 'ws://').replace(/^https:\/\//, 'wss://');
@@ -26,7 +23,7 @@ export const useNotificationsUrlGenerator = (): Partial<
                     appName: APP_NAME,
                 }
             )}`,
-            [RT_NOTIFICATION_URL_KEY]: `${webSocketBaseUrl}${PREFIX_RT_NOTIFICATION_WS}/notify?${new URLSearchParams({
+            [NotificationsUrlKeys.RT]: `${webSocketBaseUrl}${PREFIX_RT_NOTIFICATION_WS}/notify?${new URLSearchParams({
                 appName: APP_NAME,
             })}`,
         }),
