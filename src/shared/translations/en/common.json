@@ -1,4 +1,5 @@
 {
+    "PageNotFound": "Page not found",
     "close": "Close",
     "parameters": "Parameters",
     "paramsChangingError": "An error occured when changing the parameters",
