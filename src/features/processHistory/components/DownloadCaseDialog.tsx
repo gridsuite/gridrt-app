@@ -20,7 +20,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCallback, useEffect } from 'react';
-import type { ProcessToDownload } from '../pages/ProcessHistoryPage';
+import type { ProcessToDownload } from '../ProcessHistory';
 
 type DownloadCaseDialogProps = {
     open: boolean;

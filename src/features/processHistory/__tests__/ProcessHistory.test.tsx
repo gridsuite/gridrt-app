@@ -9,9 +9,9 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { IntlProvider } from 'react-intl';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ComponentProps } from 'react';
-import ProcessHistoryPage from 'features/processHistory/pages/ProcessHistoryPage';
 import messages from 'shared/translations/en/common.json';
-import type ProcessHistoryTable from 'features/processHistory/pages/ProcessHistoryTable';
+import ProcessHistory from '../ProcessHistory';
+import type ProcessHistoryTable from '../ProcessHistoryTable';
 import { DownloadCaseDialog } from '../components/DownloadCaseDialog';
 import type { ProcessExecutionInfo } from '../model/process-execution-info';
 import { ProcessStepType, Status } from '../../../shared/api/snapshot-refiner-api';
@@ -55,7 +55,7 @@ vi.mock('features/processHistory/components/process-history-sort-provider', () =
 vi.mock('features/processHistory/components/process-history-filter-provider', () => ({
     ProcessHistoryFilterProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
-vi.mock('features/processHistory/pages/ProcessHistoryTable', () => ({
+vi.mock('features/processHistory/ProcessHistoryTable', () => ({
     default: (props: ComponentProps<typeof ProcessHistoryTable>) => {
         mocks.tableProps = props;
         return <div data-testid="process-grid" />;
@@ -68,7 +68,7 @@ vi.mock('features/processHistory/components/DownloadCaseDialog', () => ({
     },
 }));
 
-describe('ProcessHistoryPage selection actions', () => {
+describe('ProcessHistory selection actions', () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mocks.executions = [];
@@ -78,7 +78,7 @@ describe('ProcessHistoryPage selection actions', () => {
     it('shows the selected count and actions beside the title only when rows are selected', () => {
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
 
@@ -99,7 +99,7 @@ describe('ProcessHistoryPage selection actions', () => {
     it('clears grid selection when Cancel is clicked', () => {
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
 
@@ -118,7 +118,7 @@ describe('ProcessHistoryPage selection actions', () => {
     it('opens and dismisses the confirmation dialog from the toolbar and from a row', async () => {
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
 
@@ -148,7 +148,7 @@ describe('ProcessHistoryPage selection actions', () => {
     it('uses the singular title when the toolbar deletes one selected process', () => {
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
 
@@ -167,7 +167,7 @@ describe('ProcessHistoryPage selection actions', () => {
         mocks.deleteProcess.mockImplementation(() => ({ unwrap: () => Promise.resolve(deletedProcess) }));
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
 
@@ -182,7 +182,7 @@ describe('ProcessHistoryPage selection actions', () => {
         mocks.deleteProcess.mockImplementation(() => ({ unwrap: () => Promise.resolve(deletedProcess) }));
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
         let selected = [{ processUuid: 'process-1' }, { processUuid: 'process-2' }];
@@ -210,7 +210,7 @@ describe('ProcessHistoryPage selection actions', () => {
         }));
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
         mocks.tableProps!.gridRef.current = {
@@ -235,7 +235,7 @@ describe('ProcessHistoryPage selection actions', () => {
         }));
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
         act(() => mocks.tableProps?.onDeleteProcess('process-1'));
@@ -254,7 +254,7 @@ describe('ProcessHistoryPage selection actions', () => {
         }));
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
         act(() => mocks.tableProps?.onDeleteProcess('process-1'));
@@ -268,7 +268,7 @@ describe('ProcessHistoryPage selection actions', () => {
         });
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
         act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
@@ -308,7 +308,7 @@ describe('ProcessHistoryPage selection actions', () => {
         });
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
         act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
@@ -344,7 +344,7 @@ describe('ProcessHistoryPage selection actions', () => {
         });
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
         act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
@@ -376,7 +376,7 @@ describe('ProcessHistoryPage selection actions', () => {
     it('does not download to GridExplore when no completed case saving result exists', async () => {
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
         act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
@@ -401,7 +401,7 @@ describe('ProcessHistoryPage selection actions', () => {
     it('does not download to GridExplore when no parent directory is provided', async () => {
         render(
             <IntlProvider locale="en" messages={messages}>
-                <ProcessHistoryPage />
+                <ProcessHistory />
             </IntlProvider>
         );
         act(() => mocks.tableProps?.onDownloadClick('process-1', 'Case 1'));
