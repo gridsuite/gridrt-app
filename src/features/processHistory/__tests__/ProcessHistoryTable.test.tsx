@@ -10,8 +10,8 @@ import { act, render, screen } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { describe, expect, it, vi } from 'vitest';
 import type { AgGridReact, AgGridReactProps } from 'ag-grid-react';
-import ProcessHistoryTable from 'features/processHistory/pages/ProcessHistoryTable';
 import messages from 'shared/translations/en/common.json';
+import ProcessHistoryTable from '../ProcessHistoryTable';
 
 const captured = vi.hoisted(() => ({ props: null as AgGridReactProps | null }));
 
