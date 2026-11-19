@@ -13,10 +13,14 @@ const mocks = vi.hoisted(() => ({
     useAppParameterState: vi.fn(),
     useStableUserProfile: vi.fn(),
     appSideBar: vi.fn(),
+    appTopBar: vi.fn(),
 }));
 
 vi.mock('features/top-bar/components/AppTopBar', () => ({
-    default: () => <div>topbar</div>,
+    default: (props: Record<string, unknown>) => {
+        mocks.appTopBar(props);
+        return <div>topbar</div>;
+    },
 }));
 
 vi.mock('@gridsuite/commons-ui', async (importOriginal) => {
@@ -44,6 +48,11 @@ vi.mock('features/side-bar/components/AppSideBar', () => ({
 }));
 
 describe('AppLayout', () => {
+    const defaultProps = {
+        isWebSocketDisconnected: false,
+        onRefreshTaggedQueries: vi.fn(),
+    };
+
     beforeEach(() => {
         vi.clearAllMocks();
         mocks.useAppParameterState.mockImplementation((paramName: string) => {
@@ -60,7 +69,7 @@ describe('AppLayout', () => {
         const onLogoutClick = vi.fn();
 
         render(
-            <AppLayout onLogoutClick={onLogoutClick}>
+            <AppLayout {...defaultProps} onLogoutClick={onLogoutClick}>
                 <main>Application content</main>
             </AppLayout>
         );
@@ -69,6 +78,23 @@ describe('AppLayout', () => {
         expect(mocks.appSideBar).toHaveBeenCalledWith(
             expect.objectContaining({
                 onLogoutClick,
+            })
+        );
+    });
+
+    it('forwards the websocket state and refresh handler to the top bar', () => {
+        const onRefreshTaggedQueries = vi.fn();
+
+        render(
+            <AppLayout isWebSocketDisconnected onRefreshTaggedQueries={onRefreshTaggedQueries}>
+                Application content
+            </AppLayout>
+        );
+
+        expect(mocks.appTopBar).toHaveBeenCalledWith(
+            expect.objectContaining({
+                isWebSocketDisconnected: true,
+                onRefreshTaggedQueries,
             })
         );
     });
@@ -82,13 +108,13 @@ describe('AppLayout', () => {
             return [undefined];
         });
 
-        render(<AppLayout>Application content</AppLayout>);
+        render(<AppLayout {...defaultProps}>Application content</AppLayout>);
 
         expect(screen.getByText('Developer mode')).toBeInTheDocument();
     });
 
     it('does not display the developer mode banner when developer mode is disabled', () => {
-        render(<AppLayout>Application content</AppLayout>);
+        render(<AppLayout {...defaultProps}>Application content</AppLayout>);
 
         expect(screen.queryByText('Developer mode')).not.toBeInTheDocument();
     });
@@ -103,7 +129,7 @@ describe('AppLayout', () => {
         });
         mocks.useStableUserProfile.mockReturnValue(null);
 
-        render(<AppLayout>Application content</AppLayout>);
+        render(<AppLayout {...defaultProps}>Application content</AppLayout>);
 
         expect(screen.queryByText('Developer mode')).not.toBeInTheDocument();
     });

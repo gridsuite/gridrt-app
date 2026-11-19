@@ -22,20 +22,28 @@ vi.mock('../../../run-process/components/RunProcessDialog', () => ({
 
 const theme = getAppTheme(LIGHT_THEME);
 
-function renderAppTopBar(
-    userProfile: AppTopBarProps['userProfile'] = {
-        sub: 'test-user',
-        iss: 'test-issuer',
-        aud: 'test-audience',
-        exp: 0,
-        iat: 0,
-    }
-) {
+const defaultUserProfile: AppTopBarProps['userProfile'] = {
+    sub: 'test-user',
+    iss: 'test-issuer',
+    aud: 'test-audience',
+    exp: 0,
+    iat: 0,
+};
+
+function renderAppTopBar({
+    userProfile = defaultUserProfile,
+    isWebSocketDisconnected = false,
+    onRefreshTaggedQueries = vi.fn(),
+}: Partial<AppTopBarProps> = {}) {
     return render(
         <IntlProvider locale="en" messages={appMessages.en}>
             <MemoryRouter>
                 <ThemeProvider theme={theme}>
-                    <AppTopBar userProfile={userProfile} />
+                    <AppTopBar
+                        userProfile={userProfile}
+                        isWebSocketDisconnected={isWebSocketDisconnected}
+                        onRefreshTaggedQueries={onRefreshTaggedQueries}
+                    />
                 </ThemeProvider>
             </MemoryRouter>
         </IntlProvider>
@@ -62,8 +70,27 @@ describe('AppTopBar', () => {
     });
 
     it('does not render a toolbar when no user is authenticated', () => {
-        const { container } = renderAppTopBar(null);
+        const { container } = renderAppTopBar({ userProfile: null });
 
         expect(container.querySelector('.MuiToolbar-root')).toBeNull();
+    });
+
+    it('does not display the websocket indicator when websockets are connected', () => {
+        renderAppTopBar();
+
+        expect(screen.queryByRole('img', { name: 'Live updates unavailable' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Refresh data' })).not.toBeInTheDocument();
+    });
+
+    it('displays the websocket indicator and refreshes data on click when a websocket is disconnected', async () => {
+        const user = userEvent.setup();
+        const onRefreshTaggedQueries = vi.fn();
+        renderAppTopBar({ isWebSocketDisconnected: true, onRefreshTaggedQueries });
+
+        expect(document.querySelector('svg[aria-label="Live updates unavailable"]')).toBeInTheDocument();
+
+        await user.click(screen.getByRole('button', { name: 'Refresh data' }));
+
+        expect(onRefreshTaggedQueries).toHaveBeenCalledTimes(1);
     });
 });

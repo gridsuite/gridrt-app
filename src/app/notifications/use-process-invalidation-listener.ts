@@ -6,13 +6,12 @@
  */
 
 import { useCallback } from 'react';
-import { useNotificationsListener } from '@gridsuite/commons-ui';
+import { NotificationsUrlKeys, useNotificationsListener } from '@gridsuite/commons-ui';
 import {
     invalidateProcessExecution,
     invalidateProcessExecutionsLists,
     isProcessExecutionUpdateNotification,
 } from 'shared/api/snapshot-refiner-api';
-import { RT_NOTIFICATION_URL_KEY } from 'shared/api/ws/use-notifications-url-generator';
 
 import { useAppDispatch } from '../store/store';
 
@@ -32,10 +31,7 @@ export const useProcessInvalidationsListener = () => {
         [dispatch]
     );
 
-    const invalidateProcessesOnReopen = useCallback(() => invalidateProcessExecutionsLists(dispatch), [dispatch]);
-
-    useNotificationsListener(RT_NOTIFICATION_URL_KEY, {
+    useNotificationsListener(NotificationsUrlKeys.RT, {
         listenerCallbackMessage: invalidateProcess,
-        listenerCallbackOnReopen: invalidateProcessesOnReopen,
     });
 };

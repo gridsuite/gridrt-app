@@ -23,6 +23,7 @@ import { getErrorMessage } from 'shared/lib/error';
 import { fetchIdpSettings } from 'shared/config/idp-settings';
 import { useAppParametersInvalidationListener } from './notifications/use-app-parameters-invalidation-listener';
 import { useProcessInvalidationsListener } from './notifications/use-process-invalidation-listener';
+import { useGlobalInvalidationListener } from './notifications/use-global-invalidation-on-reconnect';
 import { useAppDispatch, useAppSelector } from './store/store';
 import { AppRouter } from './router/AppRouter';
 import { useStableUserProfile } from '../features/authentication/hooks/use-stable-user-profile';
@@ -80,11 +81,16 @@ function App() {
 
     useAppParametersInvalidationListener();
     useProcessInvalidationsListener();
+    const { isDisconnected, refreshAllTaggedQueries } = useGlobalInvalidationListener();
 
     const onLogoutClick = () => logout(dispatch, userManager.instance)?.catch((err) => console.error(err));
 
     return (
-        <AppLayout onLogoutClick={onLogoutClick}>
+        <AppLayout
+            onLogoutClick={onLogoutClick}
+            isWebSocketDisconnected={isDisconnected}
+            onRefreshTaggedQueries={refreshAllTaggedQueries}
+        >
             <CardErrorBoundary>
                 {userProfile !== null ? (
                     <AppRouter />
