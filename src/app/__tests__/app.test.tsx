@@ -14,6 +14,7 @@ import { it, expect, vi } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { SnackbarProvider } from '@gridsuite/commons-ui';
 import { server } from 'test-utils/msw/server';
+import { appMessages } from 'app/config/app-messages';
 import App from '../App';
 import { store } from '../store/store';
 
@@ -34,7 +35,7 @@ it('renders', async () => {
     );
 
     render(
-        <IntlProvider locale="en">
+        <IntlProvider locale="en" messages={appMessages.en}>
             <BrowserRouter>
                 <Provider store={store}>
                     <StyledEngineProvider injectFirst>
