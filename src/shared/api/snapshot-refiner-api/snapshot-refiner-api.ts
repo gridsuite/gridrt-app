@@ -38,12 +38,11 @@ const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
                     if (!response.ok) {
                         return response.text();
                     }
-                    // the produced case keeps its own format (e.g. biidm): take the extension from the server filename
+                    // Use the server filename, including its format and compression extensions.
                     const serverFilename = /filename="?([^";]+)"?/.exec(
                         response.headers.get('Content-Disposition') ?? ''
                     )?.[1];
-                    const extension = serverFilename?.split('.').pop();
-                    const fileName = extension ? `${fileNameInput}.${extension}` : fileNameInput;
+                    const fileName = serverFilename || fileNameInput;
 
                     const url = URL.createObjectURL(await response.blob());
                     const link = document.createElement('a');
