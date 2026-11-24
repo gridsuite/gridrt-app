@@ -8,6 +8,6 @@
 import { lazy } from 'react';
 import { Route } from 'react-router';
 
-const ProcessHistoryPage = lazy(() => import('../pages/ProcessHistoryPage'));
+const ProcessHistoryPage = lazy(() => import('../../pages/process-history/process-history-page'));
 
 export const processRoutes = <Route path="process-history" element={<ProcessHistoryPage />} />;

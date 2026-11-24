@@ -18,13 +18,13 @@ import {
     useCustomAggridSortContext,
 } from '@gridsuite/commons-ui';
 import { ColDef, GridApi, RowSelectionOptions, RowStyle } from 'ag-grid-community';
-import { Status } from '../../../shared/api/snapshot-refiner-api';
-import { ProcessExecutionInfo } from '../model/process-execution-info';
+import { Status } from '../../shared/api/snapshot-refiner-api';
+import { ProcessExecutionInfo } from './model/process-execution-info';
 import {
     PROCESS_HISTORY_FILTER_PARAMS,
     PROCESS_HISTORY_SORT_PARAMS,
     processResultsColumnsDefinition,
-} from '../processHistoryUtils';
+} from './processHistoryUtils';
 
 type ProcessExecutionListProps = {
     executions: ProcessExecutionInfo[];
