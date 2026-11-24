@@ -10,21 +10,21 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { Close, Delete } from '@mui/icons-material';
 import type { AgGridReact } from 'ag-grid-react';
+import { NetworkExportInfos, snackWithFallback, useSnackMessage } from '@gridsuite/commons-ui';
 import {
     ProcessStepType,
     Status,
     useDeleteProcessExecutionMutation,
     useDownloadResultCaseMutation,
-} from 'shared/api/snapshot-refiner-api';
-import { NetworkExportInfos, snackWithFallback, useSnackMessage } from '@gridsuite/commons-ui';
-import { useProcessResults } from '../hooks/use-process-list';
-import { ProcessHistorySortProvider } from '../components/process-history-sort-provider';
-import { ProcessHistoryFilterProvider } from '../components/process-history-filter-provider';
-import { DeleteProcessDialog } from '../components/DeleteProcessDialog';
+} from '../../shared/api/snapshot-refiner-api';
+import { useProcessResults } from './hooks/use-process-list';
+import { ProcessHistorySortProvider } from './components/process-history-sort-provider';
+import { ProcessHistoryFilterProvider } from './components/process-history-filter-provider';
+import { DeleteProcessDialog } from './components/DeleteProcessDialog';
 import ProcessHistoryTable from './ProcessHistoryTable';
-import { DownloadCaseDialog } from '../components/DownloadCaseDialog';
-import { useDuplicateExistingCaseMutation } from '../../../shared/api/explore-api';
-import { ProcessExecutionInfo } from '../model/process-execution-info';
+import { DownloadCaseDialog } from './components/DownloadCaseDialog';
+import { useDuplicateExistingCaseMutation } from '../../shared/api/explore-api';
+import { ProcessExecutionInfo } from './model/process-execution-info';
 
 export type ProcessToDownload = {
     processUuid: string;
@@ -39,7 +39,7 @@ function getCaseSavingResultUuid(executions: ProcessExecutionInfo[], selectedPro
     })?.resultUuid;
 }
 
-function ProcessHistoryPage() {
+function ProcessHistory() {
     const { executions, isLoading } = useProcessResults();
     const [deleteProcess] = useDeleteProcessExecutionMutation();
     const [downloadResultCase] = useDownloadResultCaseMutation();
@@ -223,4 +223,4 @@ function ProcessHistoryPage() {
     );
 }
 
-export default ProcessHistoryPage;
+export default ProcessHistory;
