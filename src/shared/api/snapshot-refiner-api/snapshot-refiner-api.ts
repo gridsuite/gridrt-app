@@ -38,11 +38,17 @@ const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
                     if (!response.ok) {
                         return response.text();
                     }
-                    // Use the server filename, including its format and compression extensions.
+                    // Use user input, and concat with the case format (e.g. xiidm) and compression (e.g. gz) extensions from the server filename.
+                    // Ex: user input = "myCase", serverFilename = "case.xiidm.gz" => myCase.xiidm.gz
                     const serverFilename = /filename="?([^";]+)"?/.exec(
                         response.headers.get('Content-Disposition') ?? ''
                     )?.[1];
-                    const fileName = serverFilename || fileNameInput;
+                    const extensionParts = serverFilename?.split('.').slice(1);
+                    // keep the 2 last extensions, at most (ex: xiidm.gz)
+                    const extensions = extensionParts
+                        ?.slice(/^(zip|gz)$/i.test(extensionParts.at(-1) ?? '') ? -2 : -1)
+                        .join('.');
+                    const fileName = extensions ? `${fileNameInput}.${extensions}` : fileNameInput;
 
                     const url = URL.createObjectURL(await response.blob());
                     const link = document.createElement('a');
