@@ -6,6 +6,7 @@
     "topBar.sandboxMode": "Bac à sable",
     "topBar.processHistory": "Historique des processus",
     "topBar.modificationsConfiguration": "Gestion des modifications",
+    "ModificationConfigAddModification": "Ajouter une modification",
     "ModificationConfigBeforeEstim": "Avant l'estimateur d'état",
     "ModificationConfigAfterEstim": "Après l'estimateur d'état",
     "ModificationConfigApplyAlways": "Toujours appliqué",

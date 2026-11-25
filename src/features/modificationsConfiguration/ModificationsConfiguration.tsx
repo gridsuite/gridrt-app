@@ -5,7 +5,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { Box, List, ListItem, ListItemText, Stack } from '@mui/material';
+import {
+    BASE_MODIFICATION_TABLE_COLUMNS,
+    NameCellRenderer,
+    NameHeaderRenderer,
+    NetworkModificationsTable,
+} from '@gridsuite/commons-ui';
+import { Box, Button, List, ListItem, ListItemText, Stack } from '@mui/material';
+import type { ComponentProps } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 const modificationConfigurations = [
@@ -36,6 +43,28 @@ const modificationConfigurations = [
     },
 ];
 
+const emptyTableProps: ComponentProps<typeof NetworkModificationsTable> = {
+    modifications: [],
+    columns: [
+        {
+            id: BASE_MODIFICATION_TABLE_COLUMNS.NAME.id,
+            header: NameHeaderRenderer,
+            cell: NameCellRenderer,
+        },
+    ],
+    handleCellClick: () => undefined,
+    onRowDragStart: () => undefined,
+    onRowDragEnd: () => undefined,
+    onSelectedRowsChange: () => undefined,
+    isRowDragDisabled: true,
+    highlightedModificationUuid: null,
+    modificationToEditLabel: null,
+    studyUuid: null,
+    isImpactedByNotification: () => false,
+    isFetchingModifications: false,
+    pendingState: false,
+};
+
 export default function ModificationsConfiguration() {
     return (
         <Stack direction="row" sx={{ height: '100%', width: '100%' }}>
@@ -53,7 +82,14 @@ export default function ModificationsConfiguration() {
                     </ListItem>
                 ))}
             </List>
-            <Box sx={{ flex: 1 }} />
+            <Stack sx={{ flex: 1, minWidth: 0, minHeight: 0, px: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', py: 2 }}>
+                    <Button variant="contained">
+                        <FormattedMessage id="ModificationConfigAddModification" />
+                    </Button>
+                </Box>
+                <NetworkModificationsTable {...emptyTableProps} />
+            </Stack>
         </Stack>
     );
 }
