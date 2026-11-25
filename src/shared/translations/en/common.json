@@ -13,6 +13,7 @@
     "runProcess.launching": "Launching...",
     "runProcess.successTitle": "Process launched",
     "topBar.processHistory": "Process history",
+    "topBar.modificationsConfiguration": "Modifications configuration",
     "CompletedAt": "End",
     "StartedAt": "Start",
     "RawSnapshots": "Raw snapshots",

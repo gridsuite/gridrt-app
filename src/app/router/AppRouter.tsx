@@ -12,6 +12,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router';
 import { Loader } from 'shared/ui/Loader';
 import { Suspense } from 'react';
 import { processRoutes } from './routes/process-routes';
+import { modificationsRoutes } from './routes/modifications-routes';
 import { APP_PATHS } from './app-paths';
 
 export function AppRouter() {
@@ -28,7 +29,10 @@ export function AppRouter() {
                         </Box>
                     }
                 />
-                <Route element={<Outlet />}>{processRoutes}</Route>
+                <Route element={<Outlet />}>
+                    {processRoutes}
+                    {modificationsRoutes}
+                </Route>
                 <Route path={APP_PATHS.signInCallback} element={<Navigate replace to={getPreLoginPath() || '/'} />} />
                 <Route
                     path={APP_PATHS.logoutCallback}

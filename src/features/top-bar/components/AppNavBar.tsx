@@ -7,7 +7,7 @@
 
 import { Tabs, Tab, Box, Typography, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import { NavLink, useLocation } from 'react-router';
-import { ListAlt } from '@mui/icons-material';
+import { ListAlt, Settings } from '@mui/icons-material';
 import { type ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 import { APP_PATHS } from '../../../app/router/app-paths';
@@ -16,9 +16,18 @@ interface NavBarTab {
     icon: ReactNode;
     labelId: string;
     path: string;
+    sandboxMode: boolean;
 }
 
-const leftTabs: NavBarTab[] = [{ icon: <ListAlt />, labelId: 'topBar.processHistory', path: APP_PATHS.processHistory }];
+const leftTabs: NavBarTab[] = [
+    { icon: <ListAlt />, labelId: 'topBar.processHistory', path: APP_PATHS.processHistory, sandboxMode: true },
+    {
+        icon: <Settings />,
+        labelId: 'topBar.modificationsConfiguration',
+        path: APP_PATHS.modificationsConfiguration,
+        sandboxMode: false,
+    },
+];
 
 function TabLabel({ icon, label }: { readonly icon: ReactNode; readonly label: string }) {
     const theme = useTheme();
@@ -36,15 +45,16 @@ function TabLabel({ icon, label }: { readonly icon: ReactNode; readonly label: s
     );
 }
 
-export function AppNavBar() {
+export function AppNavBar({ isSandboxMode }: Readonly<{ isSandboxMode: boolean }>) {
     const location = useLocation();
     const intl = useIntl();
 
-    const currentTab = leftTabs.find((t) => location.pathname.startsWith(t.path))?.path ?? false;
+    const visibleTabs = leftTabs.filter((tab) => tab.sandboxMode === isSandboxMode);
+    const currentTab = visibleTabs.find((t) => location.pathname.startsWith(t.path))?.path ?? false;
 
     return (
         <Tabs value={currentTab} textColor="secondary" indicatorColor="secondary">
-            {leftTabs.map((tab) => (
+            {visibleTabs.map((tab) => (
                 <Tab
                     key={tab.path}
                     value={tab.path}

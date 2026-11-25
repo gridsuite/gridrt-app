@@ -27,9 +27,12 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // the process history is only available in sandbox mode
+    // each page is only available in its corresponding mode
     useEffect(() => {
-        if (!isSandboxMode && location.pathname.startsWith(APP_PATHS.processHistory)) {
+        if (
+            (!isSandboxMode && location.pathname.startsWith(APP_PATHS.processHistory)) ||
+            (isSandboxMode && location.pathname.startsWith(APP_PATHS.modificationsConfiguration))
+        ) {
             navigate(APP_PATHS.home, { replace: true });
         }
     }, [isSandboxMode, location.pathname, navigate]);
@@ -47,7 +50,7 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
                         bgcolor: (theme) => theme.topBar[isSandboxMode ? 'sandboxMode' : 'defaultMode'].background,
                     }}
                 >
-                    {isSandboxMode && <AppNavBar />}
+                    <AppNavBar isSandboxMode={isSandboxMode} />
                     <Stack direction="row" spacing={2} sx={{ alignItems: 'center', ml: 'auto', flexWrap: 'nowrap' }}>
                         {isSandboxMode && (
                             <>

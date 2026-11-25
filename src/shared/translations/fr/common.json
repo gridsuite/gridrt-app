@@ -5,6 +5,7 @@
     "paramsRetrievingError": "Une erreur est survenue lors de la récupération des paramètres",
     "topBar.sandboxMode": "Bac à sable",
     "topBar.processHistory": "Historique des processus",
+    "topBar.modificationsConfiguration": "Gestion des modifications",
     "topBar.runProcess": "Lancer le processus",
     "runProcess.dialogTitle": "Lancer le processus",
     "runProcess.importCaseFile": "Importer une situation",
