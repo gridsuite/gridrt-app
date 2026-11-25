@@ -15,6 +15,7 @@
     "runProcess.successTitle": "Process launched",
     "topBar.processHistory": "Process history",
     "CompletedAt": "End",
+    "Duration": "Duration",
     "StartedAt": "Start",
     "RawSnapshots": "Raw snapshots",
     "FAILED": "Failed",

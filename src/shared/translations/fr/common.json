@@ -15,6 +15,7 @@
     "runProcess.launching": "Lancement...",
     "runProcess.successTitle": "Processus lancé",
     "CompletedAt": "Terminé",
+    "Duration": "Durée",
     "StartedAt": "Commencé",
     "RawSnapshots": "Points figés bruts",
     "FAILED": "Échec",
