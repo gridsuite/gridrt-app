@@ -6,8 +6,16 @@
  */
 
 export { snapshotRefinerBaseApi } from './snapshot-refiner-base-api';
-export { useRunSnapshotRefinerMutation, useDownloadResultCaseMutation } from './snapshot-refiner-api';
-export type { RunSnapshotRefinerApiResponse, RunSnapshotRefinerApiArg } from './snapshot-refiner-api';
+export {
+    useRunSnapshotRefinerMutation,
+    useDownloadResultCaseMutation,
+    useLazyGetConfigurationModificationsQuery,
+} from './snapshot-refiner-api';
+export type {
+    RunSnapshotRefinerApiResponse,
+    RunSnapshotRefinerApiArg,
+    ModificationTargetStep,
+} from './snapshot-refiner-api';
 export {
     useGetAllProcessExecutionsQuery,
     useGetProcessExecutionQuery,

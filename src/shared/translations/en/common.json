@@ -15,6 +15,7 @@
     "topBar.processHistory": "Process history",
     "topBar.modificationsConfiguration": "Modifications configuration",
     "ModificationConfigAddModification": "Add modification",
+    "getConfigurationModifications": "Error while loading the configured modifications",
     "ModificationConfigBeforeEstim": "Before state estimation",
     "ModificationConfigAfterEstim": "After state estimation",
     "ModificationConfigApplyAlways": "Always applied",

@@ -7,6 +7,7 @@
     "topBar.processHistory": "Historique des processus",
     "topBar.modificationsConfiguration": "Gestion des modifications",
     "ModificationConfigAddModification": "Ajouter une modification",
+    "getConfigurationModifications": "Erreur lors du chargement des modifications configurées",
     "ModificationConfigBeforeEstim": "Avant l'estimateur d'état",
     "ModificationConfigAfterEstim": "Après l'estimateur d'état",
     "ModificationConfigApplyAlways": "Toujours appliqué",

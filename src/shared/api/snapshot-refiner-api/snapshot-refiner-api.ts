@@ -5,7 +5,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+import type { NetworkModificationMetadata } from '@gridsuite/commons-ui';
 import { snapshotRefinerBaseApi } from './snapshot-refiner-base-api';
+
+export type ModificationTargetStep =
+    | 'ESTIM_MODIFICATIONS'
+    | 'ESTIM_FALLBACK_MODIFICATIONS'
+    | 'LOADFLOW_MODIFICATIONS'
+    | 'LOADFLOW_FALLBACK_ESTIM_MODIFICATIONS'
+    | 'LOADFLOW_FALLBACK_LOADFLOW_MODIFICATIONS';
 
 export type RunSnapshotRefinerApiResponse = string;
 export type RunSnapshotRefinerApiArg = {
@@ -19,6 +27,15 @@ export type DownloadResultCaseApiArg = {
 
 const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
     endpoints: (build) => ({
+        getConfigurationModifications: build.query<
+            NetworkModificationMetadata[],
+            { targetStep: ModificationTargetStep }
+        >({
+            query: ({ targetStep }) => ({
+                url: '/v1/configuration/modifications',
+                params: { targetStep },
+            }),
+        }),
         runSnapshotRefiner: build.mutation<RunSnapshotRefinerApiResponse, RunSnapshotRefinerApiArg>({
             query: ({ caseFile }) => {
                 const formData = new FormData();
@@ -58,4 +75,8 @@ const injectedRtkApi = snapshotRefinerBaseApi.injectEndpoints({
     }),
 });
 
-export const { useRunSnapshotRefinerMutation, useDownloadResultCaseMutation } = injectedRtkApi;
+export const {
+    useRunSnapshotRefinerMutation,
+    useDownloadResultCaseMutation,
+    useLazyGetConfigurationModificationsQuery,
+} = injectedRtkApi;

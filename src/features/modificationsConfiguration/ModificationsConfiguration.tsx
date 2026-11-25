@@ -11,9 +11,13 @@ import {
     NameHeaderRenderer,
     NetworkModificationsTable,
 } from '@gridsuite/commons-ui';
-import { Box, Button, List, ListItem, ListItemText, Stack } from '@mui/material';
-import type { ComponentProps } from 'react';
+import { Box, Button, List, ListItemButton, ListItemText, Stack } from '@mui/material';
+import { type ComponentProps, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import {
+    useLazyGetConfigurationModificationsQuery,
+    type ModificationTargetStep,
+} from 'shared/api/snapshot-refiner-api';
 
 const modificationConfigurations = [
     {
@@ -41,7 +45,7 @@ const modificationConfigurations = [
         title: 'ModificationConfigAfterEstim',
         subTitle: 'ModificationConfigApplyOnLoadflowDiv',
     },
-];
+] satisfies { id: ModificationTargetStep; title: string; subTitle: string }[];
 
 const emptyTableProps: ComponentProps<typeof NetworkModificationsTable> = {
     modifications: [],
@@ -66,11 +70,29 @@ const emptyTableProps: ComponentProps<typeof NetworkModificationsTable> = {
 };
 
 export default function ModificationsConfiguration() {
+    const [selectedTargetStep, setSelectedTargetStep] = useState<ModificationTargetStep | null>(null);
+    const [loadModifications, { currentData, isFetching, isError }] = useLazyGetConfigurationModificationsQuery();
+
+    const handleSelectConfiguration = async (targetStep: ModificationTargetStep) => {
+        setSelectedTargetStep(targetStep);
+        await loadModifications({ targetStep });
+    };
+
+    // TODO add useEffect to console log currentData when it changes, for debugging purposes
+    useEffect(() => {
+        console.log('currentData:', currentData);
+    }, [currentData]);
+
     return (
         <Stack direction="row" sx={{ height: '100%', width: '100%' }}>
             <List disablePadding sx={{ width: '50%', borderRight: 1, borderColor: 'divider' }}>
                 {modificationConfigurations.map(({ id, title, subTitle }) => (
-                    <ListItem key={id} sx={{ px: 3, py: 2 }}>
+                    <ListItemButton
+                        key={id}
+                        selected={selectedTargetStep === id}
+                        onClick={() => handleSelectConfiguration(id)}
+                        sx={{ px: 3, py: 2 }}
+                    >
                         <ListItemText
                             primary={<FormattedMessage id={title} />}
                             secondary={<FormattedMessage id={subTitle} />}
@@ -79,7 +101,7 @@ export default function ModificationsConfiguration() {
                                 secondary: { color: 'text.secondary', variant: 'body2' },
                             }}
                         />
-                    </ListItem>
+                    </ListItemButton>
                 ))}
             </List>
             <Stack sx={{ flex: 1, minWidth: 0, minHeight: 0, px: 3 }}>
@@ -88,7 +110,13 @@ export default function ModificationsConfiguration() {
                         <FormattedMessage id="ModificationConfigAddModification" />
                     </Button>
                 </Box>
-                <NetworkModificationsTable {...emptyTableProps} />
+                <NetworkModificationsTable
+                    {...emptyTableProps}
+                    modifications={
+                        isError ? emptyTableProps.modifications : (currentData ?? emptyTableProps.modifications)
+                    }
+                    isFetchingModifications={isFetching}
+                />
             </Stack>
         </Stack>
     );
