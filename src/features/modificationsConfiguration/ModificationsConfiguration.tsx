@@ -7,12 +7,14 @@
 
 import {
     BASE_MODIFICATION_TABLE_COLUMNS,
+    ComposedModificationMetadata,
     NameCellRenderer,
     NameHeaderRenderer,
+    NetworkModificationMetadata,
     NetworkModificationsTable,
 } from '@gridsuite/commons-ui';
 import { Box, Button, List, ListItemButton, ListItemText, Stack } from '@mui/material';
-import { type ComponentProps, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
     useLazyGetConfigurationModificationsQuery,
@@ -47,26 +49,21 @@ const modificationConfigurations = [
     },
 ] satisfies { id: ModificationTargetStep; title: string; subTitle: string }[];
 
-const emptyTableProps: ComponentProps<typeof NetworkModificationsTable> = {
-    modifications: [],
-    columns: [
-        {
-            id: BASE_MODIFICATION_TABLE_COLUMNS.NAME.id,
-            header: NameHeaderRenderer,
-            cell: NameCellRenderer,
-        },
-    ],
-    handleCellClick: () => undefined,
-    onRowDragStart: () => undefined,
-    onRowDragEnd: () => undefined,
-    onSelectedRowsChange: () => undefined,
-    isRowDragDisabled: true,
-    highlightedModificationUuid: null,
-    modificationToEditLabel: null,
-    studyUuid: null,
-    isImpactedByNotification: () => false,
-    isFetchingModifications: false,
-    pendingState: false,
+const createColumns = [
+    {
+        id: BASE_MODIFICATION_TABLE_COLUMNS.NAME.id,
+        header: NameHeaderRenderer,
+        cell: NameCellRenderer,
+        minSize: 160,
+    },
+];
+
+const nonEditableModificationTypes = new Set(['COMPOSITE_MODIFICATION']);
+const isEditableModification = (m: NetworkModificationMetadata) => {
+    if (!m) {
+        return false;
+    }
+    return !nonEditableModificationTypes.has(m.type);
 };
 
 export default function ModificationsConfiguration() {
@@ -78,14 +75,19 @@ export default function ModificationsConfiguration() {
         await loadModifications({ targetStep });
     };
 
-    // TODO add useEffect to console log currentData when it changes, for debugging purposes
+    const handleCellClick = (modification: ComposedModificationMetadata) => {
+        if (isEditableModification(modification)) {
+            console.log('Clicked modification:', modification);
+        }
+    };
+
     useEffect(() => {
         console.log('currentData:', currentData);
     }, [currentData]);
 
     return (
         <Stack direction="row" sx={{ height: '100%', width: '100%' }}>
-            <List disablePadding sx={{ width: '50%', borderRight: 1, borderColor: 'divider' }}>
+            <List disablePadding sx={{ width: '20%', borderRight: 1, borderColor: 'divider' }}>
                 {modificationConfigurations.map(({ id, title, subTitle }) => (
                     <ListItemButton
                         key={id}
@@ -111,11 +113,19 @@ export default function ModificationsConfiguration() {
                     </Button>
                 </Box>
                 <NetworkModificationsTable
-                    {...emptyTableProps}
-                    modifications={
-                        isError ? emptyTableProps.modifications : (currentData ?? emptyTableProps.modifications)
-                    }
+                    columns={createColumns}
+                    modifications={isError ? [] : (currentData ?? [])}
                     isFetchingModifications={isFetching}
+                    handleCellClick={handleCellClick}
+                    onRowDragStart={() => undefined}
+                    onRowDragEnd={() => undefined}
+                    onSelectedRowsChange={() => undefined}
+                    isRowDragDisabled
+                    highlightedModificationUuid={null}
+                    studyUuid={null}
+                    isImpactedByNotification={() => false}
+                    pendingState={false}
+                    modificationToEditLabel={null}
                 />
             </Stack>
         </Stack>
