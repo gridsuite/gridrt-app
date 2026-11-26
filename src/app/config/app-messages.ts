@@ -27,6 +27,8 @@ import {
     networkModificationsFr,
     commonButtonEn,
     commonButtonFr,
+    businessErrorsEn,
+    businessErrorsFr,
     errorsEn,
     errorsFr,
 } from '@gridsuite/commons-ui';
@@ -49,6 +51,7 @@ export const appMessages: Record<GsLangUser, IntlConfig['messages']> = {
         ...genericValidationEn,
         ...networkModificationsEn,
         ...commonButtonEn,
+        ...businessErrorsEn,
         ...errorsEn,
         ...pluginMessagesEn, // keep it at the end to allow translation overwriting
     },
@@ -64,6 +67,7 @@ export const appMessages: Record<GsLangUser, IntlConfig['messages']> = {
         ...genericValidationFr,
         ...networkModificationsFr,
         ...commonButtonFr,
+        ...businessErrorsFr,
         ...errorsFr,
         ...pluginMessagesFr, // keep it at the end to allow translation overwriting
     },

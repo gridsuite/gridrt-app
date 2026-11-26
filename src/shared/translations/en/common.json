@@ -1,4 +1,6 @@
 {
+    "snapshotRefiner.server.unsupportedProvider": "Only the OpenLoadFlow provider is supported for load-flow.",
+
     "PageNotFound": "Page not found",
     "close": "Close",
     "parameters": "Parameters",
