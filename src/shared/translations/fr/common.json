@@ -1,4 +1,5 @@
 {
+    "PageNotFound": "Page introuvable",
     "close": "Fermer",
     "parameters": "Paramètres",
     "paramsChangingError": "Une erreur est survenue lors de la modification des paramètres",
@@ -14,6 +15,7 @@
     "runProcess.launching": "Lancement...",
     "runProcess.successTitle": "Processus lancé",
     "CompletedAt": "Terminé",
+    "Duration": "Durée",
     "StartedAt": "Commencé",
     "RawSnapshots": "Points figés bruts",
     "FAILED": "Échec",

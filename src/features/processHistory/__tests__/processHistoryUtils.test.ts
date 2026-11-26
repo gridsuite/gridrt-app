@@ -19,7 +19,14 @@ describe('processResultsColumnsDefinition', () => {
     it('returns the expected columns in order', () => {
         const columns = processResultsColumnsDefinition(intlMock, getEnumLabelMock, onDownloadCase);
 
-        expect(columns.map((col) => col.colId)).toEqual(['caseName', 'status', 'startedAt', 'completedAt', 'actions']);
+        expect(columns.map((col) => col.colId)).toEqual([
+            'caseName',
+            'status',
+            'startedAt',
+            'completedAt',
+            'duration',
+            'actions',
+        ]);
     });
 
     it('resolves header names through intl', () => {
@@ -30,6 +37,7 @@ describe('processResultsColumnsDefinition', () => {
         expect(byColId('status')?.headerName).toBe('Status');
         expect(byColId('startedAt')?.headerName).toBe('StartedAt');
         expect(byColId('completedAt')?.headerName).toBe('CompletedAt');
+        expect(byColId('duration')?.headerName).toBe('Duration');
         expect(byColId('actions')?.headerName).toBe('Actions');
     });
 
