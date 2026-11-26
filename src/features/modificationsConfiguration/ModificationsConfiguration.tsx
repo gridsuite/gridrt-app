@@ -49,7 +49,7 @@ const modificationConfigurations = [
     },
 ] satisfies { id: ModificationTargetStep; title: string; subTitle: string }[];
 
-const createColumns = [
+const columnsDefinition = [
     {
         id: BASE_MODIFICATION_TABLE_COLUMNS.NAME.id,
         header: NameHeaderRenderer,
@@ -113,7 +113,7 @@ export default function ModificationsConfiguration() {
                     </Button>
                 </Box>
                 <NetworkModificationsTable
-                    columns={createColumns}
+                    columns={columnsDefinition}
                     modifications={isError ? [] : (currentData ?? [])}
                     isFetchingModifications={isFetching}
                     handleCellClick={handleCellClick}
