@@ -1,4 +1,5 @@
 {
+    "PageNotFound": "Page not found",
     "close": "Close",
     "parameters": "Parameters",
     "paramsChangingError": "An error occured when changing the parameters",
@@ -23,6 +24,7 @@
     "ModificationConfigApplyOnEstimDiv": "If diverged",
     "ModificationConfigApplyOnLoadflowDiv": "If loadflow diverged",
     "CompletedAt": "End",
+    "Duration": "Duration",
     "StartedAt": "Start",
     "RawSnapshots": "Raw snapshots",
     "FAILED": "Failed",
