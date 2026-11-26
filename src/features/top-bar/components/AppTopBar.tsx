@@ -5,11 +5,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { AppBar, Button, Divider, Stack, Toolbar } from '@mui/material';
+import { AppBar, Button, Divider, IconButton, Stack, Toolbar, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router';
-import { PlayArrow as PlayArrowIcon } from '@mui/icons-material';
+import {
+    PlayArrow as PlayArrowIcon,
+    Refresh as RefreshIcon,
+    SyncProblem as SyncProblemIcon,
+} from '@mui/icons-material';
 import { RunProcessDialog } from '../../run-process/components/RunProcessDialog';
 import { SandboxModeToggle } from './SandboxModeToggle';
 import { AppNavBar } from './AppNavBar';
@@ -18,9 +22,11 @@ import { APP_PATHS } from '../../../app/router/app-paths';
 
 export type AppTopBarProps = {
     userProfile: UserProfile | null;
+    isWebSocketDisconnected: boolean;
+    onRefreshTaggedQueries: () => void;
 };
 
-function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
+function AppTopBar({ userProfile, isWebSocketDisconnected, onRefreshTaggedQueries }: Readonly<AppTopBarProps>) {
     const intl = useIntl();
     const [isSandboxMode, setSandboxMode] = useState(false);
     const [isRunDialogOpen, setRunDialogOpen] = useState(false);
@@ -33,6 +39,9 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
             navigate(APP_PATHS.home, { replace: true });
         }
     }, [isSandboxMode, location.pathname, navigate]);
+
+    const websocketDisconnectedMessage = intl.formatMessage({ id: 'topBar.websocketDisconnected' });
+    const refreshTaggedQueriesMessage = intl.formatMessage({ id: 'topBar.refreshTaggedQueries' });
 
     return (
         <AppBar position="sticky" color="default" elevation={0}>
@@ -49,6 +58,26 @@ function AppTopBar({ userProfile }: Readonly<AppTopBarProps>) {
                 >
                     {isSandboxMode && <AppNavBar />}
                     <Stack direction="row" spacing={2} sx={{ alignItems: 'center', ml: 'auto', flexWrap: 'nowrap' }}>
+                        {isWebSocketDisconnected && (
+                            <>
+                                <Tooltip title={websocketDisconnectedMessage}>
+                                    <SyncProblemIcon
+                                        color="error"
+                                        role="img"
+                                        aria-label={websocketDisconnectedMessage}
+                                    />
+                                </Tooltip>
+                                <Tooltip title={refreshTaggedQueriesMessage}>
+                                    <IconButton
+                                        aria-label={refreshTaggedQueriesMessage}
+                                        onClick={onRefreshTaggedQueries}
+                                        color="secondary"
+                                    >
+                                        <RefreshIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </>
+                        )}
                         {isSandboxMode && (
                             <>
                                 <Button

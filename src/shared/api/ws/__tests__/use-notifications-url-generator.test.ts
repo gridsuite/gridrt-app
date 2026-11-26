@@ -5,15 +5,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS } from '@gridsuite/commons-ui';
+import { NotificationsUrlKeys, PREFIX_CONFIG_NOTIFICATION_WS, PREFIX_RT_NOTIFICATION_WS } from '@gridsuite/commons-ui';
 import { renderHook } from '@testing-library/react';
 import { APP_NAME } from 'app/config/app-config';
 import { beforeEach, describe, expect, it } from 'vitest';
-import {
-    PREFIX_RT_NOTIFICATION_WS,
-    RT_NOTIFICATION_URL_KEY,
-    useNotificationsUrlGenerator,
-} from 'shared/api/ws/use-notifications-url-generator';
+import { useNotificationsUrlGenerator } from 'shared/api/ws/use-notifications-url-generator';
 
 describe('useNotificationsUrlGenerator', () => {
     beforeEach(() => {
@@ -29,7 +25,7 @@ describe('useNotificationsUrlGenerator', () => {
 
         expect(result.current).toEqual({
             [NotificationsUrlKeys.CONFIG]: `wss://gridapp.test/${PREFIX_CONFIG_NOTIFICATION_WS}/notify?${params}`,
-            [RT_NOTIFICATION_URL_KEY]: `wss://gridapp.test/${PREFIX_RT_NOTIFICATION_WS}/notify?${params}`,
+            [NotificationsUrlKeys.RT]: `wss://gridapp.test/${PREFIX_RT_NOTIFICATION_WS}/notify?${params}`,
         });
     });
 
@@ -43,7 +39,7 @@ describe('useNotificationsUrlGenerator', () => {
 
         expect(result.current).toEqual({
             [NotificationsUrlKeys.CONFIG]: `ws://gridapp.test/${PREFIX_CONFIG_NOTIFICATION_WS}/notify?${params}`,
-            [RT_NOTIFICATION_URL_KEY]: `ws://gridapp.test/${PREFIX_RT_NOTIFICATION_WS}/notify?${params}`,
+            [NotificationsUrlKeys.RT]: `ws://gridapp.test/${PREFIX_RT_NOTIFICATION_WS}/notify?${params}`,
         });
     });
 });

@@ -40,5 +40,7 @@
     "runSnapshotRefiner": "Erreur lors du lancement du processus",
     "filter.filterOoo": "Filtrer...",
     "filter.startsWith": "Commence par",
-    "filter.contains": "Contient"
+    "filter.contains": "Contient",
+    "topBar.websocketDisconnected": "Mises à jour en temps réel indisponibles",
+    "topBar.refreshTaggedQueries": "Actualiser les données"
 }

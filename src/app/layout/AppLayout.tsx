@@ -15,9 +15,16 @@ import { AppSideBar } from '../../features/side-bar/components/AppSideBar';
 
 export type AppLayoutProps = {
     onLogoutClick?: () => void;
+    isWebSocketDisconnected: boolean;
+    onRefreshTaggedQueries: () => void;
 };
 
-export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildren<AppLayoutProps>>) {
+export function AppLayout({
+    onLogoutClick,
+    isWebSocketDisconnected,
+    onRefreshTaggedQueries,
+    children,
+}: Readonly<PropsWithChildren<AppLayoutProps>>) {
     const [isDeveloperMode] = useAppParameterState(PARAM_DEVELOPER_MODE);
     const userProfile = useStableUserProfile();
 
@@ -27,7 +34,11 @@ export function AppLayout({ onLogoutClick, children }: Readonly<PropsWithChildre
             <Stack direction="row" sx={{ flex: 1, overflow: 'hidden' }}>
                 <AppSideBar onLogoutClick={onLogoutClick} />
                 <Stack sx={{ flex: 1, overflow: 'hidden' }}>
-                    <AppTopBar userProfile={userProfile} />
+                    <AppTopBar
+                        userProfile={userProfile}
+                        isWebSocketDisconnected={isWebSocketDisconnected}
+                        onRefreshTaggedQueries={onRefreshTaggedQueries}
+                    />
                     <Box
                         sx={{
                             flex: 1,
