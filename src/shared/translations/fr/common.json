@@ -1,4 +1,6 @@
 {
+    "snapshotRefiner.server.unsupportedProvider": "Seul le fournisseur OpenLoadFlow est pris en charge pour le calcul de load-flow.",
+
     "PageNotFound": "Page introuvable",
     "close": "Fermer",
     "parameters": "Paramètres",
