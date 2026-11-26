@@ -12,7 +12,6 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import {
     CustomAGGrid,
-    DefaultCellRenderer,
     updateAgGridFilters,
     useCustomAggridFilterContext,
     useCustomAggridSortContext,
@@ -25,6 +24,7 @@ import {
     PROCESS_HISTORY_SORT_PARAMS,
     processResultsColumnsDefinition,
 } from './processHistoryUtils';
+import { DefaultTextRenderer } from './components/renderers/default-text-renderer';
 
 type ProcessExecutionListProps = {
     executions: ProcessExecutionInfo[];
@@ -41,7 +41,7 @@ const defaultColDef = {
     lockPinned: true,
     wrapHeaderText: true,
     autoHeaderHeight: true,
-    cellRenderer: DefaultCellRenderer,
+    cellRenderer: DefaultTextRenderer,
 } satisfies ColDef;
 
 const rowSelection: RowSelectionOptions<ProcessExecutionInfo> = {
