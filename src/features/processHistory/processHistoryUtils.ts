@@ -139,6 +139,32 @@ export const processResultsColumnsDefinition = (
         }),
 
         makeAgGridCustomHeaderColumn({
+            headerName: intl.formatMessage({ id: 'Duration' }),
+            colId: 'duration',
+            cellDataType: 'number',
+            minWidth: 112,
+            maxWidth: 112,
+            context: {
+                sortParams,
+            },
+            valueGetter: (params) => {
+                const { completedAt, startedAt } = params.data;
+                return completedAt && startedAt ? completedAt.getTime() - startedAt.getTime() : null;
+            },
+            valueFormatter: ({ value }) => {
+                if (typeof value !== 'number' || !Number.isFinite(value)) {
+                    return '-';
+                }
+                const totalSeconds = Math.ceil(Math.abs(value) / 1000);
+                const hours = Math.floor(totalSeconds / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+                const duration = [hours, minutes, seconds].map((part) => String(part).padStart(2, '0')).join(':');
+                return value < 0 ? `-${duration}` : duration;
+            },
+        }),
+
+        makeAgGridCustomHeaderColumn({
             headerName: intl.formatMessage({ id: 'Actions' }),
             colId: 'actions',
             field: 'actions',
