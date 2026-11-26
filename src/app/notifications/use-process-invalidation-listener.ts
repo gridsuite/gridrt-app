@@ -6,11 +6,12 @@
  */
 
 import { useCallback } from 'react';
-import { useNotificationsListener } from '@gridsuite/commons-ui';
+import { parseError, snackWithFallback, useNotificationsListener, useSnackMessage } from '@gridsuite/commons-ui';
 import {
     invalidateProcessExecution,
     invalidateProcessExecutionsLists,
     isProcessExecutionUpdateNotification,
+    NotificationType,
 } from 'shared/api/snapshot-refiner-api';
 import { RT_NOTIFICATION_URL_KEY } from 'shared/api/ws/use-notifications-url-generator';
 
@@ -18,6 +19,7 @@ import { useAppDispatch } from '../store/store';
 
 export const useProcessInvalidationsListener = () => {
     const dispatch = useAppDispatch();
+    const { snackError } = useSnackMessage();
 
     const invalidateProcess = useCallback(
         (event: MessageEvent) => {
@@ -27,9 +29,14 @@ export const useProcessInvalidationsListener = () => {
                 if (eventData.headers?.executionId) {
                     invalidateProcessExecution(dispatch, eventData.headers.executionId);
                 }
+                if (eventData.headers.updateType === NotificationType.EXECUTION_FAILED) {
+                    snackWithFallback(snackError, parseError(eventData.headers.error ?? ''), {
+                        headerId: 'processExecutionError',
+                    });
+                }
             }
         },
-        [dispatch]
+        [dispatch, snackError]
     );
 
     const invalidateProcessesOnReopen = useCallback(() => invalidateProcessExecutionsLists(dispatch), [dispatch]);

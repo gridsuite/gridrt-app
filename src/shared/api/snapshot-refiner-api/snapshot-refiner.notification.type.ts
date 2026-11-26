@@ -9,6 +9,7 @@ export enum NotificationType {
     EXECUTION_CREATED = 'EXECUTION_CREATED',
     EXECUTION_UPDATED = 'EXECUTION_UPDATED',
     EXECUTION_DELETED = 'EXECUTION_DELETED',
+    EXECUTION_FAILED = 'EXECUTION_FAILED',
 }
 
 // EventData
@@ -17,6 +18,7 @@ export type SnapshotRefinerExecutionEventData = {
     headers: {
         updateType: NotificationType;
         executionId: string;
+        error?: string;
     };
 };
 
