@@ -38,6 +38,7 @@
     "downloadCase.message.failed": "Échec du téléchargement de la situation",
     "duplicateExistingCase": "Téléchargement de la situation dans GridExplore",
     "runSnapshotRefiner": "Erreur lors du lancement du processus",
+    "processExecutionError": "Une erreur est survenue lors de l'exécution du processus",
     "filter.filterOoo": "Filtrer...",
     "filter.startsWith": "Commence par",
     "filter.contains": "Contient"
